@@ -26,4 +26,10 @@ internal partial class CanonSDK
 
     [DllImport(DLLPath)]
     public extern static uint EdsGetDeviceInfo(IntPtr inCameraRef, out EdsDeviceInfo outDeviceInfo);
+
+    [DllImport(DLLPath)]
+    public extern static uint EdsGetChildCount(IntPtr inRef, out int outCount);
+
+    [DllImport(DLLPath)]
+    public extern static uint EdsGetChildAtIndex(IntPtr inRef, int inIndex, out IntPtr outRef);
 }
