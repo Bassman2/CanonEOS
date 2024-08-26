@@ -1,8 +1,55 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace CanonAPI.Internal;
 internal partial class CanonSDK
 {
+    public static void DebugProperties(IntPtr inRef)
+    {
+        for (PropertyID propId = 0; propId < PropertyID.Unknown; propId++)
+        {
+            uint err = EdsGetPropertySize(inRef, (PropertyID)propId, 0, out EdsDataType dt, out int size);
+
+            if (err == 0)
+            {
+                IntPtr ptr = IntPtr.Zero;                
+                try
+                {
+                    ptr = Marshal.AllocHGlobal(size);
+                    err = EdsGetPropertyData(inRef, propId, 0, size, ptr);
+                    switch (dt)
+                    {
+                    case EdsDataType.String:
+                        string? str = Marshal.PtrToStringAnsi(ptr);
+                        Debug.WriteLine($"ID {propId} {dt} {size} {err} \"{str}\"");
+                        break;
+                    case EdsDataType.Int32:
+                    case EdsDataType.UInt32:
+                        int int32 = Marshal.ReadInt32(ptr);
+                        Debug.WriteLine($"ID {propId} {dt} {size} {err} \"{int32}\"");
+                        break;
+                    
+                       
+                    default:
+                        Debug.WriteLine($"ID {propId} {dt} {size} {err}");
+                        break;
+                    }
+                }
+                finally
+                {
+                    if (ptr != IntPtr.Zero)
+                    {
+                        Marshal.FreeHGlobal(ptr);
+                    }
+                }   
+            }
+            else if (err != 80)
+            {
+                Debug.WriteLine($"ID {propId} {dt} {size} {err}");
+            }
+        }
+    }
     public static string? GetStringProperty(IntPtr inRef, PropertyID inPropertyID, int inParam = 0)
     {
         EdsDataType dt;
