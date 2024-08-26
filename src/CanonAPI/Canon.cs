@@ -5,6 +5,18 @@ namespace CanonAPI;
 
 public sealed class Canon : IDisposable
 {
+    public event CameraAddedHandler? CameraAdded;
+    /// <summary>
+    /// The SDK camera added delegate
+    /// </summary>
+    private static SDKCameraAddedHandler? CameraAddedEvent;
+
+    private uint OnCameraAddedEvent(IntPtr inContext)
+    {
+        ThreadPool.QueueUserWorkItem((state) => CameraAdded?.Invoke(this));
+        return 0;
+    }
+
     public Canon()
     {
         if (Thread.CurrentThread.GetApartmentState() != ApartmentState.STA)
@@ -14,10 +26,12 @@ public sealed class Canon : IDisposable
 
         ErrorCheck(CanonSDK.EdsInitializeSDK());
 
+        CameraAddedEvent = new SDKCameraAddedHandler(OnCameraAddedEvent);
+        ErrorCheck(CanonSDK.EdsSetCameraAddedHandler(CameraAddedEvent, IntPtr.Zero));
 
         //if (IsDisposed) throw new ObjectDisposedException(nameof(CanonAPI));
 
-        
+
 
 
 

@@ -50,4 +50,8 @@ internal partial class CanonSDK
     /// <returns>Any of the SDK errors</returns>
     [DllImport(DllPath)]
     public extern static uint EdsCloseSession(IntPtr inCameraRef);
+
+    [DllImport(DllPath)]
+    public extern static uint EdsSetCameraAddedHandler(SDKCameraAddedHandler inCameraAddedHandler, IntPtr inContext);
+
 }
