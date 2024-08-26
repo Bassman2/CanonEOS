@@ -14,7 +14,7 @@ namespace CanonUtility.View;
 /// <summary>
 /// Interaction logic for MainView.xaml
 /// </summary>
-public partial class MainView : Window
+public partial class MainView : AppWindowView
 {
     public MainView()
     {

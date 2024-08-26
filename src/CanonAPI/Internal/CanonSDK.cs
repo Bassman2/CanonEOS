@@ -1,35 +1,45 @@
 ﻿using System.Runtime.InteropServices;
 
 namespace CanonAPI.Internal;
-
 internal partial class CanonSDK
 {
-    private const string DLLPath = "EDSDK.dll";
+    public static string? GetStringProperty(IntPtr inRef, PropertyID inPropertyID, int inParam = 0)
+    {
+        EdsDataType dt;
+        int size;
+        uint err = EdsGetPropertySize(inRef, inPropertyID, inParam, out dt, out size);
 
-    [LibraryImport(DLLPath)]
-    internal static partial uint EdsInitializeSDK();
 
-    [LibraryImport(DLLPath)]
-    internal static partial uint EdsTerminateSDK();
+        IntPtr ptr = IntPtr.Zero;
+        //ErrorCode err = ErrorCode.INTERNAL_ERROR;
+        //outPropertyData = string.Empty;
+        try
+        {
+            ptr = Marshal.AllocHGlobal(size);
+            err = EdsGetPropertyData(inRef, inPropertyID, inParam, size, ptr);
+            return Marshal.PtrToStringAnsi(ptr);
+        }
+        finally
+        {
+            if (ptr != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(ptr);
+            }
+        }
+    }
 
-    [LibraryImport(DLLPath)]
-    internal static partial uint EdsRetain(IntPtr inRef);
+    //public static uint GetStringProperty(IntPtr inRef, PropertyID inPropertyID, int inParam, out string outPropertyData)
+    //{
+    //    EdsDataType dt;
+    //    int size;
+    //    uint err = EdsGetPropertySize(inRef, inPropertyID, inParam, out dt, out size);
 
-    [LibraryImport(DLLPath)]
-    internal static partial uint EdsRelease(IntPtr inRef);
+    //    IntPtr ptr = Marshal.AllocHGlobal(size);
+    //    err = EdsGetPropertyData(inRef, inPropertyID, inParam, size, ptr);
 
-    [LibraryImport(DLLPath)]
-    internal static partial uint EdsGetCameraList(out IntPtr outCameraListRef);
+    //    outPropertyData = Marshal.PtrToStringAnsi(ptr);
 
-    //[LibraryImport(DLLPath)]
-    //internal static partial uint EdsGetDeviceInfo(IntPtr inCameraRef, out EdsDeviceInfo outDeviceInfo);
-
-    [DllImport(DLLPath)]
-    public extern static uint EdsGetDeviceInfo(IntPtr inCameraRef, out EdsDeviceInfo outDeviceInfo);
-
-    [DllImport(DLLPath)]
-    public extern static uint EdsGetChildCount(IntPtr inRef, out int outCount);
-
-    [DllImport(DLLPath)]
-    public extern static uint EdsGetChildAtIndex(IntPtr inRef, int inIndex, out IntPtr outRef);
+    //    outPropertyData = (T)(object)"";
+    //    return "";
+    //}
 }
