@@ -12,8 +12,7 @@ public sealed class Canon : IDisposable
             throw new ThreadStateException("Calling thread must be in STA");
         }
 
-        uint res = CanonSDK.EdsInitializeSDK();
-        ErrorCheck(res);
+        ErrorCheck(CanonSDK.EdsInitializeSDK());
 
 
         //if (IsDisposed) throw new ObjectDisposedException(nameof(CanonAPI));
@@ -32,6 +31,8 @@ public sealed class Canon : IDisposable
             IntPtr cptr;
             ErrorCheck(CanonSDK.EdsGetChildAtIndex(camlist, i, out cptr));
             ptrList.Add(cptr);
+
+            CanonSDK.EdsGetDeviceInfo(cptr, out EdsDeviceInfo Info);
         }
         //Release the list
         ErrorCheck(CanonSDK.EdsRelease(camlist));
@@ -42,7 +43,7 @@ public sealed class Canon : IDisposable
 
     public void Dispose()
     {
-        
+        CanonSDK.EdsTerminateSDK();
     }
 
     private static Version? GetSDKVersion()
@@ -60,6 +61,10 @@ public sealed class Canon : IDisposable
     }
 
     private void ErrorCheck(uint errorCode)
-    { 
+    {
+        if (errorCode != 0)
+        { 
+            Debugger.Break();
+        }
     }
 }
