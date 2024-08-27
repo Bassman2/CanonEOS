@@ -24,6 +24,9 @@ public partial class MainViewModel : AppViewModel
     [ObservableProperty]
     private List<Volume> volumes = [];
 
+    [ObservableProperty]
+    private DirectoryItem? selectedFolder;
+
     protected override void OnActivate()
     {
         base.OnActivate();

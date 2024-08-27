@@ -19,4 +19,14 @@ public class Volume
     {
         get => CanonSDK.GetChildren(volume).Select(i => new DirectoryItem(i));
     }
+
+    public IEnumerable<DirectoryItem> Directories
+    {
+        get => DirectoryItems.Where(d => d.IsFolder);
+    }
+
+    public IEnumerable<DirectoryItem> Files
+    {
+        get => DirectoryItems.Where(d => !d.IsFolder);
+    }
 }

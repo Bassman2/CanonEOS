@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:e="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:b="clr-namespace:CanonUtility.Behavior"
         xmlns:local="clr-namespace:CanonUtility.View"
         xmlns:eds="clr-namespace:CanonAPI;assembly=CanonAPI"
         xmlns:vm="clr-namespace:CanonUtility.ViewModel"
@@ -68,14 +70,26 @@
                 </Grid.ColumnDefinitions>
                 <TreeView Grid.Column="0" ItemsSource="{Binding Volumes}" Margin="3">
                     <TreeView.Resources>
-                        <HierarchicalDataTemplate DataType="{x:Type eds:Volume}" ItemsSource="{Binding DirectoryItems}">
+                        <HierarchicalDataTemplate DataType="{x:Type eds:Volume}" ItemsSource="{Binding Directories}">
                             <TextBlock Text="{Binding Path=Name}" />
                         </HierarchicalDataTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type eds:DirectoryItem}" ItemsSource="{Binding DirectoryItems}">
+                        <HierarchicalDataTemplate DataType="{x:Type eds:DirectoryItem}" ItemsSource="{Binding Directories}">
                             <TextBlock Text="{Binding Path=Name}" />
                         </HierarchicalDataTemplate>
                     </TreeView.Resources>
+                    <e:Interaction.Behaviors>
+                        <b:BindableSelectedItemBehavior SelectedItem="{Binding SelectedFolder, Mode=TwoWay}" />
+                    </e:Interaction.Behaviors>
                 </TreeView>
+                <ListView Grid.Column="1" ItemsSource="{Binding SelectedFolder.Files}" Margin="3">
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="true">
+
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="100"/>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </Grid>
         </Grid>
     </DockPanel>

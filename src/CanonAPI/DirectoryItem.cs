@@ -17,12 +17,25 @@ public class DirectoryItem
         CanonSDK.EdsGetDirectoryItemInfo(item, out EdsDirectoryItemInfo info);
 
         this.Name = info.FileName;
+        this.IsFolder = info.IsFolder;
     }
 
     public string Name { get; }
 
+    public bool IsFolder { get; }
+
     public IEnumerable<DirectoryItem> DirectoryItems
     {
         get => CanonSDK.GetChildren(item).Select(i => new DirectoryItem(i));
+    }
+
+    public IEnumerable<DirectoryItem> Directories
+    {
+        get => DirectoryItems.Where(d => d.IsFolder);
+    }
+
+    public IEnumerable<DirectoryItem> Files
+    {
+        get => DirectoryItems.Where(d => !d.IsFolder);
     }
 }
