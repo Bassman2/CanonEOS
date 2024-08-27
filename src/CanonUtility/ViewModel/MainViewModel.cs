@@ -16,6 +16,14 @@ public partial class MainViewModel : AppViewModel
     [ObservableProperty]
     private Camera? selectedCamera;
 
+    partial void OnSelectedCameraChanged(Camera? oldValue, Camera? newValue)
+    {
+        this.Volumes = newValue?.Volumes.ToList() ?? [];
+    }
+
+    [ObservableProperty]
+    private List<Volume> volumes = [];
+
     protected override void OnActivate()
     {
         base.OnActivate();

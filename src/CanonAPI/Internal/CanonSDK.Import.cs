@@ -64,4 +64,36 @@ internal partial class CanonSDK
     [LibraryImport(DllPath)]
     internal static partial EdsError EdsSendStatusCommand(IntPtr inCameraRef, EdsCameraStatusCommand inCameraState, int inParam);
 
+
+    [DllImport(DllPath)]
+    public extern static EdsError EdsGetVolumeInfo(IntPtr inCameraRef, out EdsVolumeInfo outVolumeInfo);
+
+    /// <summary>
+    /// Formats a volume.
+    /// </summary>
+    /// <param name="inVolumeRef">The reference of the volume.</param>
+    /// <returns>Any of the SDK errors</returns>
+    [DllImport(DllPath)]
+    public extern static EdsError EdsFormatVolume(IntPtr inVolumeRef);
+
+    /// <summary>
+    /// Gets information about the directory or file object on the memory card (volume) in a remote camera.
+    /// </summary>
+    /// <param name="inDirItemRef">The reference of the directory item.</param>
+    /// <param name="outDirItemInfo">Information of the directory item.</param>
+    /// <returns>Any of the SDK errors</returns>
+    [DllImport(DllPath)]
+    public extern static EdsError EdsGetDirectoryItemInfo(IntPtr inDirItemRef, out EdsDirectoryItemInfo outDirItemInfo);
+
+    /// <summary>
+    /// Deletes a camera folder or file.
+    /// If folders with subdirectories are designated, all files are deleted except protected files.
+    /// DirectoryItem objects deleted by means of this method are implicitly released.
+    /// Thus, there is no need to release them by means of Release.
+    /// </summary>
+    /// <param name="inDirItemRef"></param>
+    /// <returns>Any of the SDK errors</returns>
+    [DllImport(DllPath)]
+    public extern static EdsError EdsDeleteDirectoryItem(IntPtr inDirItemRef);
+
 }

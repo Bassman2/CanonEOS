@@ -86,4 +86,14 @@ internal partial class CanonSDK
     //    outPropertyData = (T)(object)"";
     //    return "";
     //}
+
+    public static IEnumerable<nint> GetChildren(nint item)
+    {
+        EdsGetChildCount(item, out int count);
+        for (int i = 0; i < count; i++)
+        {
+            EdsGetChildAtIndex(item, i, out nint child);
+            yield return child;
+        }
+    }
 }

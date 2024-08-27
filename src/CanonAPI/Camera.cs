@@ -2,31 +2,31 @@
 
 public sealed class Camera
 {
-    private IntPtr cptr;
+    private IntPtr camera;
 
-    internal Camera(IntPtr cptr)
+    internal Camera(IntPtr camera)
     {
-        this.cptr = cptr;
-        CanonSDK.EdsGetDeviceInfo(cptr, out EdsDeviceInfo info);
+        this.camera = camera;
+        CanonSDK.EdsGetDeviceInfo(camera, out EdsDeviceInfo info);
 
         this.Name = info.szDeviceDescription;
 
-        CanonSDK.EdsOpenSession(cptr);
+        CanonSDK.EdsOpenSession(camera);
 
-        CanonSDK.DebugProperties(cptr);
+        CanonSDK.DebugProperties(camera);
 
-        ProductName = CanonSDK.GetStringProperty(cptr, PropertyID.ProductName);
-        OwnerName = CanonSDK.GetStringProperty(cptr, PropertyID.OwnerName);
-        FirmwareVersion = CanonSDK.GetStringProperty(cptr, PropertyID.FirmwareVersion);
-        CurrentStorage = CanonSDK.GetStringProperty(cptr, PropertyID.CurrentStorage);
-        CurrentFolder = CanonSDK.GetStringProperty(cptr, PropertyID.CurrentFolder);
-        BodyIDEx = CanonSDK.GetStringProperty(cptr, PropertyID.BodyIDEx);
-        LensName = CanonSDK.GetStringProperty(cptr, PropertyID.LensName);
-        Artist = CanonSDK.GetStringProperty(cptr, PropertyID.Artist);
-        Copyright = CanonSDK.GetStringProperty(cptr, PropertyID.Copyright);
-        //Artist = CanonSDK.GetStringProperty(cptr, PropertyID.Artist);
-        //Artist = CanonSDK.GetStringProperty(cptr, PropertyID.Artist);
-        //Artist = CanonSDK.GetStringProperty(cptr, PropertyID.Artist);
+        ProductName = CanonSDK.GetStringProperty(camera, PropertyID.ProductName);
+        OwnerName = CanonSDK.GetStringProperty(camera, PropertyID.OwnerName);
+        FirmwareVersion = CanonSDK.GetStringProperty(camera, PropertyID.FirmwareVersion);
+        CurrentStorage = CanonSDK.GetStringProperty(camera, PropertyID.CurrentStorage);
+        CurrentFolder = CanonSDK.GetStringProperty(camera, PropertyID.CurrentFolder);
+        BodyIDEx = CanonSDK.GetStringProperty(camera, PropertyID.BodyIDEx);
+        LensName = CanonSDK.GetStringProperty(camera, PropertyID.LensName);
+        Artist = CanonSDK.GetStringProperty(camera, PropertyID.Artist);
+        Copyright = CanonSDK.GetStringProperty(camera, PropertyID.Copyright);
+        //Artist = CanonSDK.GetStringProperty(camera, PropertyID.Artist);
+        //Artist = CanonSDK.GetStringProperty(camera, PropertyID.Artist);
+        //Artist = CanonSDK.GetStringProperty(camera, PropertyID.Artist);
 
 
     }
@@ -43,6 +43,8 @@ public sealed class Camera
     public string? Copyright { get; }
 
 
-
-
+    public IEnumerable<Volume> Volumes
+    {
+        get => CanonSDK.GetChildren(camera).Select(i => new Volume(i));
+    }
 }
