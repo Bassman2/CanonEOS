@@ -1,7 +1,4 @@
-﻿using CanonAPI.Internal;
-using System.Diagnostics;
-
-namespace CanonAPI;
+﻿namespace CanonAPI;
 
 public sealed class Canon : IDisposable
 {
@@ -81,9 +78,9 @@ public sealed class Canon : IDisposable
 
     }
 
-    private void ErrorCheck(uint errorCode)
+    private void ErrorCheck(EdsError errorCode)
     {
-        if (errorCode != 0)
+        if (errorCode != EdsError.OK)
         { 
             Debugger.Break();
         }

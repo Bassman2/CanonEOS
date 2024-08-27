@@ -1,15 +1,12 @@
-﻿using System.Diagnostics;
-using System.Drawing;
-using System.Runtime.InteropServices;
+﻿namespace CanonAPI.Internal;
 
-namespace CanonAPI.Internal;
 internal partial class CanonSDK
 {
     public static void DebugProperties(IntPtr inRef)
     {
         for (PropertyID propId = 0; propId < PropertyID.Unknown; propId++)
         {
-            uint err = EdsGetPropertySize(inRef, (PropertyID)propId, 0, out EdsDataType dt, out int size);
+            EdsError err = EdsGetPropertySize(inRef, (PropertyID)propId, 0, out EdsDataType dt, out int size);
 
             if (err == 0)
             {
@@ -44,7 +41,7 @@ internal partial class CanonSDK
                     }
                 }   
             }
-            else if (err != 80)
+            else if (err != EdsError.PROPERTIES_UNAVAILABLE)
             {
                 Debug.WriteLine($"ID {propId} {dt} {size} {err}");
             }
@@ -54,7 +51,7 @@ internal partial class CanonSDK
     {
         EdsDataType dt;
         int size;
-        uint err = EdsGetPropertySize(inRef, inPropertyID, inParam, out dt, out size);
+        EdsError err = EdsGetPropertySize(inRef, inPropertyID, inParam, out dt, out size);
 
 
         IntPtr ptr = IntPtr.Zero;

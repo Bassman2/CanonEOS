@@ -1,7 +1,4 @@
-﻿using CanonAPI.Internal;
-using System;
-
-namespace CanonAPI;
+﻿namespace CanonAPI;
 
 public sealed class Camera
 {
