@@ -21,10 +21,10 @@ public sealed class Canon : IDisposable
             throw new ThreadStateException("Calling thread must be in STA");
         }
 
-        ErrorCheck(CanonSDK.EdsInitializeSDK());
+        ErrorCheck(EdsNativeLib.EdsInitializeSDK());
 
         CameraAddedEvent = new SDKCameraAddedHandler(OnCameraAddedEvent);
-        ErrorCheck(CanonSDK.EdsSetCameraAddedHandler(CameraAddedEvent, IntPtr.Zero));
+        ErrorCheck(EdsNativeLib.EdsSetCameraAddedHandler(CameraAddedEvent, IntPtr.Zero));
 
         //if (IsDisposed) throw new ObjectDisposedException(nameof(CanonAPI));
 
@@ -36,7 +36,7 @@ public sealed class Canon : IDisposable
 
     public void Dispose()
     {
-        ErrorCheck(CanonSDK.EdsTerminateSDK());
+        ErrorCheck(EdsNativeLib.EdsTerminateSDK());
     }
 
     private static Version? GetSDKVersion()
@@ -57,24 +57,24 @@ public sealed class Canon : IDisposable
     {
         IntPtr camlist;
         //Get camera list
-        ErrorCheck(CanonSDK.EdsGetCameraList(out camlist));
+        ErrorCheck(EdsNativeLib.EdsGetCameraList(out camlist));
 
         //Get number of connected cameras
         int camCount;
-        ErrorCheck(CanonSDK.EdsGetChildCount(camlist, out camCount));
+        ErrorCheck(EdsNativeLib.EdsGetChildCount(camlist, out camCount));
         List<IntPtr> ptrList = new List<IntPtr>();
         for (int i = 0; i < camCount; i++)
         {
             //Get camera pointer
             IntPtr cptr;
-            ErrorCheck(CanonSDK.EdsGetChildAtIndex(camlist, i, out cptr));
+            ErrorCheck(EdsNativeLib.EdsGetChildAtIndex(camlist, i, out cptr));
             ptrList.Add(cptr);
 
             yield return new Camera(cptr);
             // CanonSDK.EdsGetDeviceInfo(cptr, out EdsDeviceInfo Info);
         }
         //Release the list
-        ErrorCheck(CanonSDK.EdsRelease(camlist));
+        ErrorCheck(EdsNativeLib.EdsRelease(camlist));
 
     }
 

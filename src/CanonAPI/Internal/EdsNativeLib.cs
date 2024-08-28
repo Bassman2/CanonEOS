@@ -1,43 +1,102 @@
-﻿namespace CanonAPI.Internal;
+﻿//#define NATIVE_LIBRARY
 
-internal partial class CanonSDK
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System;
+
+namespace CanonAPI.Internal;
+
+internal static unsafe partial class EdsNativeLib
 {
-    private const string DllPath = "EDSDK.dll";
+    private const string LibName = "EDSDK";
 
-    [LibraryImport(DllPath)]
+#if NATIVE_LIBRARY
+
+    [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+    delegate EdsError InitializeSDK();
+
+    [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+    delegate EdsError TerminateSDK();
+
+    private static readonly nint library;
+
+    private static readonly nint edsInitializeSDK;
+    private static readonly nint edsTerminateSDK;
+
+    static EdsNativeLib()
+    {
+        string path = Path.Combine(AppContext.BaseDirectory, LibName, Environment.Is64BitProcess ? "Win64" : "Win32", LibName);
+        library = NativeLibrary.Load(path);
+        edsInitializeSDK = NativeLibrary.GetExport(library, nameof(EdsInitializeSDK));
+        edsTerminateSDK = NativeLibrary.GetExport(library, nameof(EdsTerminateSDK));
+    }
+
+    internal static EdsError EdsInitializeSDK()
+    {
+        return (EdsError)((delegate*<IntPtr>)edsInitializeSDK)();
+
+        //var functionPointer = (delegate* unmanaged[Stdcall]<IntPtr, string, string, uint, int>)function;
+        //functionPointer(IntPtr.Zero, text, caption, 0);
+    }
+
+
+    internal static EdsError EdsTerminateSDK()
+    {
+        return (EdsError)((delegate*<IntPtr>)edsTerminateSDK)();
+    }
+
+
+
+#else
+
+    static EdsNativeLib()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            string path = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
+            string dllDir = Path.GetDirectoryName(typeof(EdsNativeLib).Assembly.Location)!;
+            dllDir = Path.Combine(dllDir, LibName, Environment.Is64BitProcess ? "Win64" : "Win32");
+            path = $"{path};{dllDir}";
+            Environment.SetEnvironmentVariable("PATH", path);
+        }
+    }
+
+    
+
+    [LibraryImport(LibName)]
     internal static partial EdsError EdsInitializeSDK();
 
-    [LibraryImport(DllPath)]
+    [LibraryImport(LibName)]
     internal static partial EdsError EdsTerminateSDK();
 
-    [LibraryImport(DllPath)]
+    [LibraryImport(LibName)]
     internal static partial EdsError EdsRetain(IntPtr inRef);
 
-    [LibraryImport(DllPath)]
+    [LibraryImport(LibName)]
     internal static partial EdsError EdsRelease(IntPtr inRef);
 
-    [LibraryImport(DllPath)]
+    [LibraryImport(LibName)]
     internal static partial EdsError EdsGetCameraList(out IntPtr outCameraListRef);
 
-    //[LibraryImport(DllPath)]
+    //[LibraryImport(LibName)]
     //internal static partial EdsError EdsGetDeviceInfo(IntPtr inCameraRef, out EdsDeviceInfo outDeviceInfo);
 
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsGetDeviceInfo(IntPtr inCameraRef, out EdsDeviceInfo outDeviceInfo);
 
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsGetChildCount(IntPtr inRef, out int outCount);
 
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsGetChildAtIndex(IntPtr inRef, int inIndex, out IntPtr outRef);
 
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsGetPropertySize(IntPtr inRef, PropertyID inPropertyID, int inParam, out EdsDataType outDataType, out int outSize);
 
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsGetPropertyData(IntPtr inRef, PropertyID inPropertyID, int inParam, int inPropertySize, IntPtr outPropertyData);
 
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsOpenSession(IntPtr inCameraRef);
 
     /// <summary>
@@ -45,13 +104,13 @@ internal partial class CanonSDK
     /// </summary>
     /// <param name="inCameraRef">The reference of the camera.</param>
     /// <returns>Any of the SDK errors</returns>
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsCloseSession(IntPtr inCameraRef);
 
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsSetCameraAddedHandler(SDKCameraAddedHandler inCameraAddedHandler, IntPtr inContext);
 
-    [LibraryImport(DllPath)]
+    [LibraryImport(LibName)]
     internal static partial EdsError EdsSendCommand(IntPtr inCameraRef, EdsCameraCommand inCommand, int inParam);
 
     /// <summary>
@@ -61,11 +120,11 @@ internal partial class CanonSDK
     /// <param name="inCameraState">Specifies the command to be sent.</param>
     /// <param name="inParam">Specifies additional command-specific information.</param>
     /// <returns>Any of the SDK errors</returns>
-    [LibraryImport(DllPath)]
+    [LibraryImport(LibName)]
     internal static partial EdsError EdsSendStatusCommand(IntPtr inCameraRef, EdsCameraStatusCommand inCameraState, int inParam);
 
 
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsGetVolumeInfo(IntPtr inCameraRef, out EdsVolumeInfo outVolumeInfo);
 
     /// <summary>
@@ -73,7 +132,7 @@ internal partial class CanonSDK
     /// </summary>
     /// <param name="inVolumeRef">The reference of the volume.</param>
     /// <returns>Any of the SDK errors</returns>
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsFormatVolume(IntPtr inVolumeRef);
 
     /// <summary>
@@ -82,7 +141,7 @@ internal partial class CanonSDK
     /// <param name="inDirItemRef">The reference of the directory item.</param>
     /// <param name="outDirItemInfo">Information of the directory item.</param>
     /// <returns>Any of the SDK errors</returns>
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsGetDirectoryItemInfo(IntPtr inDirItemRef, out EdsDirectoryItemInfo outDirItemInfo);
 
     /// <summary>
@@ -93,7 +152,7 @@ internal partial class CanonSDK
     /// </summary>
     /// <param name="inDirItemRef"></param>
     /// <returns>Any of the SDK errors</returns>
-    [DllImport(DllPath)]
+    [DllImport(LibName)]
     public extern static EdsError EdsDeleteDirectoryItem(IntPtr inDirItemRef);
-
+#endif
 }

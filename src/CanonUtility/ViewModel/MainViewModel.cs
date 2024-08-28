@@ -1,15 +1,33 @@
 ﻿namespace CanonUtility.ViewModel;
 
-public partial class MainViewModel : AppViewModel
+public partial class MainViewModel : AppViewModel, IDisposable
 {
-    private readonly Canon canon;
+    private readonly Canon library;
     public MainViewModel() 
     {
-        this.canon = new();
-        this.Cameras = this.canon.GetCameras().ToList();
+        this.library = new();
+        this.Cameras = this.library.GetCameras().ToList();
         this.SelectedCamera = this.Cameras.FirstOrDefault();
     }
 
+    public void Dispose()
+    {
+        this.SelectedCamera?.Dispose();
+        this.library.Dispose();
+    }
+
+    [ObservableProperty]
+    private string status = "Ready";
+
+    [ObservableProperty]
+    private string canon = "Disconnected";
+
+    [ObservableProperty]
+    private string camera = "Empty";
+
+    [ObservableProperty]
+    private string process = Environment.Is64BitProcess ? "x64" : "x86";
+   
     [ObservableProperty]
     private List<Camera> cameras = [];
 
@@ -18,25 +36,21 @@ public partial class MainViewModel : AppViewModel
 
     partial void OnSelectedCameraChanged(Camera? oldValue, Camera? newValue)
     {
-        this.Volumes = newValue?.Volumes.ToList() ?? [];
+        CameraViewModel?.Dispose();
+        CameraViewModel = new CameraViewModel(newValue!);        
     }
 
     [ObservableProperty]
-    private List<Volume> volumes = [];
-
-    [ObservableProperty]
-    private DirectoryItem? selectedFolder;
+    private CameraViewModel? cameraViewModel;    
 
     protected override void OnActivate()
     {
-        base.OnActivate();
-        
+        base.OnActivate();        
     }
 
     protected override bool OnClosing()
     {
-        this.canon.Dispose();
+        this.library.Dispose();
         return base.OnClosing();
-    }
-    
+    }    
 }

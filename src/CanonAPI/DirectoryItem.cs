@@ -14,7 +14,7 @@ public class DirectoryItem
     {
         this.item = item;
 
-        CanonSDK.EdsGetDirectoryItemInfo(item, out EdsDirectoryItemInfo info);
+        EdsNativeLib.EdsGetDirectoryItemInfo(item, out EdsDirectoryItemInfo info);
 
         this.Name = info.FileName;
         this.IsFolder = info.IsFolder;
@@ -26,7 +26,7 @@ public class DirectoryItem
 
     public IEnumerable<DirectoryItem> DirectoryItems
     {
-        get => CanonSDK.GetChildren(item).Select(i => new DirectoryItem(i));
+        get => EdsNativeLib.GetChildren(item).Select(i => new DirectoryItem(i));
     }
 
     public IEnumerable<DirectoryItem> Directories

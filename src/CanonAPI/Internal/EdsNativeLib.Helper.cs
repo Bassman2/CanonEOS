@@ -1,6 +1,6 @@
 ﻿namespace CanonAPI.Internal;
 
-internal partial class CanonSDK
+internal partial class EdsNativeLib
 {
     public static void DebugProperties(IntPtr inRef)
     {

@@ -8,7 +8,7 @@ public class Volume
     {
         this.volume = volume;
 
-        CanonSDK.EdsGetVolumeInfo(volume, out EdsVolumeInfo info);
+        EdsNativeLib.EdsGetVolumeInfo(volume, out EdsVolumeInfo info);
 
         this.Name = info.szVolumeLabel;
     }
@@ -17,7 +17,7 @@ public class Volume
 
     public IEnumerable<DirectoryItem> DirectoryItems
     {
-        get => CanonSDK.GetChildren(volume).Select(i => new DirectoryItem(i));
+        get => EdsNativeLib.GetChildren(volume).Select(i => new DirectoryItem(i));
     }
 
     public IEnumerable<DirectoryItem> Directories
