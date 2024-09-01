@@ -8,23 +8,23 @@ public sealed class Camera : IDisposable
     {
         this.camera = camera;
 
-        EdsNativeLib.EdsGetDeviceInfo(this.camera, out EdsDeviceInfo info);
+        Eds.EdsGetDeviceInfo(this.camera, out EdsDeviceInfo info);
         this.Name = info.szDeviceDescription;
 
         Debug.WriteLine($"EdsOpenSession {Name}");
-        EdsNativeLib.EdsOpenSession(this.camera);
+        Eds.EdsOpenSession(this.camera);
 
-        EdsNativeLib.DebugProperties(this.camera);
+        Eds.DebugProperties(this.camera);
 
-        ProductName = EdsNativeLib.GetStringProperty(this.camera, PropertyID.ProductName);
-        OwnerName = EdsNativeLib.GetStringProperty(this.camera, PropertyID.OwnerName);
-        FirmwareVersion = EdsNativeLib.GetStringProperty(this.camera, PropertyID.FirmwareVersion);
-        CurrentStorage = EdsNativeLib.GetStringProperty(this.camera, PropertyID.CurrentStorage);
-        CurrentFolder = EdsNativeLib.GetStringProperty(this.camera, PropertyID.CurrentFolder);
-        BodyIDEx = EdsNativeLib.GetStringProperty(this.camera, PropertyID.BodyIDEx);
-        LensName = EdsNativeLib.GetStringProperty(this.camera, PropertyID.LensName);
-        Artist = EdsNativeLib.GetStringProperty(this.camera, PropertyID.Artist);
-        Copyright = EdsNativeLib.GetStringProperty(this.camera, PropertyID.Copyright);
+        ProductName = Eds.GetStringProperty(this.camera, EdsPropertyID.ProductName);
+        OwnerName = Eds.GetStringProperty(this.camera, EdsPropertyID.OwnerName);
+        FirmwareVersion = Eds.GetStringProperty(this.camera, EdsPropertyID.FirmwareVersion);
+        CurrentStorage = Eds.GetStringProperty(this.camera, EdsPropertyID.CurrentStorage);
+        CurrentFolder = Eds.GetStringProperty(this.camera, EdsPropertyID.CurrentFolder);
+        BodyIDEx = Eds.GetStringProperty(this.camera, EdsPropertyID.BodyIDEx);
+        LensName = Eds.GetStringProperty(this.camera, EdsPropertyID.LensName);
+        Artist = Eds.GetStringProperty(this.camera, EdsPropertyID.Artist);
+        Copyright = Eds.GetStringProperty(this.camera, EdsPropertyID.Copyright);
         //Artist = CanonSDK.GetStringProperty(camera, PropertyID.Artist);
         //Artist = CanonSDK.GetStringProperty(camera, PropertyID.Artist);
         //Artist = CanonSDK.GetStringProperty(camera, PropertyID.Artist);
@@ -33,7 +33,7 @@ public sealed class Camera : IDisposable
     public void Dispose()
     {
         Debug.WriteLine($"EdsCloseSession {Name}");
-        EdsNativeLib.EdsCloseSession(this.camera); 
+        Eds.EdsCloseSession(this.camera); 
     }
 
     public string Name { get; }
@@ -50,6 +50,6 @@ public sealed class Camera : IDisposable
 
     public IEnumerable<Volume> Volumes
     {
-        get => EdsNativeLib.GetChildren(this.camera).Select(i => new Volume(i));
+        get => Eds.GetChildren(this.camera).Select(i => new Volume(i));
     }    
 }

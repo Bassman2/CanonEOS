@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CanonAPI;
+﻿namespace CanonAPI;
 
 public class DirectoryItem
 {
@@ -14,7 +8,7 @@ public class DirectoryItem
     {
         this.item = item;
 
-        EdsNativeLib.EdsGetDirectoryItemInfo(item, out EdsDirectoryItemInfo info);
+        Eds.EdsGetDirectoryItemInfo(item, out EdsDirectoryItemInfo info);
 
         this.Name = info.FileName;
         this.IsFolder = info.IsFolder;
@@ -26,7 +20,7 @@ public class DirectoryItem
 
     public IEnumerable<DirectoryItem> DirectoryItems
     {
-        get => EdsNativeLib.GetChildren(item).Select(i => new DirectoryItem(i));
+        get => Eds.GetChildren(item).Select(i => new DirectoryItem(i));
     }
 
     public IEnumerable<DirectoryItem> Directories

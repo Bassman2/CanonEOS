@@ -8,7 +8,7 @@ public class Volume
     {
         this.volume = volume;
 
-        EdsNativeLib.EdsGetVolumeInfo(volume, out EdsVolumeInfo info);
+        Eds.EdsGetVolumeInfo(volume, out EdsVolumeInfo info);
 
         this.Name = info.szVolumeLabel;
     }
@@ -17,7 +17,7 @@ public class Volume
 
     public IEnumerable<DirectoryItem> DirectoryItems
     {
-        get => EdsNativeLib.GetChildren(volume).Select(i => new DirectoryItem(i));
+        get => Eds.GetChildren(volume).Select(i => new DirectoryItem(i));
     }
 
     public IEnumerable<DirectoryItem> Directories

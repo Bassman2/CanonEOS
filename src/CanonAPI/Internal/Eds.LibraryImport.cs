@@ -1,5 +1,5 @@
 ﻿namespace CanonAPI.Internal;
 
-internal static class EdsLibraryImport
+internal static partial class EdsLibraryImport
 {
 }

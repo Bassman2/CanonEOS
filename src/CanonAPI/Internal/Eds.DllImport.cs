@@ -1,17 +1,15 @@
-﻿using System.Drawing;
+﻿namespace CanonAPI.Internal;
 
-namespace CanonAPI.Internal;
-
-internal static class EdsDllImport
+internal static partial class EdsDI
 {
     private const string LibName = "EDSDK";
 
-    static EdsDllImport()
+    static EdsDI()
     {
         if (OperatingSystem.IsWindows())
         {
             string path = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
-            string dllDir = Path.GetDirectoryName(typeof(EdsNativeLib).Assembly.Location)!;
+            string dllDir = Path.GetDirectoryName(typeof(Eds).Assembly.Location)!;
             dllDir = Path.Combine(dllDir, LibName, Environment.Is64BitProcess ? "Win64" : "Win32");
             path = $"{path};{dllDir}";
             Environment.SetEnvironmentVariable("PATH", path);
@@ -67,16 +65,16 @@ internal static class EdsDllImport
     public extern static EdsError EdsSetCapacity(nint inCameraRef, EdsCapacity inCapacity);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetPropertySize(nint inRef, PropertyID inPropertyID, int inParam, out EdsDataType outDataType, out int outSize);
+    public extern static EdsError EdsGetPropertySize(nint inRef, EdsPropertyID inPropertyID, int inParam, out EdsDataType outDataType, out int outSize);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetPropertyData(nint inRef, PropertyID inPropertyID, int inParam, int inPropertySize, nint outPropertyData);
+    public extern static EdsError EdsGetPropertyData(nint inRef, EdsPropertyID inPropertyID, int inParam, int inPropertySize, nint outPropertyData);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSetPropertyData(nint inRef, PropertyID inPropertyID, int inParam, int inPropertySize, [MarshalAs(UnmanagedType.AsAny), In] object inPropertyData);
+    public extern static EdsError EdsSetPropertyData(nint inRef, EdsPropertyID inPropertyID, int inParam, int inPropertySize, nint inPropertyData);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetPropertyDesc(nint inRef, PropertyID inPropertyID, out EdsPropertyDesc outPropertyDesc);
+    public extern static EdsError EdsGetPropertyDesc(nint inRef, EdsPropertyID inPropertyID, out EdsPropertyDesc outPropertyDesc);
 
     [DllImport(LibName)]
     public extern static EdsError EdsDeleteDirectoryItem(nint inDirItemRef);
