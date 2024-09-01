@@ -108,7 +108,7 @@ internal static unsafe partial class EdsNativeLib
     public extern static EdsError EdsCloseSession(IntPtr inCameraRef);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSetCameraAddedHandler(SDKCameraAddedHandler inCameraAddedHandler, IntPtr inContext);
+    public extern static EdsError EdsSetCameraAddedHandler(EdsCameraAddedHandler inCameraAddedHandler, IntPtr inContext);
 
     [LibraryImport(LibName)]
     internal static partial EdsError EdsSendCommand(IntPtr inCameraRef, EdsCameraCommand inCommand, int inParam);

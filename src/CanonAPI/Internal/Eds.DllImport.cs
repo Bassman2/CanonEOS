@@ -1,4 +1,6 @@
-﻿namespace CanonAPI.Internal;
+﻿using System.Drawing;
+
+namespace CanonAPI.Internal;
 
 internal static class EdsDllImport
 {
@@ -23,162 +25,162 @@ internal static class EdsDllImport
     public extern static EdsError EdsTerminateSDK();
 
     [DllImport(LibName)]
-    public extern static EdsError EdsRetain(IntPtr inRef);
+    public extern static EdsError EdsRetain(nint inRef);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsRelease(IntPtr inRef);
+    public extern static EdsError EdsRelease(nint inRef);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetChildCount(IntPtr inRef, out int outCount);
+    public extern static EdsError EdsGetChildCount(nint inRef, out int outCount);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetChildAtIndex(IntPtr inRef, int inIndex, out IntPtr outRef);
+    public extern static EdsError EdsGetChildAtIndex(nint inRef, int inIndex, out nint outRef);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetParent(IntPtr inRef, out IntPtr outParentRef);
+    public extern static EdsError EdsGetParent(nint inRef, out nint outParentRef);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetCameraList(out IntPtr outCameraListRef);
+    public extern static EdsError EdsGetCameraList(out nint outCameraListRef);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetDeviceInfo(IntPtr inCameraRef, out EdsDeviceInfo outDeviceInfo);
+    public extern static EdsError EdsGetDeviceInfo(nint inCameraRef, out EdsDeviceInfo outDeviceInfo);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetDirectoryItemInfo(IntPtr inDirItemRef, out EdsDirectoryItemInfo outDirItemInfo);
+    public extern static EdsError EdsGetVolumeInfo(nint inCameraRef, out EdsVolumeInfo outVolumeInfo);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsOpenSession(IntPtr inCameraRef);
+    public extern static EdsError EdsGetDirectoryItemInfo(nint inDirItemRef, out EdsDirectoryItemInfo outDirItemInfo);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsCloseSession(IntPtr inCameraRef);
+    public extern static EdsError EdsOpenSession(nint inCameraRef);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSendCommand(IntPtr inCameraRef, EdsCameraCommand inCommand, int inParam);
+    public extern static EdsError EdsCloseSession(nint inCameraRef);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSendStatusCommand(IntPtr inCameraRef, EdsCameraStatusCommand inCameraState, int inParam);
+    public extern static EdsError EdsSendCommand(nint inCameraRef, EdsCameraCommand inCommand, int inParam);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSetCapacity(IntPtr inCameraRef, EdsCapacity inCapacity);
+    public extern static EdsError EdsSendStatusCommand(nint inCameraRef, EdsCameraStatusCommand inCameraState, int inParam);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetPropertySize(IntPtr inRef, PropertyID inPropertyID, int inParam, out EdsDataType outDataType, out int outSize);
+    public extern static EdsError EdsSetCapacity(nint inCameraRef, EdsCapacity inCapacity);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetPropertyData(IntPtr inRef, PropertyID inPropertyID, int inParam, int inPropertySize, IntPtr outPropertyData);
+    public extern static EdsError EdsGetPropertySize(nint inRef, PropertyID inPropertyID, int inParam, out EdsDataType outDataType, out int outSize);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSetPropertyData(EdsBaseRef inRef,EdsPropertyID inPropertyID,EdsInt32 inParam,EdsUInt32 inPropertySize,const EdsVoid* inPropertyData )
+    public extern static EdsError EdsGetPropertyData(nint inRef, PropertyID inPropertyID, int inParam, int inPropertySize, nint outPropertyData);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetPropertyDesc();
+    public extern static EdsError EdsSetPropertyData(nint inRef, PropertyID inPropertyID, int inParam, int inPropertySize, [MarshalAs(UnmanagedType.AsAny), In] object inPropertyData);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsDeleteDirectoryItem(IntPtr inDirItemRef);
+    public extern static EdsError EdsGetPropertyDesc(nint inRef, PropertyID inPropertyID, out EdsPropertyDesc outPropertyDesc);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsFormatVolume(IntPtr inVolumeRef);
+    public extern static EdsError EdsDeleteDirectoryItem(nint inDirItemRef);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetAttribute();
+    public extern static EdsError EdsFormatVolume(nint inVolumeRef);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSetAttribute();
+    public extern static EdsError EdsGetAttribute(nint inDirItemRef, out EdsFileAttribute outFileAttribute);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsDownload();
+    public extern static EdsError EdsSetAttribute(nint inDirItemRef, EdsFileAttribute inFileAttribute);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsDownloadComplete();
+    public extern static EdsError EdsDownload(nint inDirItemRef, int inReadSize, nint outStream);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsDownloadCancel();
+    public extern static EdsError EdsDownload(nint inDirItemRef, long inReadSize, nint outStream);
+
+    [DllImport(LibName)]
+    public extern static EdsError EdsDownloadComplete(nint inDirItemRef);
+
+    [DllImport(LibName)]
+    public extern static EdsError EdsDownloadCancel(nint inDirItemRef);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsDownloadThumbnail();
+    public extern static EdsError EdsDownloadThumbnail(nint inDirItemRef, nint outStream);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsCreateEvfImageRef();
+    public extern static EdsError EdsCreateEvfImageRef(nint inStreamRef, out nint outEvfImageRef);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsDownloadEvfImage();
+    public extern static EdsError EdsDownloadEvfImage(nint inCameraRef, nint outEvfImageRef);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsCreateFileStream();
+    public extern static EdsError EdsCreateFileStream(string inFileName, EdsFileCreateDisposition inCreateDisposition, EdsFileAccess inDesiredAccess, out nint outStream);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsCreateFileStreamEx();
+    public extern static EdsError EdsCreateFileStreamEx(string inFileName, EdsFileCreateDisposition inCreateDisposition, EdsFileAccess inDesiredAccess, out nint outStream);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsCreateMemoryStream();
-    
-    [DllImport(LibName)]
-    public extern static EdsError EdsCreateMemoryStreamFromPointer();
-    
-    [DllImport(LibName)]
-    public extern static EdsError EdsGetPointer();
-    
-    [DllImport(LibName)]
-    public extern static EdsError EdsRead();
-    
-    [DllImport(LibName)]
-    public extern static EdsError EdsWrite();
+    public extern static EdsError EdsCreateMemoryStream(int inBufferSize, out nint outStream);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSeek();
+    public extern static EdsError EdsCreateMemoryStream(long inBufferSize, out nint outStream);
+
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetPosition();
-    [DllImport(LibName)]
-    public extern static EdsError EdsGetLength();
+    public extern static EdsError EdsCreateMemoryStreamFromPointer(nint inUserBuffer, int inBufferSize, out nint outStream);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsCopyData();
+    public extern static EdsError EdsCreateMemoryStreamFromPointer(nint inUserBuffer, long inBufferSize, out nint outStream);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsCreateImageRef();
+    public extern static EdsError EdsGetPointer(nint inStreamRef, out nint outPointer);
+    
+    [DllImport(LibName)]
+    public extern static EdsError EdsRead(nint inStreamRef, int inReadSize, nint outBuffer, out int outReadSize);
+    
+    [DllImport(LibName)]
+    public extern static EdsError EdsWrite(nint inStreamRef, int inWriteSize, nint inBuffer, out int outWrittenSize);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetImageInfo();
+    public extern static EdsError EdsSeek(nint inStreamRef, long inSeekOffset, SeekOrigin inSeekOrigin);
+
+    [DllImport(LibName)]
+    public extern static EdsError EdsGetPosition(nint inStreamRef, out long outPosition);
+
+    [DllImport(LibName)]
+    public extern static EdsError EdsGetLength(nint inStreamRef, out long outLength);
+
+    [DllImport(LibName)]
+    public extern static EdsError EdsCopyData(nint inStreamRef, long inWriteSize, nint outStreamRef);
+
+    [DllImport(LibName)]
+    public extern static EdsError EdsCreateImageRef(nint inStreamRef, out nint outImageRef);
+
+    [DllImport(LibName)]
+    public extern static EdsError EdsGetImageInfo(nint inImageRef, EdsImageSource inImageSource, out EdsImageInfo outImageInfo);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsGetImage();
+    public extern static EdsError EdsGetImage(nint inImageRef, EdsImageSource inImageSource, EdsTargetImageType inImageType, EdsRectangle inSrcRect, EdsSize inDstSize, nint outStreamRef);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsSetCameraAddedHandler(SDKCameraAddedHandler inCameraAddedHandler, IntPtr inContext);
+    public extern static EdsError EdsSetCameraAddedHandler(EdsCameraAddedHandler inCameraAddedHandler, nint inContext);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsSetObjectEventHandler();
+    public extern static EdsError EdsSetObjectEventHandler(nint inCameraRef, EdsObjectEventID inEvent, EdsObjectEventHandler inObjectEventHandler, nint inContext);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsSetPropertyEventHandler();
+    public extern static EdsError EdsSetPropertyEventHandler(nint inCameraRef, EdsPropertyEventID inEvent, EdsPropertyEventHandler inPropertyEventHandler, nint inContext);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsSetCameraStateEventHandler();
+    public extern static EdsError EdsSetCameraStateEventHandler(nint inCameraRef, EdsStateEventID inEvent, EdsStateEventHandler inStateEventHandler, nint inContext);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsSetProgressCallback();
+    public extern static EdsError EdsSetProgressCallback(nint inRef, EdsProgressCallback inProgressFunc, EdsProgressOption inProgressOption, nint inContext);
     
     [DllImport(LibName)]
     public extern static EdsError EdsGetEvent();
     
     [DllImport(LibName)]
-    public extern static EdsError EdsSetFramePoint();
+    public extern static EdsError EdsSetFramePoint(nint inCameraRef, EdsFramePoint inFramePoint, bool inLockAfFrame);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSetMetaImage();
-
-
-    
-
-    
-
-    [DllImport(LibName)]
-    public extern static EdsError EdsGetVolumeInfo(IntPtr inCameraRef, out EdsVolumeInfo outVolumeInfo);
-        
-   
-
-    
-
-    
+    public extern static EdsError EdsSetMetaImage(nint inDirItemRef, EdsMetaType metaType, uint inMetaDataSize, EdsMetaData metaData);
 }

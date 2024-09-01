@@ -1,14 +1,17 @@
 ﻿namespace CanonAPI;
 
+public delegate void CameraAddedEventHandler(Canon sender);
+
 public sealed class Canon : IDisposable
 {
-    public event CameraAddedHandler? CameraAdded;
-    /// <summary>
-    /// The SDK camera added delegate
-    /// </summary>
-    private static SDKCameraAddedHandler? CameraAddedEvent;
+    public event CameraAddedEventHandler? CameraAdded;
 
-    private uint OnCameraAddedEvent(IntPtr inContext)
+    ///// <summary>
+    ///// The SDK camera added delegate
+    ///// </summary>
+    private static EdsCameraAddedHandler? EdsCameraAddedEvent;
+
+    private EdsError OnCameraAddedEvent(nint inContext)
     {
         ThreadPool.QueueUserWorkItem((state) => CameraAdded?.Invoke(this));
         return 0;
@@ -23,8 +26,8 @@ public sealed class Canon : IDisposable
 
         ErrorCheck(EdsNativeLib.EdsInitializeSDK());
 
-        CameraAddedEvent = new SDKCameraAddedHandler(OnCameraAddedEvent);
-        ErrorCheck(EdsNativeLib.EdsSetCameraAddedHandler(CameraAddedEvent, IntPtr.Zero));
+        EdsCameraAddedEvent = new EdsCameraAddedHandler(OnCameraAddedEvent);
+        ErrorCheck(EdsNativeLib.EdsSetCameraAddedHandler(EdsCameraAddedEvent, IntPtr.Zero));
 
         //if (IsDisposed) throw new ObjectDisposedException(nameof(CanonAPI));
 
