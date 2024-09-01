@@ -14,7 +14,7 @@
     <DockPanel>
         <ToolBarPanel DockPanel.Dock="Top">
             <ToolBar>
-                <ComboBox ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}" DisplayMemberPath="Name" Width="120"/>
+                <ComboBox ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}" DisplayMemberPath="Name" Width="200"/>
             </ToolBar>
             
         </ToolBarPanel>

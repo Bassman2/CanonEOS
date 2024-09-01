@@ -1,19 +1,33 @@
-﻿namespace CanonAPI.Internal;
+﻿using System.Reflection;
 
-internal static partial class EdsDI
+namespace CanonAPI.Internal;
+
+internal static partial class Eds
 {
     private const string LibName = "EDSDK";
 
-    static EdsDI()
+    static Eds()
     {
-        if (OperatingSystem.IsWindows())
+        //if (OperatingSystem.IsWindows())
+        //{
+        //    string path = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
+        //    string dllDir = Path.GetDirectoryName(typeof(Eds).Assembly.Location)!;
+        //    dllDir = Path.Combine(dllDir, LibName, Environment.Is64BitProcess ? "Win64" : "Win32");
+        //    path = $"{path};{dllDir}";
+        //    Environment.SetEnvironmentVariable("PATH", path);
+        //}
+
+        NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), DllImportResolver);
+    }
+
+    private static IntPtr DllImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+    {
+        if (libraryName == LibName)
         {
-            string path = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
-            string dllDir = Path.GetDirectoryName(typeof(Eds).Assembly.Location)!;
-            dllDir = Path.Combine(dllDir, LibName, Environment.Is64BitProcess ? "Win64" : "Win32");
-            path = $"{path};{dllDir}";
-            Environment.SetEnvironmentVariable("PATH", path);
+            string path = Path.Combine(Path.GetDirectoryName(assembly.Location)!, LibName, Environment.Is64BitProcess ? "Win64" : "Win32", LibName);
+            return NativeLibrary.Load(path);
         }
+        return IntPtr.Zero;
     }
 
     [DllImport(LibName)]

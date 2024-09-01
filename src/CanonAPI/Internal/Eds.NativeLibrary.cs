@@ -1,8 +1,9 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CanonAPI.Internal;
 
-internal static partial class Eds
+internal static partial class Edsy
 {
     private const string LibName = "EDSDK";
 
@@ -83,7 +84,7 @@ internal static partial class Eds
 
     private static SetCameraAddedHandler setCameraAddedHandler;
 
-    static Eds()
+    static Edsy()
     {
         string path = Path.Combine(AppContext.BaseDirectory, LibName, Environment.Is64BitProcess ? "Win64" : "Win32", LibName);
         library = NativeLibrary.Load(path);
@@ -139,10 +140,42 @@ internal static partial class Eds
 
     internal static EdsError EdsGetCameraList(out nint list) => getCameraList(out list);
 
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct _EdsDeviceInfo
+    {
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = EdsConst.EDS_MAX_NAME)]
+        public string PortName;
+
+        //public nint PortName;
+
+        //public nint DeviceDescription;
+
+        //public uint DeviceSubType;
+
+        //public uint Reserved;
+    }
+
     internal static EdsError EdsGetDeviceInfo(nint camera, out EdsDeviceInfo deviceInfo)
     {
-        EdsError err = getDeviceInfo(camera, out nint refDeviceInfo);
-        deviceInfo = err == EdsError.OK ? Marshal.PtrToStructure<EdsDeviceInfo>(refDeviceInfo) : new EdsDeviceInfo();
+        //nint mem = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(_EdsDeviceInfo)));
+        EdsError err = getDeviceInfo(camera, out nint mem);
+        if (err == EdsError.OK)
+        {
+            try
+            {
+
+                _EdsDeviceInfo di = Marshal.PtrToStructure<_EdsDeviceInfo>(mem);
+            }
+            catch (Exception ex) 
+            { 
+            }
+            deviceInfo = new();
+        }
+        else
+        {
+            deviceInfo = new();
+        }
         return err;
     }
 
