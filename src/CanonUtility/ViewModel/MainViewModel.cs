@@ -6,6 +6,7 @@ public partial class MainViewModel : AppViewModel, IDisposable
     public MainViewModel() 
     {
         this.library = new();
+        this.Canon = library.IsInitialized ? "Connected" : "Disconnected";
         this.Cameras = this.library.GetCameras().ToList();
         this.SelectedCamera = this.Cameras.FirstOrDefault();
     }

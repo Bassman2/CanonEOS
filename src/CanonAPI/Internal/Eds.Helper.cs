@@ -41,7 +41,7 @@ internal static partial class Eds
                     }
                 }
             }
-            else if (err != EdsError.PROPERTIES_UNAVAILABLE)
+            else if (err != EdsError.PropertiesUnavailable)
             {
                 Debug.WriteLine($"ID {propId} {dt} {size} {err}");
             }
@@ -95,5 +95,15 @@ internal static partial class Eds
             EdsGetChildAtIndex(item, i, out nint child);
             yield return child;
         }
+    }
+
+    public static EdsError CheckError(EdsError error)
+    {
+        if (error != EdsError.OK)
+        {
+            Debug.WriteLine($"Error: {error}!");
+            Debugger.Break();
+        }
+        return error;
     }
 }

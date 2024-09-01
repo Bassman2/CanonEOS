@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace CanonAPI.Internal;
+﻿namespace CanonAPI.Internal;
 
 internal static partial class Eds
 {

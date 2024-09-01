@@ -24,22 +24,21 @@ public sealed class Canon : IDisposable
             throw new ThreadStateException("Calling thread must be in STA");
         }
 
-        ErrorCheck(Eds.EdsInitializeSDK());
+        Eds.CheckError(Eds.EdsInitializeSDK());
 
         EdsCameraAddedEvent = new EdsCameraAddedHandler(OnCameraAddedEvent);
-        ErrorCheck(Eds.EdsSetCameraAddedHandler(EdsCameraAddedEvent, nint.Zero));
+        Eds.CheckError(Eds.EdsSetCameraAddedHandler(EdsCameraAddedEvent, nint.Zero));
 
+        IsInitialized = true;
         //if (IsDisposed) throw new ObjectDisposedException(nameof(CanonAPI));
-
-
-
-
-
     }
+
+    public bool IsInitialized { get; private set; }
 
     public void Dispose()
     {
-        ErrorCheck(Eds.EdsTerminateSDK());
+        Eds.CheckError(Eds.EdsTerminateSDK());
+        IsInitialized = false;
     }
 
     private static Version? GetSDKVersion()
@@ -60,32 +59,24 @@ public sealed class Canon : IDisposable
     {
         IntPtr camlist;
         //Get camera list
-        ErrorCheck(Eds.EdsGetCameraList(out camlist));
+        Eds.CheckError(Eds.EdsGetCameraList(out camlist));
 
         //Get number of connected cameras
         int camCount;
-        ErrorCheck(Eds.EdsGetChildCount(camlist, out camCount));
+        Eds.CheckError(Eds.EdsGetChildCount(camlist, out camCount));
         List<IntPtr> ptrList = new List<IntPtr>();
         for (int i = 0; i < camCount; i++)
         {
             //Get camera pointer
             IntPtr cptr;
-            ErrorCheck(Eds.EdsGetChildAtIndex(camlist, i, out cptr));
+            Eds.CheckError(Eds.EdsGetChildAtIndex(camlist, i, out cptr));
             ptrList.Add(cptr);
 
             yield return new Camera(cptr);
             // CanonSDK.EdsGetDeviceInfo(cptr, out EdsDeviceInfo Info);
         }
         //Release the list
-        ErrorCheck(Eds.EdsRelease(camlist));
+        Eds.CheckError(Eds.EdsRelease(camlist));
 
-    }
-
-    private void ErrorCheck(EdsError errorCode)
-    {
-        if (errorCode != EdsError.OK)
-        { 
-            Debugger.Break();
-        }
     }
 }

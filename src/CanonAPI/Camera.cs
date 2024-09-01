@@ -8,11 +8,11 @@ public sealed class Camera : IDisposable
     {
         this.camera = camera;
 
-        Eds.EdsGetDeviceInfo(this.camera, out EdsDeviceInfo info);
+        Eds.CheckError(Eds.EdsGetDeviceInfo(this.camera, out EdsDeviceInfo info));
         this.Name = info.szDeviceDescription;
 
         Debug.WriteLine($"EdsOpenSession {Name}");
-        Eds.EdsOpenSession(this.camera);
+        Eds.CheckError(Eds.EdsOpenSession(this.camera));
 
         Eds.DebugProperties(this.camera);
 
@@ -33,7 +33,7 @@ public sealed class Camera : IDisposable
     public void Dispose()
     {
         Debug.WriteLine($"EdsCloseSession {Name}");
-        Eds.EdsCloseSession(this.camera); 
+        Eds.CheckError(Eds.EdsCloseSession(this.camera)); 
     }
 
     public string Name { get; }

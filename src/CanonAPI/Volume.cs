@@ -8,7 +8,7 @@ public class Volume
     {
         this.volume = volume;
 
-        Eds.EdsGetVolumeInfo(volume, out EdsVolumeInfo info);
+        Eds.CheckError(Eds.EdsGetVolumeInfo(volume, out EdsVolumeInfo info));
 
         this.Name = info.szVolumeLabel;
     }

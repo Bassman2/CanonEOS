@@ -8,7 +8,7 @@ public class DirectoryItem
     {
         this.item = item;
 
-        Eds.EdsGetDirectoryItemInfo(item, out EdsDirectoryItemInfo info);
+        Eds.CheckError(Eds.EdsGetDirectoryItemInfo(item, out EdsDirectoryItemInfo info));
 
         this.Name = info.FileName;
         this.IsFolder = info.IsFolder;
