@@ -10,7 +10,7 @@ public class Volume
 
         Eds.CheckError(Eds.EdsGetVolumeInfo(volume, out EdsVolumeInfo info));
 
-        this.Name = info.szVolumeLabel;
+        this.Name = info.VolumeLabel;
     }
 
     public string Name { get; }

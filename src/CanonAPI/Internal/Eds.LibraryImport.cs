@@ -74,7 +74,7 @@ internal static partial class EdsLibraryImport
     public static partial EdsError EdsSendStatusCommand(nint inCameraRef, EdsCameraStatusCommand inCameraState, int inParam);
 
     [LibraryImport(LibName)]
-    public static partial EdsError EdsSetCapacity(nint inCameraRef, EdsCapacity inCapacity);
+    public static partial EdsError EdsSetCapacity(nint inCameraRef, EdsCapacity capacity);
 
     [LibraryImport(LibName)]
     public static partial EdsError EdsGetPropertySize(nint inRef, EdsPropertyID inPropertyID, int inParam, out EdsDataType outDataType, out int outSize);
@@ -189,7 +189,7 @@ internal static partial class EdsLibraryImport
     public static partial EdsError EdsGetEvent();
 
     [LibraryImport(LibName)]
-    public static partial EdsError EdsSetFramePoint(nint inCameraRef, EdsFramePoint inFramePoint, bool inLockAfFrame);
+    public static partial EdsError EdsSetFramePoint(nint inCameraRef, EdsFramePoint inFramePoint, [MarshalAs(UnmanagedType.Bool)] bool inLockAfFrame);
 
     [LibraryImport(LibName)]
     public static partial EdsError EdsSetMetaImage(nint inDirItemRef, EdsMetaType metaType, uint inMetaDataSize, EdsMetaData metaData);
