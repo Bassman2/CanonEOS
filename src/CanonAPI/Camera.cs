@@ -9,7 +9,7 @@ public sealed class Camera : IDisposable
         this.camera = camera;
 
         Eds.CheckError(Eds.EdsGetDeviceInfo(this.camera, out EdsDeviceInfo info));
-        this.Name = info.szDeviceDescription;
+        this.Name = info.DeviceDescription;
 
         Debug.WriteLine($"EdsOpenSession {Name}");
         Eds.CheckError(Eds.EdsOpenSession(this.camera));

@@ -53,13 +53,13 @@ internal static partial class EdsLibraryImport
     public static partial EdsError EdsGetCameraList(out nint outCameraListRef);
 
     [LibraryImport(LibName)]
-    public static partial EdsError EdsGetDeviceInfo(nint inCameraRef, out EdsDeviceInfo outDeviceInfo);
+    public static partial EdsError EdsGetDeviceInfo(nint camera, out EdsDeviceInfo deviceInfo);
 
     [LibraryImport(LibName)]
-    public static partial EdsError EdsGetVolumeInfo(nint inCameraRef, out EdsVolumeInfo outVolumeInfo);
+    public static partial EdsError EdsGetVolumeInfo(nint camera, out EdsVolumeInfo volumeInfo);
 
     [LibraryImport(LibName)]
-    public static partial EdsError EdsGetDirectoryItemInfo(nint inDirItemRef, out EdsDirectoryItemInfo outDirItemInfo);
+    public static partial EdsError EdsGetDirectoryItemInfo(nint dirItem, out EdsDirectoryItemInfo dirItemInfo);
 
     [LibraryImport(LibName)]
     public static partial EdsError EdsOpenSession(nint inCameraRef);
@@ -122,10 +122,10 @@ internal static partial class EdsLibraryImport
     public static partial EdsError EdsDownloadEvfImage(nint inCameraRef, nint outEvfImageRef);
 
     [LibraryImport(LibName)]
-    public static partial EdsError EdsCreateFileStream(string inFileName, EdsFileCreateDisposition inCreateDisposition, EdsFileAccess inDesiredAccess, out nint outStream);
+    public static partial EdsError EdsCreateFileStream([MarshalAs(UnmanagedType.LPStr)] string inFileName, EdsFileCreateDisposition inCreateDisposition, EdsFileAccess inDesiredAccess, out nint outStream);
 
     [LibraryImport(LibName)]
-    public static partial EdsError EdsCreateFileStreamEx(string inFileName, EdsFileCreateDisposition inCreateDisposition, EdsFileAccess inDesiredAccess, out nint outStream);
+    public static partial EdsError EdsCreateFileStreamEx([MarshalAs(UnmanagedType.LPStr)] string inFileName, EdsFileCreateDisposition inCreateDisposition, EdsFileAccess inDesiredAccess, out nint outStream);
 
     [LibraryImport(LibName)]
     public static partial EdsError EdsCreateMemoryStream(int inBufferSize, out nint outStream);

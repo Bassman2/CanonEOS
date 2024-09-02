@@ -141,27 +141,27 @@ internal static partial class Edsy
     internal static EdsError EdsGetCameraList(out nint list) => getCameraList(out list);
 
 
-    [StructLayout(LayoutKind.Sequential)]
-    public struct _EdsDeviceInfo
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+    public unsafe struct _EdsDeviceInfo
     {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = EdsConst.EDS_MAX_NAME)]
-        public string PortName;
+        public fixed byte PortName[EdsConst.EDS_MAX_NAME];
 
-        //public nint PortName;
+        public fixed byte DeviceDescription[EdsConst.EDS_MAX_NAME];
 
-        //public nint DeviceDescription;
+        public uint DeviceSubType;
 
-        //public uint DeviceSubType;
-
-        //public uint Reserved;
+        public uint Reserved;
     }
+
+    //public fixed ushort cFileName[256];
+    //public fixed ushort cAlternateFileName[14];
 
     internal static EdsError EdsGetDeviceInfo(nint camera, out EdsDeviceInfo deviceInfo)
     {
-        //nint mem = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(_EdsDeviceInfo)));
         EdsError err = getDeviceInfo(camera, out nint mem);
         if (err == EdsError.OK)
         {
+           // MemoryMarshal.
             try
             {
 

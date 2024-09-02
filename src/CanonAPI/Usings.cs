@@ -7,6 +7,7 @@ global using System.Reflection;
 global using System.Runtime.InteropServices;
 global using System.Text;
 global using System.Threading.Tasks;
+global using System.Runtime.InteropServices.Marshalling;
 
 global using CanonAPI.Internal;
 
