@@ -22,7 +22,7 @@ internal static unsafe class EdsVolumeInfoMarshaller
         public uint Access;
         public ulong MaxCapacity;
         public ulong FreeSpaceInBytes;
-        public byte* VolumeLabel;
+        public fixed byte VolumeLabel[EdsConst.EDS_MAX_NAME];
     }
 
     public static EdsVolumeInfo ConvertToManaged(EdsVolumeInfoUnmanaged unmanaged)
@@ -37,20 +37,20 @@ internal static unsafe class EdsVolumeInfoMarshaller
         };
     }
 
-    public static EdsVolumeInfoUnmanaged ConvertToUnmanaged(EdsVolumeInfo managed)
-    {
-        return new EdsVolumeInfoUnmanaged
-        {
-            StorageType = (uint)managed.StorageType,
-            Access = managed.Access,
-            MaxCapacity = managed.MaxCapacity,
-            FreeSpaceInBytes = managed.FreeSpaceInBytes,
-            VolumeLabel = Utf8StringMarshaller.ConvertToUnmanaged(managed.VolumeLabel)!
-        };
-    }
+    //public static EdsVolumeInfoUnmanaged ConvertToUnmanaged(EdsVolumeInfo managed)
+    //{
+    //    return new EdsVolumeInfoUnmanaged
+    //    {
+    //        StorageType = (uint)managed.StorageType,
+    //        Access = managed.Access,
+    //        MaxCapacity = managed.MaxCapacity,
+    //        FreeSpaceInBytes = managed.FreeSpaceInBytes,
+    //        VolumeLabel = Utf8StringMarshaller.ConvertToUnmanaged(managed.VolumeLabel)!
+    //    };
+    //}
 
-    public static void Free(EdsVolumeInfoUnmanaged unmanaged)
-    {
-        Utf8StringMarshaller.Free(unmanaged.VolumeLabel);
-    }
+    //public static void Free(EdsVolumeInfoUnmanaged unmanaged)
+    //{
+    //    Utf8StringMarshaller.Free(unmanaged.VolumeLabel);
+    //}
 }

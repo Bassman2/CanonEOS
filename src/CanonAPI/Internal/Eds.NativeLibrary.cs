@@ -1,7 +1,4 @@
-﻿using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace CanonAPI.Internal;
+﻿namespace CanonAPI.Internal;
 
 internal static partial class Edsy
 {
