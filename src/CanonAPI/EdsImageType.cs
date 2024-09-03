@@ -1,6 +1,6 @@
-﻿namespace CanonAPI.Internal;
+﻿namespace CanonAPI;
 
-internal enum EdsImageType : int
+public enum EdsImageType : int
 {
     Unknown = 0x00000000,
     Jpeg = 0x00000001,

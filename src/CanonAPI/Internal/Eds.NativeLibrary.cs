@@ -1,6 +1,6 @@
 ﻿namespace CanonAPI.Internal;
 
-internal static partial class Eds
+internal static partial class EdsN
 {
     private const string LibName = "EDSDK";
 
@@ -81,7 +81,7 @@ internal static partial class Eds
 
     private static SetCameraAddedHandler setCameraAddedHandler;
 
-    static Eds()
+    static EdsN()
     {
         string path = Path.Combine(AppContext.BaseDirectory, LibName, Environment.Is64BitProcess ? "Win64" : "Win32", LibName);
         library = NativeLibrary.Load(path);

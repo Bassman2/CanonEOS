@@ -5,7 +5,7 @@
 internal struct EdsDirectoryItemInfo
 {
     /// <summary>
-    /// Size of directory item (as long)
+    /// Size of directory stream (as long)
     /// </summary>
     public long Size64;
     /// <summary>

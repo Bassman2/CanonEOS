@@ -29,7 +29,7 @@ internal enum EdsObjectEventID : int
     /// Notifies if many images are deleted in a designated folder on a camera.
     /// If notification of this event is received, get sub-items of the designated
     /// folder again as needed. 
-    /// Changed folders (specifically, directory item objects) can be retrieved
+    /// Changed folders (specifically, directory stream objects) can be retrieved
     /// from event data.
     /// </summary>
     FolderUpdateItems = 0x00000203,

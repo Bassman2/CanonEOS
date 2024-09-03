@@ -1,10 +1,10 @@
 ﻿namespace CanonAPI.Internal;
 
-internal static partial class EdsD
+internal static partial class Eds
 {
     private const string LibName = "EDSDK";
 
-    static EdsD()
+    static Eds()
     {
         //if (OperatingSystem.IsWindows())
         //{
@@ -135,7 +135,7 @@ internal static partial class EdsD
 
 
     [DllImport(LibName)]
-    public extern static EdsError EdsCreateMemoryStreamFromPointer(nint inUserBuffer, int inBufferSize, out nint outStream);
+    public extern static EdsError EdsCreateMemoryStreamFromPointer(byte[] inUserBuffer, long inBufferSize, out nint outStream);
 
     [DllImport(LibName)]
     public extern static EdsError EdsCreateMemoryStreamFromPointer(nint inUserBuffer, long inBufferSize, out nint outStream);
@@ -144,13 +144,13 @@ internal static partial class EdsD
     public extern static EdsError EdsGetPointer(nint inStreamRef, out nint outPointer);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsRead(nint inStreamRef, int inReadSize, nint outBuffer, out int outReadSize);
+    public extern static EdsError EdsRead(nint inStreamRef, int inReadSize, nint outBuffer, out long outReadSize);
     
     [DllImport(LibName)]
-    public extern static EdsError EdsWrite(nint inStreamRef, int inWriteSize, nint inBuffer, out int outWrittenSize);
+    public extern static EdsError EdsWrite(nint inStreamRef, int inWriteSize, nint inBuffer, out long outWrittenSize);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSeek(nint inStreamRef, long inSeekOffset, SeekOrigin inSeekOrigin);
+    public extern static EdsError EdsSeek(nint stream, long offset, EdsSeekOrigin origin);
 
     [DllImport(LibName)]
     public extern static EdsError EdsGetPosition(nint inStreamRef, out long outPosition);

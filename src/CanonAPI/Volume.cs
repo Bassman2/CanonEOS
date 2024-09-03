@@ -29,4 +29,9 @@ public class Volume
     {
         get => DirectoryItems.Where(d => !d.IsFolder);
     }
+
+    public void Format()
+    {
+        Eds.EdsFormatVolume(this.volume);
+    }
 }

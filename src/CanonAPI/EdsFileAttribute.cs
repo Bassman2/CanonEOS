@@ -1,6 +1,6 @@
-﻿namespace CanonAPI.Internal;
+﻿namespace CanonAPI;
 
-internal enum EdsFileAttribute : int
+public enum EdsFileAttribute : int
 {
     Normal = 0x00000000,
     ReadOnly = 0x00000001,
