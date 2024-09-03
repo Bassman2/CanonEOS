@@ -1,6 +1,6 @@
 ﻿namespace CanonAPI.Internal;
 
-internal static partial class Edsy
+internal static partial class Eds
 {
     private const string LibName = "EDSDK";
 
@@ -28,14 +28,14 @@ internal static partial class Edsy
     [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
     delegate EdsError GetCameraList(out nint list);
 
-    [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-    delegate EdsError GetDeviceInfo(nint item, out nint deviceInfo);
+    [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+    delegate EdsError GetDeviceInfo(nint item, out EdsDeviceInfo deviceInfo);
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-    delegate EdsError GetVolumeInfo(nint camera, out nint volumeInfo);
+    delegate EdsError GetVolumeInfo(nint camera, out EdsVolumeInfo volumeInfo);
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
-    delegate EdsError GetDirectoryItemInfo(nint directoryItem, out nint directoryItemInfo);
+    delegate EdsError GetDirectoryItemInfo(nint directoryItem, out EdsDirectoryItemInfo directoryItemInfo);
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
     delegate EdsError OpenSession(nint camera);
@@ -81,7 +81,7 @@ internal static partial class Edsy
 
     private static SetCameraAddedHandler setCameraAddedHandler;
 
-    static Edsy()
+    static Eds()
     {
         string path = Path.Combine(AppContext.BaseDirectory, LibName, Environment.Is64BitProcess ? "Win64" : "Win32", LibName);
         library = NativeLibrary.Load(path);
@@ -137,58 +137,11 @@ internal static partial class Edsy
 
     internal static EdsError EdsGetCameraList(out nint list) => getCameraList(out list);
 
+    internal static EdsError EdsGetDeviceInfo(nint camera, out EdsDeviceInfo deviceInfo) => getDeviceInfo(camera, out deviceInfo);
 
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    public unsafe struct _EdsDeviceInfo
-    {
-        public fixed byte PortName[EdsConst.EDS_MAX_NAME];
+    internal static EdsError EdsGetVolumeInfo(nint camera, out EdsVolumeInfo volumeInfo) => getVolumeInfo(camera, out volumeInfo);
 
-        public fixed byte DeviceDescription[EdsConst.EDS_MAX_NAME];
-
-        public uint DeviceSubType;
-
-        public uint Reserved;
-    }
-
-    //public fixed ushort cFileName[256];
-    //public fixed ushort cAlternateFileName[14];
-
-    internal static EdsError EdsGetDeviceInfo(nint camera, out EdsDeviceInfo deviceInfo)
-    {
-        EdsError err = getDeviceInfo(camera, out nint mem);
-        if (err == EdsError.OK)
-        {
-           // MemoryMarshal.
-            try
-            {
-
-                _EdsDeviceInfo di = Marshal.PtrToStructure<_EdsDeviceInfo>(mem);
-            }
-            catch (Exception ex) 
-            { 
-            }
-            deviceInfo = new();
-        }
-        else
-        {
-            deviceInfo = new();
-        }
-        return err;
-    }
-
-    internal static EdsError EdsGetVolumeInfo(nint camera, out EdsVolumeInfo volumeInfo)
-    {
-        EdsError err = getVolumeInfo(camera, out nint refVolumeInfo);
-        volumeInfo = err == EdsError.OK ? Marshal.PtrToStructure<EdsVolumeInfo>(refVolumeInfo) : new EdsVolumeInfo();
-        return err;
-    }
-
-    internal static EdsError EdsGetDirectoryItemInfo(nint directoryItem, out EdsDirectoryItemInfo directoryItemInfo)
-    {
-        EdsError err = getDirectoryItemInfo(directoryItem, out nint refdirectoryItemInfo);
-        directoryItemInfo = err == EdsError.OK ? Marshal.PtrToStructure<EdsDirectoryItemInfo>(refdirectoryItemInfo) : new EdsDirectoryItemInfo();
-        return err;
-    }
+    internal static EdsError EdsGetDirectoryItemInfo(nint directoryItem, out EdsDirectoryItemInfo directoryItemInfo) => getDirectoryItemInfo(directoryItem, out directoryItemInfo);
 
     internal static EdsError EdsOpenSession(nint camera) => openSession(camera);
 

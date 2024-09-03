@@ -1,10 +1,10 @@
 ﻿namespace CanonAPI.Internal;
 
-internal static partial class Eds
+internal static partial class EdsL
 {
     private const string LibName = "EDSDK";
 
-    static Eds()
+    static EdsL()
     {
         //if (OperatingSystem.IsWindows())
         //{
