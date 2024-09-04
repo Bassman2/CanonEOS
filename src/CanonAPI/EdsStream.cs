@@ -9,7 +9,7 @@ public class EdsStream : Stream
         this.stream = stream;
     }
 
-    public EdsStream(string filepath, EdsFileCreateDisposition createDisposition, FileAccess access)
+    public EdsStream(string filepath, FileMode fileMode, FileAccess access)
     {
         EdsFileAccess edsAccess = access switch
         {
@@ -19,7 +19,22 @@ public class EdsStream : Stream
             _ => throw new NotSupportedException()
         };
 
-        Eds.EdsCreateFileStreamEx(filepath, createDisposition, edsAccess, out this.stream);
+        EdsFileCreateDisposition edsCreateDisposition = fileMode switch
+        {
+            FileMode.CreateNew => EdsFileCreateDisposition.CreateNew,
+            FileMode.Create => EdsFileCreateDisposition.CreateAlways,
+            FileMode.Open => EdsFileCreateDisposition.OpenExisting,
+            FileMode.OpenOrCreate => EdsFileCreateDisposition.OpenAlways,
+            FileMode.Truncate => EdsFileCreateDisposition.TruncateExisting,
+            _ => throw new NotSupportedException()
+        };
+
+        Eds.EdsCreateFileStreamEx(filepath, edsCreateDisposition, edsAccess, out this.stream);
+    }
+
+    public EdsStream(string filepath, EdsFileCreateDisposition createDisposition, EdsFileAccess access)
+    {
+        Eds.EdsCreateFileStreamEx(filepath, createDisposition, access, out this.stream);
     }
 
     public EdsStream(long length)

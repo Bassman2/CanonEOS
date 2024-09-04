@@ -1,10 +1,10 @@
 ﻿namespace CanonAPI.Internal;
 
-internal static partial class EdsL
+internal static partial class Eds
 {
-    private const string LibName = "EDSDK";
+#if LIBRARYIMPORT
 
-    static EdsL()
+    static Eds()
     {
         //if (OperatingSystem.IsWindows())
         //{
@@ -15,18 +15,18 @@ internal static partial class EdsL
         //    Environment.SetEnvironmentVariable("PATH", path);
         //}
 
-        NativeLibrary.SetDllImportResolver(Assembly.GetExecutingAssembly(), DllImportResolver);
+        NativeLibrary.SetDllImportResolver(GetAssembly(), DllImportResolver);
     }
 
-    private static IntPtr DllImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
-    {
-        if (libraryName == LibName)
-        {
-            string path = Path.Combine(Path.GetDirectoryName(assembly.Location)!, LibName, Environment.Is64BitProcess ? "Win64" : "Win32", LibName);
-            return NativeLibrary.Load(path);
-        }
-        return IntPtr.Zero;
-    }
+    //private static IntPtr DllImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+    //{
+    //    if (libraryName == LibName)
+    //    {
+    //        string path = Path.Combine(Path.GetDirectoryName(assembly.Location)!, LibName, Environment.Is64BitProcess ? "Win64" : "Win32", LibName);
+    //        return NativeLibrary.Load(path);
+    //    }
+    //    return IntPtr.Zero;
+    //}
 
     [LibraryImport(LibName)]
     public static partial EdsError EdsInitializeSDK();
@@ -193,4 +193,6 @@ internal static partial class EdsL
 
     [LibraryImport(LibName)]
     public static partial EdsError EdsSetMetaImage(nint inDirItemRef, EdsMetaType metaType, uint inMetaDataSize, EdsMetaData metaData);
+
+#endif
 }

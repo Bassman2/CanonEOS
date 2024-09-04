@@ -33,6 +33,10 @@ public sealed class Canon : IDisposable
         //if (IsDisposed) throw new ObjectDisposedException(nameof(CanonAPI));
     }
 
+    public static Version EdsdkFileVersion { get; } = Eds.FileVersion;
+    public static Version EdsdkProductVersion { get; } = Eds.ProductVersion;
+    public static string EdsdkPath { get; } = Eds.LibraryPath;
+
     public bool IsInitialized { get; private set; }
 
     public void Dispose()

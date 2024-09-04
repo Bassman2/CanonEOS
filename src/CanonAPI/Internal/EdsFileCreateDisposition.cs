@@ -1,7 +1,7 @@
 ﻿namespace CanonAPI.Internal;
 
 
-internal enum EdsFileCreateDisposition : int
+public enum EdsFileCreateDisposition : int
 {
 /// <summary>
 /// Creates a new file. An error occurs if the designated file already exists

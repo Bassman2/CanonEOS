@@ -63,7 +63,7 @@ public class DirectoryItem
     {
         Eds.EdsCreateFileStream(filePath, EdsFileCreateDisposition.CreateNew, EdsFileAccess.Write, out nint fileStream);
 
-        Eds.EdsSetProgressCallback(item, x, EdsProgressOption.Periodically, fileStream);
+        //Eds.EdsSetProgressCallback(item, x, EdsProgressOption.Periodically, fileStream);
 
         long size = 0;
 
@@ -75,16 +75,16 @@ public class DirectoryItem
         Eds.EdsRelease(stream);
     }
 
-    public EdsStream Download(string File)
-    {
-        //Eds.EdsCreateFileStream("xxx", EdsFileCreateDisposition.CreateNew, EdsFileAccess.ReadWrite, out nint outStream);
+    //public EdsStream Download(string File)
+    //{
+    //    //Eds.EdsCreateFileStream("xxx", EdsFileCreateDisposition.CreateNew, EdsFileAccess.ReadWrite, out nint outStream);
         
-        Eds.EdsCreateMemoryStream((long)(EdsConst.EDS_TRANSFER_BLOCK_SIZE * 1024), out nint stream);
-        long size = 0;
-        Eds.EdsDownload(this.item, size, stream);
+    //    Eds.EdsCreateMemoryStream((long)(EdsConst.EDS_TRANSFER_BLOCK_SIZE * 1024), out nint stream);
+    //    long size = 0;
+    //    Eds.EdsDownload(this.item, size, stream);
 
-        return new EdsStream(stream);
-    }
+    //    return new EdsStream(stream);
+    //}
 
     public void Delete()
     {

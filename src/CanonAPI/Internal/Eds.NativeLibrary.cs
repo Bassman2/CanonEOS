@@ -1,8 +1,8 @@
 ﻿namespace CanonAPI.Internal;
 
-internal static partial class EdsN
+internal static partial class Eds
 {
-    private const string LibName = "EDSDK";
+#if NATIVELIBRARY
 
     [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
     delegate EdsError InitializeSDK();
@@ -81,10 +81,10 @@ internal static partial class EdsN
 
     private static SetCameraAddedHandler setCameraAddedHandler;
 
-    static EdsN()
+    static Eds()
     {
-        string path = Path.Combine(AppContext.BaseDirectory, LibName, Environment.Is64BitProcess ? "Win64" : "Win32", LibName);
-        library = NativeLibrary.Load(path);
+        //string path = Path.Combine(AppContext.BaseDirectory, LibName, Environment.Is64BitProcess ? "Win64" : "Win32", LibName);
+        library = NativeLibrary.Load(GetLibraryFile());
 
         nint addr = NativeLibrary.GetExport(library, nameof(EdsInitializeSDK));
         initializeSDK = Marshal.GetDelegateForFunctionPointer<InitializeSDK>(addr);
@@ -114,17 +114,10 @@ internal static partial class EdsN
         setCameraAddedHandler = Marshal.GetDelegateForFunctionPointer<SetCameraAddedHandler>(NativeLibrary.GetExport(library, nameof(EdsSetCameraAddedHandler)));
     }
 
-    internal static EdsError EdsInitializeSDK()
-    {
-        return initializeSDK();
-    }
-
-
-    internal static EdsError EdsTerminateSDK()
-    {
-        return terminateSDK();
-    }
-
+    internal static EdsError EdsInitializeSDK() => initializeSDK();
+    
+    internal static EdsError EdsTerminateSDK() => terminateSDK();
+    
     internal static EdsError EdsRetain(nint item) => retain(item);
 
     internal static EdsError EdsRelease(nint item) => release(item);
@@ -170,4 +163,6 @@ internal static partial class EdsN
         nint func = Marshal.GetFunctionPointerForDelegate(cameraAddedHandler);
         return setCameraAddedHandler(func, context);
     }
+
+#endif
 }

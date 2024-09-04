@@ -9,6 +9,14 @@
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);DLLIMPORT</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);DLLIMPORT</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Update="EDSDK.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -1,7 +1,84 @@
-﻿namespace CanonAPI.Internal;
+﻿using System.IO;
+
+namespace CanonAPI.Internal;
 
 internal static partial class Eds
 {
+    private const string LibName = "EDSDK";
+
+    private static Assembly GetAssembly()
+    {
+        return Assembly.GetExecutingAssembly();
+        //return Assembly.GetAssembly(typeof(Eds))!;
+    }
+
+    private static string GetAssemblyFolder()
+    {
+        return Path.GetDirectoryName(GetAssembly().Location)!;
+    }
+
+    private static IntPtr DllImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+    {
+        if (libraryName == LibName)
+        {
+            //string path = Path.Combine(Path.GetDirectoryName(assembly.Location)!, LibName, Environment.Is64BitProcess ? "Win64" : "Win32", LibName);
+            //string path = GetLibraryFile();
+            return NativeLibrary.Load(LibraryPath);
+        }
+        return IntPtr.Zero;
+    }
+
+    //private static string GetLibraryFolder()
+    //{
+    //    string appfolder = GetAssemblyFolder();
+    //    return Path.Combine(appfolder, LibName, Environment.Is64BitProcess ? "Win64" : "Win32");
+    //}
+
+    private static string LibraryExtention()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return ".dll";
+        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            return ".dmg";
+        }
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            return ".so";
+        }
+        throw new NotSupportedException();
+    }
+
+    private static string GetLibraryFile()
+    {
+        //Assembly assembly = Assembly.GetAssembly(typeof(Eds))!;
+        //string appfolder = Path.GetDirectoryName(assembly.Location)!;
+        string appfolder = GetAssemblyFolder();
+        return Path.Combine(appfolder, LibName, Environment.Is64BitProcess ? "Win64" : "Win32", LibName);
+    }
+
+    private static Version GetEdsFileVersion()
+    {       
+        string file = GetLibraryFile();
+        FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(file + LibraryExtention());
+        return new Version(fileVersionInfo.FileVersion!);
+    }
+
+    private static Version GetEdsProductVersion()
+    {
+        string file = GetLibraryFile();
+        FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(file + LibraryExtention());
+        return new Version(fileVersionInfo.ProductVersion!);
+    }
+
+    public static Version FileVersion { get; } = GetEdsFileVersion();
+
+    public static Version ProductVersion { get; } = GetEdsProductVersion();
+
+    public static string LibraryPath { get; } = GetLibraryFile();
+
     public static void DebugProperties(IntPtr inRef)
     {
         for (EdsPropertyID propId = 0; propId < EdsPropertyID.Unknown; propId++)

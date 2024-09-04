@@ -1,6 +1,6 @@
 ﻿namespace CanonAPI.Internal;
 
-internal enum EdsFileAccess : int
+public enum EdsFileAccess : int
 {
     Read = 0,
     Write = 1,
