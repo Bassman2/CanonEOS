@@ -3,7 +3,14 @@
 public sealed class Camera : IDisposable
 {
     private readonly nint camera;
-    
+
+    private static EdsObjectEventHandler? EdsObjectEvent;
+
+    private EdsError OnObjectEvent(EdsObjectEventID inEvent, IntPtr inRef, IntPtr inContext)
+    {
+        return 0;
+    }
+
     internal Camera(nint camera) 
     {
         this.camera = camera;
@@ -13,6 +20,10 @@ public sealed class Camera : IDisposable
 
         Debug.WriteLine($"EdsOpenSession {Name}");
         Eds.CheckError(Eds.EdsOpenSession(this.camera));
+
+        EdsObjectEvent = new EdsObjectEventHandler(OnObjectEvent);
+        Eds.CheckError(Eds.EdsSetObjectEventHandler(this.camera, EdsObjectEventID.All, EdsObjectEvent, nint.Zero));
+
 
         Eds.DebugProperties(this.camera);
 

@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿namespace CanonAPI.Internal;
 
-namespace CanonAPI.Internal;
+
+// https://developers.canon-europe.com/s/camera
+// https://developers.canon-europe.com/developers/s/camera-downloads
 
 internal static partial class Eds
 {

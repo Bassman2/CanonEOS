@@ -6,7 +6,14 @@ public partial class MainViewModel : AppViewModel, IDisposable
     public MainViewModel() 
     {
         this.library = new();
-        this.Canon = library.IsInitialized ? "Connected" : "Disconnected";
+        this.library.CameraAdded += OnCameraAdded;
+        //this.Canon = library.IsInitialized ? "Connected" : "Disconnected";
+        this.Cameras = this.library.GetCameras().ToList();
+        this.SelectedCamera = this.Cameras.FirstOrDefault();
+    }
+
+    private void OnCameraAdded(Canon sender)
+    {
         this.Cameras = this.library.GetCameras().ToList();
         this.SelectedCamera = this.Cameras.FirstOrDefault();
     }
@@ -18,13 +25,22 @@ public partial class MainViewModel : AppViewModel, IDisposable
     }
 
     [ObservableProperty]
-    private string status = "Ready";
+    private string state = "Ready";
 
-    [ObservableProperty]
-    private string canon = "Disconnected";
+    //[ObservableProperty]
+    //private string canon = "Disconnected";
 
     [ObservableProperty]
     private string camera = "Empty";
+
+    [ObservableProperty]
+    private Version fileVersion = Canon.EdsdkFileVersion;
+
+    [ObservableProperty]
+    private Version productVersion = Canon.EdsdkProductVersion;
+
+    [ObservableProperty]
+    private string path = Canon.EdsdkPath;
 
     [ObservableProperty]
     private string process = Environment.Is64BitProcess ? "x64" : "x86";
