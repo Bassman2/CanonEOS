@@ -10,10 +10,23 @@ public class Volume
 
         Eds.CheckError(Eds.EdsGetVolumeInfo(volume, out EdsVolumeInfo info));
 
+        this.StorageType = info.StorageType;
+        this.Access = info.Access;
+        this.MaxCapacity = info.MaxCapacity;
+        this.FreeSpaceInBytes = info.FreeSpaceInBytes;
         this.Name = info.VolumeLabel;
     }
 
+    public EdsStorageType StorageType { get; }
+
+    public EdsAccess Access { get; }
+
+    public ulong MaxCapacity { get; }
+
+    public ulong FreeSpaceInBytes { get; }
+
     public string Name { get; }
+
 
     public IEnumerable<DirectoryItem> DirectoryItems
     {

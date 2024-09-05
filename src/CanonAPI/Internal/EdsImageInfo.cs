@@ -24,7 +24,7 @@ internal struct EdsImageInfo
     /// Effective size of image
     /// </summary>
     public EdsRectangle EffectiveRect;
-    private uint Reserved1;
-    private uint Reserved2;
+    public uint Reserved1;
+    public uint Reserved2;
 }
 

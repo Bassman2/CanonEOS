@@ -1,7 +1,12 @@
-﻿namespace CanonAPI;
+﻿using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.Intrinsics.X86;
+
+namespace CanonAPI;
 
 public class DirectoryItem
 {
+    private static readonly DateTime unixDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+
     private readonly nint item;
 
     internal DirectoryItem(nint item)
@@ -10,19 +15,55 @@ public class DirectoryItem
 
         Eds.CheckError(Eds.EdsGetDirectoryItemInfo(item, out EdsDirectoryItemInfo info));
 
-        this.Name = info.FileName;
         this.Size = info.Size64;
         this.IsFolder = info.IsFolder;
-        this.Format = info.Format;
+        this.GroupID = info.GroupID;
+        this.Option = info.Option;
+        this.Name = info.FileName;
+        this.Format = (EdsImageType)(((int)info.Format) & 0xf);
+        this.DateTime = unixDateTime.AddSeconds(info.DateTime).ToLocalTime();
+
+        if (this.IsFolder == false)
+        {
+            Eds.CheckError(Eds.EdsGetImageInfo(item, EdsImageSource.FullView, out EdsImageInfo imageInfo));
+
+            this.Width = imageInfo.Width;
+            this.Height = imageInfo.Height;
+            this.NumOfComponents = imageInfo.NumOfComponents;
+            this.ComponentDepth = imageInfo.ComponentDepth;
+            this.EffectiveRect = imageInfo.EffectiveRect;
+            this.Reserved1 = imageInfo.Reserved1;
+            this.Reserved2 = imageInfo.Reserved2;
+        }
     }
 
-    public string Name { get; }
-
-    public long Size { get; }
+    public ulong Size { get; }
 
     public bool IsFolder { get; }
 
+    public uint GroupID { get; }
+
+    public uint Option { get; }
+
+    public string Name { get; }
+    
     public EdsImageType Format { get; }
+
+    public DateTime DateTime { get; }
+
+    public int Width { get; }
+    public int Height { get; }
+    public int NumOfComponents { get; }
+    public int ComponentDepth { get; }
+    public EdsRectangle EffectiveRect { get; }
+    public uint Reserved1 { get; }
+    public uint Reserved2 { get; }
+
+
+
+
+
+
 
     public EdsFileAttribute Attribute 
     {

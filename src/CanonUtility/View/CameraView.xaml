@@ -76,6 +76,20 @@
                     <GridView AllowsColumnReorder="true">
 
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="100"/>
+                        <GridViewColumn Header="Size" DisplayMemberBinding="{Binding Size}" Width="100"/>
+                        <GridViewColumn Header="Folder" DisplayMemberBinding="{Binding IsFolder}" Width="100"/>
+                        <GridViewColumn Header="Group ID" DisplayMemberBinding="{Binding GroupID}" Width="100"/>
+                        <GridViewColumn Header="Option" DisplayMemberBinding="{Binding Option}" Width="100"/>
+                        <GridViewColumn Header="Format" DisplayMemberBinding="{Binding Format}" Width="100"/>
+                        <GridViewColumn Header="Creation" DisplayMemberBinding="{Binding DateTime}" Width="100"/>
+
+                        <GridViewColumn Header="Width" DisplayMemberBinding="{Binding Width}" Width="100"/>
+                        <GridViewColumn Header="Height" DisplayMemberBinding="{Binding Height}" Width="100"/>
+                        <GridViewColumn Header="#Components" DisplayMemberBinding="{Binding NumOfComponents}" Width="100"/>
+                        <GridViewColumn Header="Component Depth" DisplayMemberBinding="{Binding ComponentDepth}" Width="100"/>
+                        <GridViewColumn Header="Effective Rect" DisplayMemberBinding="{Binding EffectiveRect}" Width="100"/>
+                        <GridViewColumn Header="Reserved1" DisplayMemberBinding="{Binding Reserved1}" Width="100"/>
+                        <GridViewColumn Header="Reserved2" DisplayMemberBinding="{Binding Reserved2}" Width="100"/>
 
                     </GridView>
                 </ListView.View>

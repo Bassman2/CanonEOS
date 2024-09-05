@@ -1,6 +1,6 @@
-﻿namespace CanonAPI.Internal;
+﻿namespace CanonAPI;
 
-internal enum EdsStorageType
+public enum EdsStorageType
 {
     [Description("No memory card inserted")]
     No = 0,

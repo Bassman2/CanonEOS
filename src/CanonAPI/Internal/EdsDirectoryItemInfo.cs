@@ -7,19 +7,20 @@ internal struct EdsDirectoryItemInfo
     /// <summary>
     /// Size of directory stream (as long)
     /// </summary>
-    public long Size64;
+    public ulong Size64;
     /// <summary>
     /// Marker if it's a folder or a file
     /// </summary>
+    [MarshalAs(UnmanagedType.Bool)]
     public bool IsFolder;
     /// <summary>
     /// Group ID
     /// </summary>
-    public int GroupID;
+    public uint GroupID;
     /// <summary>
     /// Option
     /// </summary>
-    public int Option;
+    public uint Option;
     /// <summary>
     /// File name
     /// </summary>
@@ -32,7 +33,7 @@ internal struct EdsDirectoryItemInfo
     /// <summary>
     /// Date time
     /// </summary>
-    public int DateTime;
+    public uint DateTime;
 }
 
 [CustomMarshaller(typeof(EdsDirectoryItemInfo), MarshalMode.Default, typeof(EdsDirectoryItemInfoMarshaller))]
@@ -40,13 +41,13 @@ internal static unsafe class EdsDirectoryItemInfoMarshaller
 {
     public struct EdsDirectoryItemInfoUnmanaged
     {
-        public long Size64;
+        public ulong Size64;
         public int IsFolder;
-        public int GroupID;
-        public int Option;
+        public uint GroupID;
+        public uint Option;
         public fixed byte FileName[EdsConst.EDS_MAX_NAME];
         public int Format;
-        public int DateTime;
+        public uint DateTime;
     }
 
     public static EdsDirectoryItemInfo ConvertToManaged(EdsDirectoryItemInfoUnmanaged unmanaged)

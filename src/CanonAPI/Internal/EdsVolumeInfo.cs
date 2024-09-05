@@ -5,7 +5,7 @@
 internal struct EdsVolumeInfo
 {
     public EdsStorageType StorageType;
-    public uint Access;
+    public EdsAccess Access;
     public ulong MaxCapacity;
     public ulong FreeSpaceInBytes;
 
@@ -30,7 +30,7 @@ internal static unsafe class EdsVolumeInfoMarshaller
         return new EdsVolumeInfo
         {
             StorageType = (EdsStorageType)unmanaged.StorageType,
-            Access = unmanaged.Access,
+            Access = (EdsAccess)unmanaged.Access,
             MaxCapacity = unmanaged.MaxCapacity,
             FreeSpaceInBytes = unmanaged.FreeSpaceInBytes,
             VolumeLabel = Utf8StringMarshaller.ConvertToManaged(unmanaged.VolumeLabel)!            
