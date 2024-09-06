@@ -10,4 +10,7 @@ internal struct EdsTime
     public uint Minute;
     public uint Second;
     public uint Milliseconds;
+
+    public static explicit operator DateTime(EdsTime time) => 
+        new DateTime((int) time.Year, (int) time.Month, (int) time.Day, (int) time.Hour, (int) time.Minute, (int) time.Second, (int) time.Milliseconds);
 }

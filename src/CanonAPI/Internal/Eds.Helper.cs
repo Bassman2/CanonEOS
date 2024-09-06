@@ -149,7 +149,7 @@ internal static partial class Eds
                     yield return new Property(propertyID, dataType, GetPropertyUInt(inRef, propertyID));
                     break;
                 case EdsDataType.Time:
-                    yield return new Property(propertyID, dataType, GetPropertyDateTime(inRef, propertyID));
+                    yield return new Property(propertyID, dataType, (DateTime?)GetPropertyStruct<EdsTime>(inRef, propertyID));
                     break;
                 case EdsDataType.Int32_Array:
                     yield return new Property(propertyID, dataType, GetPropertyIntArray(inRef, propertyID));
@@ -158,9 +158,10 @@ internal static partial class Eds
                     yield return new Property(propertyID, dataType, GetPropertyUIntArray(inRef, propertyID));
                     break;
                 case EdsDataType.FocusInfo:
-                    //EdsFocusInfo focusInfo = Marshal.PtrToStructure<EdsFocusInfo>(ptr);
+                    yield return new Property(propertyID, dataType, GetPropertyStruct<EdsFocusInfo>(inRef, propertyID));
                     break;
                 case EdsDataType.PictureStyleDesc:
+                    yield return new Property(propertyID, dataType, GetPropertyStruct<EdsPictureStyleDesc>(inRef, propertyID)); 
                     break;
                 default:
                     //Debug.WriteLine($"ID {propId} {dataType} {size} {err}");
@@ -242,16 +243,16 @@ internal static partial class Eds
         }
     }
 
-    public unsafe static DateTime GetPropertyDateTime(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
+    public unsafe static T? GetPropertyStruct<T>(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
     {
         nint ptr = nint.Zero;
         try
         {
-            int size = Marshal.SizeOf(typeof(EdsTime));
+            int size = Marshal.SizeOf(typeof(T));
             ptr = Marshal.AllocHGlobal(size);
             EdsGetPropertyData(inRef, propertyID, param, size, ptr);
-            EdsTime time = Marshal.PtrToStructure<EdsTime>(ptr);
-            return new DateTime((int)time.Year, (int)time.Month, (int)time.Day, (int)time.Hour, (int)time.Minute, (int)time.Second, (int)time.Milliseconds);
+            T? value = Marshal.PtrToStructure<T>(ptr);
+            return value;
         }
         finally
         {
@@ -262,20 +263,6 @@ internal static partial class Eds
         }
     }
 
-    //public static uint GetPropertyString(IntPtr inRef, PropertyID inPropertyID, int inParam, out string outPropertyData)
-    //{
-    //    EdsDataType dt;
-    //    int size;
-    //    uint err = EdsGetPropertySize(inRef, inPropertyID, inParam, out dt, out size);
-
-    //    IntPtr ptr = Marshal.AllocHGlobal(size);
-    //    err = EdsGetPropertyData(inRef, inPropertyID, inParam, size, ptr);
-
-    //    outPropertyData = Marshal.PtrToStringAnsi(ptr);
-
-    //    outPropertyData = (T)(object)"";
-    //    return "";
-    //}
 
     public static IEnumerable<nint> GetChildren(nint item)
     {

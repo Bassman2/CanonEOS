@@ -97,7 +97,7 @@ public class Property(EdsPropertyID id, EdsDataType dataType, object? value)
                 return res.Trim(',');
             }
 
-            return value.ToString();
+            return value?.ToString() ?? "";
         }
     }
 }
