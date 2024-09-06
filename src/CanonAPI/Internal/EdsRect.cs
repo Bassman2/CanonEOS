@@ -1,8 +1,9 @@
 ﻿namespace CanonAPI.Internal;
 
 [StructLayout(LayoutKind.Sequential)]
-internal struct EdsSize
+internal struct EdsRect
 {
+    public EdsPoint Point;
+    public EdsSize Size;
     public int Width;
-    public int Height;
 }

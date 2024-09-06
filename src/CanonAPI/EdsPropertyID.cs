@@ -1,22 +1,39 @@
 ﻿namespace CanonAPI;
 
-public enum EdsPropertyID : int
+public enum EdsPropertyID : uint
 {
     Unknown = 0x0000FFFF,
 
+    [Description("Name of the camera")]
     ProductName = 0x00000002,
+
+    [Description("Owner name for the camera")]
     OwnerName = 0x00000004,
+    
+    [Description("Manufacturer")]
     MakerName = 0x00000005,
+
+    [Description("System time of the camera")]
     DateTime = 0x00000006,
+
+    [Description("Firmware version of the camera")]
     FirmwareVersion = 0x00000007,
+
+    [Description("Battery level of the camera")]
     BatteryLevel = 0x00000008,
+
     CFn = 0x00000009,
     SaveTo = 0x0000000b,
     CurrentStorage = 0x0000000c,
     CurrentFolder = 0x0000000d,
     MyMenu = 0x0000000e,
+
+    [Description("Level of degradation of the battery")] 
     BatteryQuality = 0x00000010,
+
+    [Description("Serial number of the camera")]
     BodyIDEx = 0x00000015,
+
     HDDirectoryStructure = 0x00000020,
 
     //Image Properties
@@ -64,7 +81,7 @@ public enum EdsPropertyID : int
     GPSDateStamp = 0x0000081D,
 
     //Property Mask
-    AtCapture_Flag = unchecked((int)0x80000000),
+    AtCapture_Flag = unchecked((uint)0x80000000),
 
     //Capture Properties
     AEMode = 0x00000400,

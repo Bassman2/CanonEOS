@@ -7,6 +7,7 @@ public partial class CameraViewModel : ObservableObject, IDisposable
     {
         this.camera = camera;
         this.Volumes = camera.Volumes.ToList() ?? [];
+        this.Properties = camera.Properties.ToList();
     }
 
     public void Dispose()
@@ -31,5 +32,8 @@ public partial class CameraViewModel : ObservableObject, IDisposable
     [ObservableProperty]
     private DirectoryItem? selectedFolder;
 
-    
+    [ObservableProperty]
+    private List<Property>? properties;
+
+
 }

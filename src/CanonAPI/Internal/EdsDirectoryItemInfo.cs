@@ -64,22 +64,22 @@ internal static unsafe class EdsDirectoryItemInfoMarshaller
         };
     }
 
-    //public static EdsDirectoryItemInfoUnmanaged ConvertToUnmanaged(EdsDirectoryItemInfo managed)
-    //{
-    //    return new EdsDirectoryItemInfoUnmanaged
-    //    {
-    //        Size64 = managed.Size64,
-    //        IsFolder = managed.IsFolder ? 1 : 0,
-    //        GroupID = managed.GroupID,
-    //        Option = managed.Option,
-    //        FileName = Utf8StringMarshaller.ConvertToUnmanaged(managed.FileName),
-    //        Format = (int)managed.Format,
-    //        DateTime = managed.DateTime
-    //    };
-    //}
+    public static EdsDirectoryItemInfoUnmanaged ConvertToUnmanaged(EdsDirectoryItemInfo managed)
+    {
+        return new EdsDirectoryItemInfoUnmanaged
+        {
+            Size64 = managed.Size64,
+            IsFolder = managed.IsFolder ? 1 : 0,
+            GroupID = managed.GroupID,
+            Option = managed.Option,
+            //FileName = Utf8StringMarshaller.ConvertToUnmanaged(managed.FileName),
+            Format = (int)managed.Format,
+            DateTime = managed.DateTime
+        };
+    }
 
-    //public static void Free(EdsDirectoryItemInfoUnmanaged unmanaged)
-    //{
-    //    Utf8StringMarshaller.Free(unmanaged.FileName);
-    //}
+    public static void Free(EdsDirectoryItemInfoUnmanaged unmanaged)
+    {
+        Utf8StringMarshaller.Free(unmanaged.FileName);
+    }
 }

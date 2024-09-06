@@ -1,4 +1,6 @@
-﻿namespace CanonAPI.Internal;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CanonAPI.Internal;
 
 
 // https://developers.canon-europe.com/s/camera
@@ -129,75 +131,138 @@ internal static partial class Eds
 
     public static IEnumerable<Property> GetProperties(IntPtr inRef)
     {
-        for (EdsPropertyID propId = 0; propId < EdsPropertyID.Unknown; propId++)
+        for (EdsPropertyID propertyID = 0; propertyID < EdsPropertyID.Unknown; propertyID++)
         {
-            EdsError err = EdsGetPropertySize(inRef, propId, 0, out EdsDataType dataType, out int size);
+            EdsError err = EdsGetPropertySize(inRef, propertyID, 0, out EdsDataType dataType, out int size);
 
             if (err == 0)
             {
-                IntPtr ptr = IntPtr.Zero;
-                try
+                switch (dataType)
                 {
-                    ptr = Marshal.AllocHGlobal(size);
-                    err = EdsGetPropertyData(inRef, propId, 0, size, ptr);
-                    switch (dataType)
-                    {
-                    case EdsDataType.String:
-                        string? str = Marshal.PtrToStringAnsi(ptr);
-                        yield return new Property(propId, dataType, str!);
-                        break;
-                    case EdsDataType.Int32:
-                    case EdsDataType.UInt32:
-                        int int32 = Marshal.ReadInt32(ptr);
-                        yield return new Property(propId, dataType, int32);
-                        break;
+                case EdsDataType.String:
+                    yield return new Property(propertyID, dataType, GetPropertyString(inRef, propertyID));
+                    break;
+                case EdsDataType.Int32:
+                    yield return new Property(propertyID, dataType, GetPropertyInt(inRef, propertyID));
+                    break;
+                case EdsDataType.UInt32:
+                    yield return new Property(propertyID, dataType, GetPropertyUInt(inRef, propertyID));
+                    break;
+                case EdsDataType.Time:
+                    yield return new Property(propertyID, dataType, GetPropertyDateTime(inRef, propertyID));
+                    break;
+                case EdsDataType.Int32_Array:
+                    yield return new Property(propertyID, dataType, GetPropertyIntArray(inRef, propertyID));
+                    break;
+                case EdsDataType.UInt32_Array:
+                    yield return new Property(propertyID, dataType, GetPropertyUIntArray(inRef, propertyID));
+                    break;
+                case EdsDataType.FocusInfo:
+                    //EdsFocusInfo focusInfo = Marshal.PtrToStructure<EdsFocusInfo>(ptr);
+                    break;
+                case EdsDataType.PictureStyleDesc:
+                    break;
+                default:
+                    //Debug.WriteLine($"ID {propId} {dataType} {size} {err}");
+                    break;
+                }
 
-                    default:
-                        //Debug.WriteLine($"ID {propId} {dataType} {size} {err}");
-                        break;
-                    }
-                }
-                finally
-                {
-                    if (ptr != IntPtr.Zero)
-                    {
-                        Marshal.FreeHGlobal(ptr);
-                    }
-                }
             }
-            //else if (err != EdsError.PropertiesUnavailable)
-            //{
-            //    Debug.WriteLine($"ID {propId} {dt} {size} {err}");
-            //}
         }
     }
 
-    public static string? GetStringProperty(IntPtr inRef, EdsPropertyID inPropertyID, int inParam = 0)
+    public unsafe static int GetPropertyInt(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
     {
-        EdsDataType dt;
-        int size;
-        EdsError err = EdsGetPropertySize(inRef, inPropertyID, inParam, out dt, out size);
+        int value = 0;
+        int* ptr = &value;
+        EdsGetPropertyData(inRef, propertyID, param, sizeof(int), (IntPtr)ptr);
+        return value;
+    }
+
+    public unsafe static uint GetPropertyUInt(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
+    {
+        uint value = 0;
+        uint* ptr = &value;
+        EdsGetPropertyData(inRef, propertyID, param, sizeof(uint), (IntPtr)ptr);
+        return value;
+    }
+
+    public unsafe static int[] GetPropertyIntArray(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
+    {
+        EdsGetPropertySize(inRef, propertyID, param, out EdsDataType dataType, out int size);
+
+        if (size == 0)
+        {
+            return [];
+        }
+
+        int[] array = new int[size / sizeof(int)];
+        fixed (int* ptr = &array[0])
+        {   
+            EdsGetPropertyData(inRef, propertyID, param, size, (IntPtr)ptr);
+        }
+        return array;
+    }
+
+    public unsafe static uint[] GetPropertyUIntArray(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
+    {
+        Eds.CheckError(EdsGetPropertySize(inRef, propertyID, param, out EdsDataType dataType, out int size));
+
+        if (size == 0)
+        {
+            return [];
+        }
+
+        uint[] array = new uint[size / sizeof(uint)];
+        fixed (uint* ptr = &array[0])
+        {    
+            EdsGetPropertyData(inRef, propertyID, param, size, (IntPtr)ptr);
+        }
+        return array;
+    }
 
 
-        IntPtr ptr = IntPtr.Zero;
-        //ErrorCode err = ErrorCode.INTERNAL_ERROR;
-        //outPropertyData = string.Empty;
+    public static string? GetPropertyString(IntPtr inRef, EdsPropertyID propertyID, int inParam = 0)
+    {
+        EdsGetPropertySize(inRef, propertyID, inParam, out EdsDataType dataType, out int size);
+
+        nint ptr = nint.Zero;
         try
         {
             ptr = Marshal.AllocHGlobal(size);
-            err = EdsGetPropertyData(inRef, inPropertyID, inParam, size, ptr);
+            EdsGetPropertyData(inRef, propertyID, inParam, size, ptr);
             return Marshal.PtrToStringAnsi(ptr);
         }
         finally
         {
-            if (ptr != IntPtr.Zero)
+            if (ptr != nint.Zero)
             {
                 Marshal.FreeHGlobal(ptr);
             }
         }
     }
 
-    //public static uint GetStringProperty(IntPtr inRef, PropertyID inPropertyID, int inParam, out string outPropertyData)
+    public unsafe static DateTime GetPropertyDateTime(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
+    {
+        nint ptr = nint.Zero;
+        try
+        {
+            int size = Marshal.SizeOf(typeof(EdsTime));
+            ptr = Marshal.AllocHGlobal(size);
+            EdsGetPropertyData(inRef, propertyID, param, size, ptr);
+            EdsTime time = Marshal.PtrToStructure<EdsTime>(ptr);
+            return new DateTime((int)time.Year, (int)time.Month, (int)time.Day, (int)time.Hour, (int)time.Minute, (int)time.Second, (int)time.Milliseconds);
+        }
+        finally
+        {
+            if (ptr != nint.Zero)
+            {
+                Marshal.FreeHGlobal(ptr);
+            }
+        }
+    }
+
+    //public static uint GetPropertyString(IntPtr inRef, PropertyID inPropertyID, int inParam, out string outPropertyData)
     //{
     //    EdsDataType dt;
     //    int size;

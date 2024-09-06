@@ -29,18 +29,18 @@ public sealed class Camera : IDisposable
 
         Eds.DebugProperties(this.camera);
 
-        ProductName = Eds.GetStringProperty(this.camera, EdsPropertyID.ProductName);
-        OwnerName = Eds.GetStringProperty(this.camera, EdsPropertyID.OwnerName);
-        FirmwareVersion = Eds.GetStringProperty(this.camera, EdsPropertyID.FirmwareVersion);
-        CurrentStorage = Eds.GetStringProperty(this.camera, EdsPropertyID.CurrentStorage);
-        CurrentFolder = Eds.GetStringProperty(this.camera, EdsPropertyID.CurrentFolder);
-        BodyIDEx = Eds.GetStringProperty(this.camera, EdsPropertyID.BodyIDEx);
-        LensName = Eds.GetStringProperty(this.camera, EdsPropertyID.LensName);
-        Artist = Eds.GetStringProperty(this.camera, EdsPropertyID.Artist);
-        Copyright = Eds.GetStringProperty(this.camera, EdsPropertyID.Copyright);
-        //Artist = CanonSDK.GetStringProperty(camera, PropertyID.Artist);
-        //Artist = CanonSDK.GetStringProperty(camera, PropertyID.Artist);
-        //Artist = CanonSDK.GetStringProperty(camera, PropertyID.Artist);
+        ProductName = Eds.GetPropertyString(this.camera, EdsPropertyID.ProductName);
+        OwnerName = Eds.GetPropertyString(this.camera, EdsPropertyID.OwnerName);
+        FirmwareVersion = Eds.GetPropertyString(this.camera, EdsPropertyID.FirmwareVersion);
+        CurrentStorage = Eds.GetPropertyString(this.camera, EdsPropertyID.CurrentStorage);
+        CurrentFolder = Eds.GetPropertyString(this.camera, EdsPropertyID.CurrentFolder);
+        BodyIDEx = Eds.GetPropertyString(this.camera, EdsPropertyID.BodyIDEx);
+        LensName = Eds.GetPropertyString(this.camera, EdsPropertyID.LensName);
+        Artist = Eds.GetPropertyString(this.camera, EdsPropertyID.Artist);
+        Copyright = Eds.GetPropertyString(this.camera, EdsPropertyID.Copyright);
+        //Artist = CanonSDK.GetPropertyString(camera, PropertyID.Artist);
+        //Artist = CanonSDK.GetPropertyString(camera, PropertyID.Artist);
+        //Artist = CanonSDK.GetPropertyString(camera, PropertyID.Artist);
     }
 
     public void Dispose()
@@ -72,11 +72,32 @@ public sealed class Camera : IDisposable
     }
 }
 
-public class Property(EdsPropertyID id, EdsDataType dataType, object value)
+public class Property(EdsPropertyID id, EdsDataType dataType, object? value)
 {
     public EdsPropertyID Id { get; } = id;
     public EdsDataType DataType { get; } = dataType;
-    public object Value { get; } = value;
+    public object? Value { get; } = value ?? null;
 
-    public string ValueString { get => value.ToString()!; }
+    public string ValueString
+    {
+        get
+        {
+            if (value == null)
+            {
+                return "";
+            }
+            if (value.GetType().IsArray)
+            {
+                string res = "";
+                Array arr = (Array)value;
+                foreach (object item in arr)
+                {
+                    res += item.ToString() + ",";
+                }
+                return res.Trim(',');
+            }
+
+            return value.ToString();
+        }
+    }
 }

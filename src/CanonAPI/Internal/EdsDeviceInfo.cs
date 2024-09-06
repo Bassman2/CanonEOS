@@ -38,21 +38,21 @@ internal static unsafe class EdsDeviceInfoMarshaller
         };
     }
 
-    //public static EdsDeviceInfoUnmanaged ConvertToUnmanaged(EdsDeviceInfo managed)
-    //{
-    //    return new EdsDeviceInfoUnmanaged
-    //    {
-    //        //PortName = Utf8StringMarshaller.ConvertToUnmanaged(managed.PortName),
-    //        //DeviceDescription = Utf8StringMarshaller.ConvertToUnmanaged(managed.DeviceDescription),
-    //        DeviceSubType = managed.DeviceSubType,
-    //        Reserved = managed.Reserved
-    //    };
-    //}
+    public static EdsDeviceInfoUnmanaged ConvertToUnmanaged(EdsDeviceInfo managed)
+    {
+        return new EdsDeviceInfoUnmanaged
+        {
+            //PortName = Utf8StringMarshaller.ConvertToUnmanaged(managed.PortName),
+            //DeviceDescription = Utf8StringMarshaller.ConvertToUnmanaged(managed.DeviceDescription),
+            DeviceSubType = managed.DeviceSubType,
+            Reserved = managed.Reserved
+        };
+    }
 
-    //public static void Free(EdsDeviceInfoUnmanaged unmanaged)
-    //{
-    //    Utf8StringMarshaller.Free(unmanaged.PortName);
-    //    Utf8StringMarshaller.Free(unmanaged.DeviceDescription);
-    //}
+    public static void Free(EdsDeviceInfoUnmanaged unmanaged)
+    {
+        Utf8StringMarshaller.Free(unmanaged.PortName);
+        Utf8StringMarshaller.Free(unmanaged.DeviceDescription);
+    }
 }
 
