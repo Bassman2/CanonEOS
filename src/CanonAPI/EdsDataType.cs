@@ -1,6 +1,6 @@
-﻿namespace CanonAPI.Internal;
+﻿namespace CanonAPI;
 
-internal enum EdsDataType : int
+public enum EdsDataType : int
 {
     Unknown = 0,
     Bool = 1,

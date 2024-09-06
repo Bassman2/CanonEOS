@@ -1,6 +1,6 @@
-﻿namespace CanonAPI.Internal;
+﻿namespace CanonAPI;
 
-internal enum EdsPropertyID : int
+public enum EdsPropertyID : int
 {
     Unknown = 0x0000FFFF,
 

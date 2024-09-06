@@ -23,18 +23,18 @@ public class DirectoryItem
         this.Format = (EdsImageType)(((int)info.Format) & 0xf);
         this.DateTime = unixDateTime.AddSeconds(info.DateTime).ToLocalTime();
 
-        if (this.IsFolder == false)
-        {
-            Eds.CheckError(Eds.EdsGetImageInfo(item, EdsImageSource.FullView, out EdsImageInfo imageInfo));
+        //if (this.IsFolder == false)
+        //{
+        //    Eds.CheckError(Eds.EdsGetImageInfo(item, EdsImageSource.FullView, out EdsImageInfo imageInfo));
 
-            this.Width = imageInfo.Width;
-            this.Height = imageInfo.Height;
-            this.NumOfComponents = imageInfo.NumOfComponents;
-            this.ComponentDepth = imageInfo.ComponentDepth;
-            this.EffectiveRect = imageInfo.EffectiveRect;
-            this.Reserved1 = imageInfo.Reserved1;
-            this.Reserved2 = imageInfo.Reserved2;
-        }
+        //    this.Width = imageInfo.Width;
+        //    this.Height = imageInfo.Height;
+        //    this.NumOfComponents = imageInfo.NumOfComponents;
+        //    this.ComponentDepth = imageInfo.ComponentDepth;
+        //    this.EffectiveRect = imageInfo.EffectiveRect;
+        //    this.Reserved1 = imageInfo.Reserved1;
+        //    this.Reserved2 = imageInfo.Reserved2;
+        //}
     }
 
     public ulong Size { get; }
@@ -51,13 +51,13 @@ public class DirectoryItem
 
     public DateTime DateTime { get; }
 
-    public int Width { get; }
-    public int Height { get; }
-    public int NumOfComponents { get; }
-    public int ComponentDepth { get; }
-    public EdsRectangle EffectiveRect { get; }
-    public uint Reserved1 { get; }
-    public uint Reserved2 { get; }
+    //public int Width { get; }
+    //public int Height { get; }
+    //public int NumOfComponents { get; }
+    //public int ComponentDepth { get; }
+    //public EdsRectangle EffectiveRect { get; }
+    //public uint Reserved1 { get; }
+    //public uint Reserved2 { get; }
 
 
 

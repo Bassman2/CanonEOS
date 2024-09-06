@@ -126,6 +126,52 @@ internal static partial class Eds
             }
         }
     }
+
+    public static IEnumerable<Property> GetProperties(IntPtr inRef)
+    {
+        for (EdsPropertyID propId = 0; propId < EdsPropertyID.Unknown; propId++)
+        {
+            EdsError err = EdsGetPropertySize(inRef, propId, 0, out EdsDataType dataType, out int size);
+
+            if (err == 0)
+            {
+                IntPtr ptr = IntPtr.Zero;
+                try
+                {
+                    ptr = Marshal.AllocHGlobal(size);
+                    err = EdsGetPropertyData(inRef, propId, 0, size, ptr);
+                    switch (dataType)
+                    {
+                    case EdsDataType.String:
+                        string? str = Marshal.PtrToStringAnsi(ptr);
+                        yield return new Property(propId, dataType, str!);
+                        break;
+                    case EdsDataType.Int32:
+                    case EdsDataType.UInt32:
+                        int int32 = Marshal.ReadInt32(ptr);
+                        yield return new Property(propId, dataType, int32);
+                        break;
+
+                    default:
+                        //Debug.WriteLine($"ID {propId} {dataType} {size} {err}");
+                        break;
+                    }
+                }
+                finally
+                {
+                    if (ptr != IntPtr.Zero)
+                    {
+                        Marshal.FreeHGlobal(ptr);
+                    }
+                }
+            }
+            //else if (err != EdsError.PropertiesUnavailable)
+            //{
+            //    Debug.WriteLine($"ID {propId} {dt} {size} {err}");
+            //}
+        }
+    }
+
     public static string? GetStringProperty(IntPtr inRef, EdsPropertyID inPropertyID, int inParam = 0)
     {
         EdsDataType dt;

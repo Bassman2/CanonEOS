@@ -1,4 +1,6 @@
-﻿namespace CanonAPI;
+﻿using System;
+
+namespace CanonAPI;
 
 public sealed class Camera : IDisposable
 {
@@ -62,5 +64,19 @@ public sealed class Camera : IDisposable
     public IEnumerable<Volume> Volumes
     {
         get => Eds.GetChildren(this.camera).Select(i => new Volume(i));
-    }    
+    }   
+    
+    public IEnumerable<Property> Properties
+    { 
+        get => Eds.GetProperties(this.camera); 
+    }
+}
+
+public class Property(EdsPropertyID id, EdsDataType dataType, object value)
+{
+    public EdsPropertyID Id { get; } = id;
+    public EdsDataType DataType { get; } = dataType;
+    public object Value { get; } = value;
+
+    public string ValueString { get => value.ToString()!; }
 }
