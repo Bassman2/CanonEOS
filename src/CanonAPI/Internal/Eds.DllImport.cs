@@ -66,16 +66,16 @@ internal static partial class Eds
     public extern static EdsError EdsSetCapacity(nint inCameraRef, EdsCapacity inCapacity);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetPropertySize(nint inRef, EdsPropertyID inPropertyID, int inParam, out EdsDataType outDataType, out int outSize);
+    public extern static EdsError EdsGetPropertySize(nint inRef, EdsPropertyID propertyID, int param, out EdsDataType dataType, out int size);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetPropertyData(nint inRef, EdsPropertyID inPropertyID, int inParam, int inPropertySize, nint outPropertyData);
+    public extern static EdsError EdsGetPropertyData(nint inRef, EdsPropertyID propertyID, int param, int inPropertySize, nint outPropertyData);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSetPropertyData(nint inRef, EdsPropertyID inPropertyID, int inParam, int inPropertySize, nint inPropertyData);
+    public extern static EdsError EdsSetPropertyData(nint inRef, EdsPropertyID propertyID, int param, int inPropertySize, nint inPropertyData);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetPropertyDesc(nint inRef, EdsPropertyID inPropertyID, out EdsPropertyDesc outPropertyDesc);
+    public extern static EdsError EdsGetPropertyDesc(nint inRef, EdsPropertyID propertyID, out EdsPropertyDesc outPropertyDesc);
 
     [DllImport(LibName)]
     public extern static EdsError EdsDeleteDirectoryItem(nint inDirItemRef);

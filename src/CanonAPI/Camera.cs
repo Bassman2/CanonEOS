@@ -72,9 +72,11 @@ public sealed class Camera : IDisposable
     }
 }
 
-public class Property(EdsPropertyID id, EdsDataType dataType, object? value)
+public class Property(EdsPropertyID id, int param, EdsDataType dataType, object? value)
 {
     public EdsPropertyID Id { get; } = id;
+    public int Param { get; } = param;
+
     public EdsDataType DataType { get; } = dataType;
     public object? Value { get; } = value ?? null;
 

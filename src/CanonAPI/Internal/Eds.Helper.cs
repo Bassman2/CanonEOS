@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace CanonAPI.Internal;
 
@@ -129,48 +130,81 @@ internal static partial class Eds
         }
     }
 
+    private static bool ParamFix(EdsPropertyID propertyID, int param) => !((propertyID == EdsPropertyID.DateTime || propertyID == EdsPropertyID.AvailableShots || propertyID == (EdsPropertyID)96) && param > 0);
+
     public static IEnumerable<Property> GetProperties(IntPtr inRef)
     {
-        for (EdsPropertyID propertyID = 0; propertyID < EdsPropertyID.Unknown; propertyID++)
+        
+        for (EdsPropertyID propertyID = EdsPropertyID.PropertyFrom; propertyID < EdsPropertyID.PropertyTo; propertyID++)
         {
-            EdsError err = EdsGetPropertySize(inRef, propertyID, 0, out EdsDataType dataType, out int size);
-
-            if (err == 0)
+            var properties = GetProperties(inRef, propertyID);
+            foreach (var property in properties)
             {
-                switch (dataType)
-                {
-                case EdsDataType.String:
-                    yield return new Property(propertyID, dataType, GetPropertyString(inRef, propertyID));
-                    break;
-                case EdsDataType.Int32:
-                    yield return new Property(propertyID, dataType, GetPropertyInt(inRef, propertyID));
-                    break;
-                case EdsDataType.UInt32:
-                    yield return new Property(propertyID, dataType, GetPropertyUInt(inRef, propertyID));
-                    break;
-                case EdsDataType.Time:
-                    yield return new Property(propertyID, dataType, (DateTime?)GetPropertyStruct<EdsTime>(inRef, propertyID));
-                    break;
-                case EdsDataType.Int32_Array:
-                    yield return new Property(propertyID, dataType, GetPropertyIntArray(inRef, propertyID));
-                    break;
-                case EdsDataType.UInt32_Array:
-                    yield return new Property(propertyID, dataType, GetPropertyUIntArray(inRef, propertyID));
-                    break;
-                case EdsDataType.FocusInfo:
-                    yield return new Property(propertyID, dataType, GetPropertyStruct<EdsFocusInfo>(inRef, propertyID));
-                    break;
-                case EdsDataType.PictureStyleDesc:
-                    yield return new Property(propertyID, dataType, GetPropertyStruct<EdsPictureStyleDesc>(inRef, propertyID)); 
-                    break;
-                default:
-                    //Debug.WriteLine($"ID {propId} {dataType} {size} {err}");
-                    break;
-                }
-
+                yield return property;
+            }
+        }
+        for (EdsPropertyID propertyID = EdsPropertyID.LimitedFrom; propertyID < EdsPropertyID.LimitedTo; propertyID++)
+        {
+            var properties = GetProperties(inRef, propertyID);
+            foreach (var property in properties)
+            {
+                yield return property;
+            }
+        }
+        for (EdsPropertyID propertyID = EdsPropertyID.AtCaptureFrom; propertyID < EdsPropertyID.AtCaptureTo; propertyID++)
+        {
+            var properties = GetProperties(inRef, propertyID);
+            foreach (var property in properties)
+            {
+                yield return property;
             }
         }
     }
+
+    private static IEnumerable<Property> GetProperties(IntPtr inRef, EdsPropertyID propertyID)
+    {
+        EdsError err;
+        int param = 0;
+        while ((err = EdsGetPropertySize(inRef, propertyID, param, out EdsDataType dataType, out int size)) == EdsError.OK && param < 10 && ParamFix(propertyID, param))
+        {
+            Debug.WriteLine($"Property {propertyID} {param} {size} {err}");
+            switch (dataType)
+            {
+            case EdsDataType.String:
+                yield return new Property(propertyID, param, dataType, GetPropertyString(inRef, propertyID));
+                break;
+            case EdsDataType.Int32:
+                yield return new Property(propertyID, param, dataType, GetPropertyInt(inRef, propertyID));
+                break;
+            case EdsDataType.UInt32:
+                yield return new Property(propertyID, param, dataType, GetPropertyUInt(inRef, propertyID));
+                break;
+            case EdsDataType.Time:
+                yield return new Property(propertyID, param, dataType, (DateTime?)GetPropertyStruct<EdsTime>(inRef, propertyID));
+                break;
+            case EdsDataType.Int32_Array:
+                yield return new Property(propertyID, param, dataType, GetPropertyIntArray(inRef, propertyID));
+                break;
+            case EdsDataType.UInt32_Array:
+                yield return new Property(propertyID, param, dataType, GetPropertyUIntArray(inRef, propertyID));
+                break;
+            case EdsDataType.FocusInfo:
+                yield return new Property(propertyID, param, dataType, GetPropertyStruct<EdsFocusInfo>(inRef, propertyID));
+                break;
+            case EdsDataType.PictureStyleDesc:
+                yield return new Property(propertyID, param, dataType, GetPropertyStruct<EdsPictureStyleDesc>(inRef, propertyID));
+                break;
+
+            case EdsDataType.ByteBlock:
+                break;
+            default:
+                break;
+            }
+            param++;
+        }
+        Debug.Unindent();
+    }
+    
 
     public unsafe static int GetPropertyInt(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
     {
