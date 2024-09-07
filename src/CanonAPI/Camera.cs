@@ -96,6 +96,10 @@ public class Property(EdsPropertyID id, EdsDataType dataType, object? value)
                 }
                 return res.Trim(',');
             }
+            //if (value.GetType() == typeof(EdsFocusInfo))
+            //{ }
+            //if (value.GetType() == typeof(EdsPictureStyleDesc))
+            //{ }
 
             return value?.ToString() ?? "";
         }

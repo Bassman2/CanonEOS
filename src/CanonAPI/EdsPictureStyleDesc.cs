@@ -11,4 +11,7 @@ public struct EdsPictureStyleDesc
     public uint ToningEffect;
     public uint SharpFineness;
     public uint SharpThreshold;
+
+    public override string ToString() => $"Contrast {Contrast}, Sharpness {Sharpness}, Saturation {Saturation}, ColorTone {ColorTone}, FilterEffect {FilterEffect}, ToningEffect {ToningEffect}, SharpFineness {SharpFineness}, SharpThreshold {SharpThreshold}";
+
 }
