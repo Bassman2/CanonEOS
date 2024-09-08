@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
-
-namespace CanonAPI.Internal;
+﻿namespace CanonAPI.Internal;
 
 
 // https://developers.canon-europe.com/s/camera
@@ -167,7 +164,7 @@ internal static partial class Eds
         int param = 0;
         while ((err = EdsGetPropertySize(inRef, propertyID, param, out EdsDataType dataType, out int size)) == EdsError.OK && param < 10 && ParamFix(propertyID, param))
         {
-            Debug.WriteLine($"Property {propertyID} {param} {size} {err}");
+            //Debug.WriteLine($"Property {propertyID} {param} {size} {err}");
             switch (dataType)
             {
             case EdsDataType.String:
@@ -202,7 +199,6 @@ internal static partial class Eds
             }
             param++;
         }
-        Debug.Unindent();
     }
     
 

@@ -13,15 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CanonUtility.View;
-
-/// <summary>
-/// Interaction logic for PropertyView.xaml
-/// </summary>
-public partial class PropertyView : UserControl
+namespace CanonUtility.View
 {
-    public PropertyView()
+    /// <summary>
+    /// Interaction logic for PicturePropertyView.xaml
+    /// </summary>
+    public partial class PicturePropertyView : UserControl
     {
-        InitializeComponent();
+        public PicturePropertyView()
+        {
+            InitializeComponent();
+        }
     }
 }

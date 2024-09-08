@@ -17,10 +17,10 @@ public class AppWindowView : Window
         SetEventBinding("Loaded", "StartupCommand");
         SetEventBinding("Closing", "ClosingCommand", true);
 
-        AllowDrop = true;
-        SetEventBinding("PreviewDragEnter", "DragCommand");
-        SetEventBinding("PreviewDragOver", "DragCommand");
-        SetEventBinding("PreviewDrop", "DropCommand");
+        //AllowDrop = true;
+        //SetEventBinding("PreviewDragEnter", "DragCommand");
+        //SetEventBinding("PreviewDragOver", "DragCommand");
+        //SetEventBinding("PreviewDrop", "DropCommand");
     }
 
     protected void SetKeyBinding(Key key, string commandName)

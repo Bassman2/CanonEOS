@@ -2,7 +2,7 @@
 
 namespace CanonAPI;
 
-public sealed class Camera : IDisposable
+public class Camera : IDisposable
 {
     private readonly nint camera;
 
@@ -27,7 +27,7 @@ public sealed class Camera : IDisposable
         Eds.CheckError(Eds.EdsSetObjectEventHandler(this.camera, EdsObjectEventID.All, EdsObjectEvent, nint.Zero));
 
 
-        Eds.DebugProperties(this.camera);
+        //Eds.DebugProperties(this.camera);
 
         ProductName = Eds.GetPropertyString(this.camera, EdsPropertyID.ProductName);
         OwnerName = Eds.GetPropertyString(this.camera, EdsPropertyID.OwnerName);

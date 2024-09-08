@@ -35,5 +35,5 @@ public partial class CameraViewModel : ObservableObject, IDisposable
     [ObservableProperty]
     private List<Property>? properties;
 
-
+    public Camera Camera => this.camera;
 }
