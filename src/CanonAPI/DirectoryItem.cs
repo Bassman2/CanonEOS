@@ -93,6 +93,12 @@ public class DirectoryItem
         get => DirectoryItems.Where(d => !d.IsFolder);
     }
 
+    
+    public IEnumerable<Property> Properties
+    {
+        get => Eds.GetProperties(item);
+    }
+
     public void DownloadThumbnail(string filePath)
     {
         Eds.EdsCreateFileStream(filePath, EdsFileCreateDisposition.CreateNew, EdsFileAccess.Write, out nint fileStream);
