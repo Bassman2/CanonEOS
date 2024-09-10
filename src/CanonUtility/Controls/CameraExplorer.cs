@@ -25,11 +25,7 @@ public class CameraExplorer : Control
     {
         this.Volumes = newValue?.Volumes;    
     }
-
     
-
-
-
     public static readonly DependencyProperty VolumesProperty =
         DependencyProperty.Register("Volumes", typeof(IEnumerable<Volume>), typeof(CameraExplorer),
             new UIPropertyMetadata(null, PropertyChangedCallback));
@@ -58,7 +54,8 @@ public class CameraExplorer : Control
 
     protected virtual void OnSelectedDirectoryItemChanged(DirectoryItem? oldValue, DirectoryItem? newValue)
     {
-        this.SelectedDirectoryItemProperties = newValue?.Properties;
+        var list = newValue?.Properties.ToList();
+        this.SelectedDirectoryItemProperties = list;
     }
 
 
@@ -67,7 +64,7 @@ public class CameraExplorer : Control
 
     public IEnumerable<Property>? SelectedDirectoryItemProperties
     {
-        get => (IEnumerable<Property>?)GetValue(SelectedDirectoryItemProperty);
-        set => SetValue(SelectedDirectoryItemProperty, value);
+        get => (IEnumerable<Property>?)GetValue(SelectedDirectoryItemPropertiesProperty);
+        set => SetValue(SelectedDirectoryItemPropertiesProperty, value);
     }
 }

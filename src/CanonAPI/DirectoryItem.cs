@@ -96,7 +96,7 @@ public class DirectoryItem
     
     public IEnumerable<Property> Properties
     {
-        get => Eds.GetProperties(item);
+        get => Eds.GetPictureProperties(item);
     }
 
     public void DownloadThumbnail(string filePath)

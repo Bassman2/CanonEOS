@@ -8,5 +8,7 @@
         <conv:DebugConverter x:Key="Debug"/>
         <conv:EnumToNameConverter x:Key="EnumToName"/>
         <conv:EnumToDescriptionConverter x:Key="EnumToDescription"/>
+        <conv:EnumToNumberConverter x:Key="EnumToNumber"/>
+        <conv:EnumToHexConverter x:Key="EnumToHex"/>
     </Application.Resources>
 </Application>

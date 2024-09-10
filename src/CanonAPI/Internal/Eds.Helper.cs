@@ -127,11 +127,111 @@ internal static partial class Eds
         }
     }
 
-    private static bool ParamFix(EdsPropertyID propertyID, int param) => !((propertyID == EdsPropertyID.DateTime || propertyID == EdsPropertyID.AvailableShots || propertyID == (EdsPropertyID)96) && param > 0);
-
-    public static IEnumerable<Property> GetProperties(IntPtr inRef)
+    public static IEnumerable<PropertyDesc> GetPropertiesDesc(IntPtr camera)
     {
-        
+        for (EdsPropertyID propertyID = EdsPropertyID.CameraFrom; propertyID < EdsPropertyID.AtCaptureTo; propertyID++)
+        {
+            EdsGetPropertyDesc(camera, propertyID, out EdsPropertyDesc propertyDesc);
+
+            yield return new PropertyDesc(propertyID, propertyDesc);
+        }
+    }
+
+    private static bool ParamFix(EdsPropertyID propertyID, int param) => !((propertyID == EdsPropertyID.DateTime || propertyID == EdsPropertyID.AvailableShots || propertyID == (EdsPropertyID)96) && param > 0);
+    
+
+
+    public static IEnumerable<Property> GetAllProperties(IntPtr inRef)
+    {
+        for (EdsPropertyID propertyID = EdsPropertyID.CameraFrom; propertyID < EdsPropertyID.AtCaptureTo; propertyID++)
+        {
+            var properties = GetProperties(inRef, propertyID);
+            foreach (var property in properties)
+            {
+                yield return property;
+            }
+        }
+    }
+
+    public static IEnumerable<Property> GetCameraProperties(IntPtr inRef)
+    {
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.CameraFrom, EdsPropertyID.CameraTo))
+        {
+            yield return property;
+        }
+
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.ImageFrom, EdsPropertyID.ImageTo))
+        {
+            yield return property;
+        }
+
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.ProcessingFrom, EdsPropertyID.ProcessingTo))
+        {
+            yield return property;
+        }
+
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.CaptureFrom, EdsPropertyID.CaptureTo))
+        {
+            yield return property;
+        }
+
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.EvfFrom, EdsPropertyID.EvfTo))
+        {
+            yield return property;
+        }
+
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.PowerShotFrom, EdsPropertyID.PowerShotTo))
+        {
+            yield return property;
+        }
+
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.GpsFrom, EdsPropertyID.GpsTo))
+        {
+            yield return property;
+        }
+
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.LimitedFrom, EdsPropertyID.LimitedTo))
+        {
+            yield return property;
+        }
+
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.AtCaptureFrom, EdsPropertyID.AtCaptureTo))
+        {
+            yield return property;
+        }
+
+        /*
+
+        for (EdsPropertyID propertyID = EdsPropertyID.CameraFrom; propertyID < EdsPropertyID.CameraTo; propertyID++)
+        {
+            var properties = GetProperties(inRef, propertyID);
+            foreach (var property in properties)
+            {
+                yield return property;
+            }
+        }
+        for (EdsPropertyID propertyID = EdsPropertyID.LimitedFrom; propertyID < EdsPropertyID.LimitedTo; propertyID++)
+        {
+            var properties = GetProperties(inRef, propertyID);
+            foreach (var property in properties)
+            {
+                yield return property;
+            }
+        }
+        for (EdsPropertyID propertyID = EdsPropertyID.AtCaptureFrom; propertyID < EdsPropertyID.AtCaptureTo; propertyID++)
+        {
+            var properties = GetProperties(inRef, propertyID);
+            foreach (var property in properties)
+            {
+                yield return property;
+            }
+        }
+        */
+    }
+
+    public static IEnumerable<Property> GetPictureProperties(IntPtr inRef)
+    {
+
         for (EdsPropertyID propertyID = EdsPropertyID.PropertyFrom; propertyID < EdsPropertyID.PropertyTo; propertyID++)
         {
             var properties = GetProperties(inRef, propertyID);
@@ -149,6 +249,18 @@ internal static partial class Eds
             }
         }
         for (EdsPropertyID propertyID = EdsPropertyID.AtCaptureFrom; propertyID < EdsPropertyID.AtCaptureTo; propertyID++)
+        {
+            var properties = GetProperties(inRef, propertyID);
+            foreach (var property in properties)
+            {
+                yield return property;
+            }
+        }
+    }
+
+    private static IEnumerable<Property> GetPropertiesRange(IntPtr inRef, EdsPropertyID from, EdsPropertyID to)
+    {
+        for (EdsPropertyID propertyID = from; propertyID <= to; propertyID++)
         {
             var properties = GetProperties(inRef, propertyID);
             foreach (var property in properties)
@@ -200,7 +312,6 @@ internal static partial class Eds
             param++;
         }
     }
-    
 
     public unsafe static int GetPropertyInt(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
     {

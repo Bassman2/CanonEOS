@@ -21,6 +21,7 @@
         <DataGrid.Columns>
             <DataGridTextColumn Header="Name" Binding="{Binding Id, Converter={StaticResource EnumToName}}"/>
             <DataGridTextColumn Header="Description" Binding="{Binding Id, Converter={StaticResource EnumToDescription}}"/>
+            <DataGridTextColumn Header="Id" Binding="{Binding Id, Converter={StaticResource EnumToHex}}"/>
             <DataGridTextColumn Header="Param" Binding="{Binding Param}"/>
             <DataGridTextColumn Header="Type" Binding="{Binding DataType}"/>
             <DataGridTextColumn Header="Value" Binding="{Binding ValueString}"/>

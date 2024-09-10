@@ -20,6 +20,9 @@ public enum EdsPropertyID : uint
     EvfFrom         = 0x00000500,
     EvfTo           = 0x000005ff,
 
+    PowerShotFrom   = 0x00000600,
+    PowerShotTo     = 0x000006ff,
+
     GpsFrom         = 0x00000800,
     GpsTo           = 0x000008ff,
 
@@ -184,6 +187,19 @@ public enum EdsPropertyID : uint
     Evf_CoordinateSystem = 0x00000540,
     Evf_ZoomRect = 0x00000541,
     Evf_ImageClipRect = 0x00000545,
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Power Shot Properties
+    ///////////////////////////////////////////////////////////////////////////
+
+    [Description("Zoom step")]
+    DC_Zoom = 0x00000600,
+
+    [Description("Strobe mode type")]
+    DC_Strobe = 0x00000601,
+
+    [Description("Status of lens barrel")]
+    LensBarrelStatus = 0x00000605,
 
     ///////////////////////////////////////////////////////////////////////////
     // Image GPS Properties
