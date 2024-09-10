@@ -90,7 +90,7 @@ internal static partial class Eds
     public extern static EdsError EdsSetAttribute(nint inDirItemRef, EdsFileAttribute inFileAttribute);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsDownload(nint inDirItemRef, int inReadSize, nint outStream);
+    public extern static EdsError EdsDownload(nint inDirItemRef, ulong size, nint stream);
 
     [DllImport(LibName)]
     public extern static EdsError EdsDownload(nint inDirItemRef, long inReadSize, nint outStream);

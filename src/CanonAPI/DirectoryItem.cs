@@ -1,5 +1,6 @@
 ﻿using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Intrinsics.X86;
+using System.IO;
 
 namespace CanonAPI;
 
@@ -136,5 +137,19 @@ public class DirectoryItem
     public void Delete()
     {
         Eds.EdsDeleteDirectoryItem(this.item);
+    }
+
+    public EdsImage Download()
+    {
+        
+
+        Eds.EdsCreateFileStream(this.Name, EdsFileCreateDisposition.CreateAlways, EdsFileAccess.ReadWrite, out nint stream);
+                
+        Eds.EdsDownload(this.item, this.Size, stream);
+
+        Eds.EdsDownloadComplete(this.item);
+
+        Eds.EdsCreateImageRef(stream, out nint image);
+        return new EdsImage(image);
     }
 }
