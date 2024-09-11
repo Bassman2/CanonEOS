@@ -1,8 +1,7 @@
 ﻿namespace CanonWpf.Converter;
 
-
-[ValueConversion(typeof(object), typeof(object))]
-public class DirectoryItemsConverter : IValueConverter
+[ValueConversion(typeof(object), typeof(IEnumerable<DirectoryItem>))]
+public class ListConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -14,7 +13,9 @@ public class DirectoryItemsConverter : IValueConverter
         {
             return volume.DirectoryItems;
         }
+#pragma warning disable CS8603 // Possible null reference return.
         return null;
+#pragma warning restore CS8603 // Possible null reference return.
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

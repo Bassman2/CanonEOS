@@ -4,9 +4,8 @@
                     xmlns:e="http://schemas.microsoft.com/xaml/behaviors"
                     xmlns:c="clr-namespace:CanonWpf.Controls"                    
                     xmlns:conv="clr-namespace:CanonWpf.Converter">
-    <conv:DebugConverter x:Key="DebugConverter"/>
-    <conv:DirectoryItemsConverter x:Key="DirectoryItemsConverter"/>
-
+    <conv:ListConverter x:Key="ListConverter"/>
+    <conv:SourceConverter x:Key="SourceConverter"/>
     <!--
     
     xmlns:b="clr-namespace:CanonUtility.Behavior"
@@ -30,11 +29,11 @@ Text="{TemplateBinding Text}"
                         
                         <Grid Grid.Column="2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="260"/>
+                                <ColumnDefinition Width="160"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TreeView x:Name="treeView" Grid.Column="0" ItemsSource="{TemplateBinding Volumes}">
+                            <TreeView x:Name="treeView" Grid.Column="0" ItemsSource="{TemplateBinding Source, Converter={StaticResource SourceConverter}}">
                                 <TreeView.Resources>
                                     <HierarchicalDataTemplate DataType="{x:Type eds:Camera}" ItemsSource="{Binding Volumes}">
                                         <TextBlock Text="{Binding Path=Name}" />
@@ -46,22 +45,12 @@ Text="{TemplateBinding Text}"
                                         <TextBlock Text="{Binding Path=Name}" />
                                     </HierarchicalDataTemplate>
                                 </TreeView.Resources>
-                                
-                                <!--
-                                <e:Interaction.Behaviors>
-                                    <b:BindableSelectedItemBehavior SelectedItem="{Binding SelectedFolder, Mode=TwoWay}" />
-                                </e:Interaction.Behaviors>
-                                
-                                ItemsSource="{Binding SelectedFolder.DirectoryItems}" 
-                                -->
-                                
                             </TreeView>
                             <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
                             <ListView Grid.Column="2" 
-                                ItemsSource="{Binding ElementName=treeView, Path=SelectedItem, Converter={StaticResource DirectoryItemsConverter}}" 
-                                SelectedItem="{Binding SelectedDirectoryItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
-
-                                <!--  SelectedItem="{TemplateBinding SelectedDirectoryItem, Converter={StaticResource Debug}}"> -->
+                                SelectionMode="Single"      
+                                ItemsSource="{Binding ElementName=treeView, Path=SelectedItem, Converter={StaticResource ListConverter}}" 
+                                SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}}">
                                 <ListView.View>
                                     <GridView AllowsColumnReorder="true">
                                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="100"/>

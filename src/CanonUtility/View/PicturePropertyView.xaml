@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:cwc="clr-namespace:CanonWpf.Controls;assembly=CanonWpf"
-             xmlns:local="clr-namespace:CanonUtility.View"
+             xmlns:local="clr-namespace:CanonUtility.View" 
+             xmlns:vm="clr-namespace:CanonUtility.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=vm:CameraViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="3">
@@ -13,7 +15,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <cwc:CameraExplorer x:Name="explorer" Grid.Column="0" Camera="{Binding Camera}" />
+        <cwc:CameraExplorer x:Name="explorer" Grid.Column="0" Source="{Binding Camera}" SelectedItem="{Binding SelectedDirectoryItem}" />
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
         <!--
         <DataGrid Grid.Column="2" 

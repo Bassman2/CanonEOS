@@ -36,4 +36,12 @@ public partial class CameraViewModel : ObservableObject, IDisposable
     private List<Property>? properties;
 
     public Camera Camera => this.camera;
+
+    [ObservableProperty]
+    private DirectoryItem? selectedDirectoryItem;
+
+    partial void OnSelectedDirectoryItemChanged(DirectoryItem? oldValue, DirectoryItem? newValue)
+    {
+    }
+
 }
