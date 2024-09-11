@@ -139,17 +139,17 @@ public class DirectoryItem
         Eds.EdsDeleteDirectoryItem(this.item);
     }
 
-    public EdsImage Download()
+    public EdsImage DownloadImage()
     {
         
 
-        Eds.EdsCreateFileStream(this.Name, EdsFileCreateDisposition.CreateAlways, EdsFileAccess.ReadWrite, out nint stream);
-                
-        Eds.EdsDownload(this.item, this.Size, stream);
+        Eds.CheckError(Eds.EdsCreateFileStream(this.Name, EdsFileCreateDisposition.CreateAlways, EdsFileAccess.ReadWrite, out nint stream));
 
-        Eds.EdsDownloadComplete(this.item);
+        Eds.CheckError(Eds.EdsDownload(this.item, this.Size, stream));
 
-        Eds.EdsCreateImageRef(stream, out nint image);
+        Eds.CheckError(Eds.EdsDownloadComplete(this.item));
+
+        Eds.CheckError(Eds.EdsCreateImageRef(stream, out nint image));
         return new EdsImage(image);
     }
 }
