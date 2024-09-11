@@ -34,6 +34,11 @@ Text="{TemplateBinding Text}"
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TreeView x:Name="treeView" Grid.Column="0" ItemsSource="{TemplateBinding Source, Converter={StaticResource SourceConverter}}">
+                                <TreeView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type TreeViewItem}">
+                                        <Setter Property="IsExpanded" Value="True" />
+                                    </Style>
+                                </TreeView.ItemContainerStyle>
                                 <TreeView.Resources>
                                     <HierarchicalDataTemplate DataType="{x:Type eds:Camera}" ItemsSource="{Binding Volumes}">
                                         <TextBlock Text="{Binding Path=Name}" />
