@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CanonAPI\CanonAPI.csproj" />
+    <ProjectReference Include="..\CanonWpf\CanonWpf.csproj" />
   </ItemGroup>
 
   <ItemGroup>

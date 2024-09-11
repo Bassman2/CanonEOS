@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanonUtility", "src\CanonUt
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CanonCPP", "src\CanonCPP\CanonCPP.vcxproj", "{B53D2358-1863-4BB6-8997-3FC4C3A39E65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonTest", "test\CanonTest\CanonTest.csproj", "{4443A18F-0452-4E2B-BD5E-590C41D8D819}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanonTest", "test\CanonTest\CanonTest.csproj", "{4443A18F-0452-4E2B-BD5E-590C41D8D819}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonConsole", "Src\CanonConsole\CanonConsole.csproj", "{AEBD8B2C-C734-4EE1-882C-97034A52210E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanonConsole", "Src\CanonConsole\CanonConsole.csproj", "{AEBD8B2C-C734-4EE1-882C-97034A52210E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonWpf", "src\CanonWpf\CanonWpf.csproj", "{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,18 @@ Global
 		{AEBD8B2C-C734-4EE1-882C-97034A52210E}.Release|x64.Build.0 = Release|Any CPU
 		{AEBD8B2C-C734-4EE1-882C-97034A52210E}.Release|x86.ActiveCfg = Release|Any CPU
 		{AEBD8B2C-C734-4EE1-882C-97034A52210E}.Release|x86.Build.0 = Release|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Debug|x64.Build.0 = Debug|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Debug|x86.Build.0 = Debug|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Release|x64.ActiveCfg = Release|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Release|x64.Build.0 = Release|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Release|x86.ActiveCfg = Release|Any CPU
+		{1D4FEA84-CB78-4082-BF2B-EC41FEACFB46}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

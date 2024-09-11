@@ -1,4 +1,4 @@
-﻿namespace CanonUtility.Controls;
+﻿namespace CanonWpf.Controls;
 
 public class CameraExplorer : Control
 {

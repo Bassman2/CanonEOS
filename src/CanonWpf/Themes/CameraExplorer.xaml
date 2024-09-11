@@ -2,13 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:eds="clr-namespace:CanonAPI;assembly=CanonAPI"
                     xmlns:e="http://schemas.microsoft.com/xaml/behaviors"
-                    xmlns:c="clr-namespace:CanonUtility.Controls"
-                    xmlns:b="clr-namespace:CanonUtility.Behavior"
-                    xmlns:conv="clr-namespace:CanonUtility.Converter">
-
-    <conv:DebugConverter x:Key="Debug"/>
+                    xmlns:c="clr-namespace:CanonWpf.Controls"                    
+                    xmlns:conv="clr-namespace:CanonWpf.Converter">
+    <conv:DebugConverter x:Key="DebugConverter"/>
+    <conv:DirectoryItemsConverter x:Key="DirectoryItemsConverter"/>
 
     <!--
+    
+    xmlns:b="clr-namespace:CanonUtility.Behavior"
 // This one works
 Text="{Binding Text, RelativeSource={RelativeSource AncestorType={local:CustomFoo}}, Mode=TwoWay}"
 
@@ -45,12 +46,19 @@ Text="{TemplateBinding Text}"
                                         <TextBlock Text="{Binding Path=Name}" />
                                     </HierarchicalDataTemplate>
                                 </TreeView.Resources>
+                                
+                                <!--
                                 <e:Interaction.Behaviors>
                                     <b:BindableSelectedItemBehavior SelectedItem="{Binding SelectedFolder, Mode=TwoWay}" />
                                 </e:Interaction.Behaviors>
+                                
+                                ItemsSource="{Binding SelectedFolder.DirectoryItems}" 
+                                -->
+                                
                             </TreeView>
                             <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
-                            <ListView Grid.Column="2" ItemsSource="{Binding SelectedFolder.DirectoryItems}" 
+                            <ListView Grid.Column="2" 
+                                ItemsSource="{Binding ElementName=treeView, Path=SelectedItem, Converter={StaticResource DirectoryItemsConverter}}" 
                                 SelectedItem="{Binding SelectedDirectoryItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
 
                                 <!--  SelectedItem="{TemplateBinding SelectedDirectoryItem, Converter={StaticResource Debug}}"> -->

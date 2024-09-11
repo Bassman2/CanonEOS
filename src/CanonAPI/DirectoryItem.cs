@@ -1,8 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-using System.Runtime.Intrinsics.X86;
-using System.IO;
-
-namespace CanonAPI;
+﻿namespace CanonAPI;
 
 public class DirectoryItem
 {

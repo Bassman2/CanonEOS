@@ -4,7 +4,10 @@
     xmlns:local="clr-namespace:CanonUtility">
     
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Themes/CameraExplorer.xaml"/>
+        <!--
+        for .NET 9
+        <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
+        -->
     </ResourceDictionary.MergedDictionaries>
 
     

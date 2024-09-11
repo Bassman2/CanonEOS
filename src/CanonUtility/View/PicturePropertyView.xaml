@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:c="clr-namespace:CanonUtility.Controls"
+             xmlns:cwc="clr-namespace:CanonWpf.Controls;assembly=CanonWpf"
              xmlns:local="clr-namespace:CanonUtility.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -13,8 +13,9 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <c:CameraExplorer x:Name="explorer" Grid.Column="0" Camera="{Binding Camera}" />
+        <cwc:CameraExplorer x:Name="explorer" Grid.Column="0" Camera="{Binding Camera}" />
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
+        <!--
         <DataGrid Grid.Column="2" 
             ItemsSource="{Binding ElementName=explorer, Path=SelectedDirectoryItemProperties}" 
             AutoGenerateColumns="False"
@@ -34,5 +35,6 @@
                 <DataGridTextColumn Header="Value" Binding="{Binding ValueString}"/>
             </DataGrid.Columns>
         </DataGrid>
+        -->
     </Grid>
 </UserControl>
