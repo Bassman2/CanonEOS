@@ -43,10 +43,10 @@
                 <local:CameraPropertyView DataContext="{Binding CameraViewModel}"/>
             </TabItem>
             <TabItem Header="Pictures">
-                <local:PictureView DataContext="{Binding CameraViewModel}"/>
+                <local:PictureView DataContext="{Binding PictureViewModel}"/>
             </TabItem>
             <TabItem Header="Pictures Property">
-                <local:PicturePropertyView DataContext="{Binding CameraViewModel}"/>
+                <local:PicturePropertyView DataContext="{Binding PicturePropertyViewModel}"/>
             </TabItem>
             <TabItem Header="Library">
                 <local:LibraryView/>

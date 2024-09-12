@@ -48,6 +48,8 @@ public class DirectoryItem
 
     public DateTime DateTime { get; }
 
+
+
     //public int Width { get; }
     //public int Height { get; }
     //public int NumOfComponents { get; }

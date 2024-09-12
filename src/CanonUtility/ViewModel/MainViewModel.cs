@@ -54,11 +54,20 @@ public partial class MainViewModel : AppViewModel, IDisposable
     partial void OnSelectedCameraChanged(Camera? oldValue, Camera? newValue)
     {
         CameraViewModel?.Dispose();
-        CameraViewModel = new CameraViewModel(newValue!);        
+        CameraViewModel = new CameraViewModel(newValue!);  
+        
+        this.PictureViewModel = newValue != null ? new PictureViewModel(newValue) : null;
+        this.PicturePropertyViewModel = newValue != null ? new PicturePropertyViewModel(newValue) : null;
     }
 
     [ObservableProperty]
-    private CameraViewModel? cameraViewModel;    
+    private CameraViewModel? cameraViewModel;
+
+    [ObservableProperty]
+    private PictureViewModel? pictureViewModel;
+
+    [ObservableProperty]
+    private PicturePropertyViewModel? picturePropertyViewModel;
 
     protected override void OnActivate()
     {

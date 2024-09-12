@@ -16,3 +16,4 @@ global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
 
 global using CanonAPI;
+global using CanonUtility.ViewModel;
