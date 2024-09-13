@@ -1,4 +1,6 @@
-﻿namespace CanonAPI.Internal;
+﻿using System.Reflection.PortableExecutable;
+
+namespace CanonAPI.Internal;
 
 
 // https://developers.canon-europe.com/s/camera
@@ -62,7 +64,7 @@ internal static partial class Eds
     }
 
     private static Version GetEdsFileVersion()
-    {       
+    {
         string file = GetLibraryFile();
         FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(file + LibraryExtention());
         return new Version(fileVersionInfo.FileVersion!);
@@ -81,6 +83,7 @@ internal static partial class Eds
 
     public static string LibraryPath { get; } = GetLibraryFile();
 
+    /*
     public static void DebugProperties(IntPtr inRef)
     {
         for (EdsPropertyID propId = 0; propId < EdsPropertyID.Unknown; propId++)
@@ -126,6 +129,14 @@ internal static partial class Eds
             }
         }
     }
+    */
+
+    public static bool IsMultiParam(EdsPropertyID propertyID)
+    {
+        var x = typeof(EdsPropertyID).GetField(propertyID.ToString());
+        var y = x?.IsDefined(typeof(MultiParamAttribute), false);
+        return typeof(EdsPropertyID).GetField(propertyID.ToString())?.IsDefined(typeof(MultiParamAttribute), false) ?? false;
+    }
 
     public static IEnumerable<PropertyDesc> GetPropertiesDesc(IntPtr camera)
     {
@@ -137,22 +148,30 @@ internal static partial class Eds
         }
     }
 
-    private static bool ParamFix(EdsPropertyID propertyID, int param) => !((propertyID == EdsPropertyID.DateTime || propertyID == EdsPropertyID.AvailableShots || propertyID == (EdsPropertyID)96) && param > 0);
+    //private static bool ParamFix(EdsPropertyID propertyID, int param) => !((propertyID == EdsPropertyID.DateTime || propertyID == EdsPropertyID.AvailableShots || propertyID == (EdsPropertyID)96) && param > 0);
     
 
 
-    public static IEnumerable<Property> GetAllProperties(IntPtr inRef)
+    private static IEnumerable<Property> GetAllProperties(IntPtr inRef)
     {
-        for (EdsPropertyID propertyID = EdsPropertyID.CameraFrom; propertyID < EdsPropertyID.AtCaptureTo; propertyID++)
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.PropertyFrom, EdsPropertyID.PropertyTo))
         {
-            var properties = GetProperties(inRef, propertyID);
-            foreach (var property in properties)
-            {
-                yield return property;
-            }
+            yield return property;
+        }
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.LimitedFrom, EdsPropertyID.LimitedTo))
+        {
+            yield return property;
+        }
+        foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.AtCaptureFrom, EdsPropertyID.AtCaptureTo))
+        {
+            yield return property;
         }
     }
 
+    public static IEnumerable<Property> GetCameraProperties(IntPtr inRef) => GetAllProperties(inRef);
+    public static IEnumerable<Property> GetPictureProperties(IntPtr inRef) => GetAllProperties(inRef);
+
+    /*
     public static IEnumerable<Property> GetCameraProperties(IntPtr inRef)
     {
         foreach (Property property in GetPropertiesRange(inRef, EdsPropertyID.CameraFrom, EdsPropertyID.CameraTo))
@@ -200,7 +219,7 @@ internal static partial class Eds
             yield return property;
         }
 
-        /*
+        
 
         for (EdsPropertyID propertyID = EdsPropertyID.CameraFrom; propertyID < EdsPropertyID.CameraTo; propertyID++)
         {
@@ -226,7 +245,7 @@ internal static partial class Eds
                 yield return property;
             }
         }
-        */
+        
     }
 
     public static IEnumerable<Property> GetPictureProperties(IntPtr inRef)
@@ -257,24 +276,105 @@ internal static partial class Eds
             }
         }
     }
+    */
 
     private static IEnumerable<Property> GetPropertiesRange(IntPtr inRef, EdsPropertyID from, EdsPropertyID to)
     {
         for (EdsPropertyID propertyID = from; propertyID <= to; propertyID++)
         {
-            var properties = GetProperties(inRef, propertyID);
-            foreach (var property in properties)
+            if (IsMultiParam(propertyID))
             {
-                yield return property;
+                var properties = GetMultiParamProperty(inRef, propertyID);
+                foreach (var property in properties.Where(p => p != null))
+                {
+                    yield return property;
+                }
+            }
+            else
+            {
+                Property? property = GetSingelParamProperty(inRef, propertyID);
+                if (property != null)
+                { 
+                    yield return property;
+                }
             }
         }
     }
 
-    private static IEnumerable<Property> GetProperties(IntPtr inRef, EdsPropertyID propertyID)
+    private static Property? GetSingelParamProperty(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
     {
         EdsError err;
+        if ((err = EdsGetPropertySize(inRef, propertyID, 0, out EdsDataType dataType, out int size)) == EdsError.OK)
+        {
+            return new Property(propertyID, param, dataType,
+                dataType switch
+                {
+                    EdsDataType.String => GetPropertyString(inRef, propertyID, param),
+                    EdsDataType.Int32 => GetPropertyInt(inRef, propertyID, param),
+                    EdsDataType.UInt32 => GetPropertyUInt(inRef, propertyID, param),
+                    EdsDataType.Time => (DateTime?)GetPropertyStruct<EdsTime>(inRef, propertyID, param),
+                    EdsDataType.Int32_Array => GetPropertyIntArray(inRef, propertyID, param),
+                    EdsDataType.UInt32_Array => GetPropertyUIntArray(inRef, propertyID),
+                    EdsDataType.FocusInfo => GetPropertyStruct<EdsFocusInfo>(inRef, propertyID, param),
+                    EdsDataType.PictureStyleDesc => GetPropertyStruct<EdsPictureStyleDesc>(inRef, propertyID, param),
+                    _ => new NotSupportedException()
+                });
+        }
+        /*
+            //Debug.WriteLine($"Property {propertyID} {param} {size} {err}");
+            switch (dataType)
+            {
+            case EdsDataType.String:
+                return new Property(propertyID, 0, dataType, GetPropertyString(inRef, propertyID));
+            case EdsDataType.Int32:
+                return new Property(propertyID, 0, dataType, GetPropertyInt(inRef, propertyID));
+            case EdsDataType.UInt32:
+                return new Property(propertyID, 0, dataType, GetPropertyUInt(inRef, propertyID));
+            case EdsDataType.Time:
+               return new Property(propertyID, param, dataType, (DateTime?)GetPropertyStruct<EdsTime>(inRef, propertyID));
+                break;
+            case EdsDataType.Int32_Array:
+                yield return new Property(propertyID, param, dataType, GetPropertyIntArray(inRef, propertyID));
+                break;
+            case EdsDataType.UInt32_Array:
+                yield return new Property(propertyID, param, dataType, GetPropertyUIntArray(inRef, propertyID));
+                break;
+            case EdsDataType.FocusInfo:
+                yield return new Property(propertyID, param, dataType, GetPropertyStruct<EdsFocusInfo>(inRef, propertyID));
+                break;
+            case EdsDataType.PictureStyleDesc:
+                yield return new Property(propertyID, param, dataType, GetPropertyStruct<EdsPictureStyleDesc>(inRef, propertyID));
+                break;
+
+            case EdsDataType.ByteBlock:
+                break;
+            default:
+                break;
+            }
+            param++;
+        }
+        */
+        return null;
+    }
+
+    private static IEnumerable<Property> GetMultiParamProperty(IntPtr inRef, EdsPropertyID propertyID)
+    {
+        for (int param = 0; param < 100; param++)
+        {
+            Property? property = GetSingelParamProperty(inRef, propertyID, param);
+            if (property is not null)
+            {
+                yield return property;
+            }
+            else
+            {
+                yield break;
+            }
+        }
+        /*
+        EdsError err;
         int param = 0;
-        while ((err = EdsGetPropertySize(inRef, propertyID, param, out EdsDataType dataType, out int size)) == EdsError.OK && param < 10 && ParamFix(propertyID, param))
+        while ((err = EdsGetPropertySize(inRef, propertyID, param, out EdsDataType dataType, out int size)) == EdsError.OK && param < 10)
         {
             //Debug.WriteLine($"Property {propertyID} {param} {size} {err}");
             switch (dataType)
@@ -311,7 +411,10 @@ internal static partial class Eds
             }
             param++;
         }
+        */
     }
+
+   
 
     public unsafe static int GetPropertyInt(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
     {

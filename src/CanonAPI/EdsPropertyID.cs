@@ -84,11 +84,15 @@ public enum EdsPropertyID : uint
     [Description("Stored image")]
     ImageQuality = 0x00000100,
 
+    //[MultiParam]
     [Description("Value representing compression when saved as a JPEG; 1 to 10 (cap)")]
     JpegQuality = 0x00000101,
     Orientation = 0x00000102,
     ICCProfile = 0x00000103,
+
+    //[MultiParam]
     FocusInfo = 0x00000104,
+
     DigitalExposure = 0x00000105,
     WhiteBalance = 0x00000106,
     ColorTemperature = 0x00000107,
@@ -97,14 +101,20 @@ public enum EdsPropertyID : uint
     ColorSaturation = 0x0000010a,
     ColorTone = 0x0000010b,
     Sharpness = 0x0000010c,
+
+    //[MultiParam]
     ColorSpace = 0x0000010d,
+
     ToneCurve = 0x0000010e,
     PhotoEffect = 0x0000010f,
     FilterEffect = 0x00000110,
     ToningEffect = 0x00000111,
     ParameterSet = 0x00000112,
     ColorMatrix = 0x00000113,
+
+    //[MultiParam]
     PictureStyle = 0x00000114,
+
     PictureStyleDesc = 0x00000115,
     PictureStyleCaption = 0x00000200,
 

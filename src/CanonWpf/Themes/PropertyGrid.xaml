@@ -3,7 +3,7 @@
                     xmlns:c="clr-namespace:CanonWpf.Controls"                    
                     xmlns:conv="clr-namespace:CanonWpf.Converter">
 
-    <Style TargetType="{x:Type c:PropertyGrid}">
+    <Style TargetType="{x:Type c:PropertyGrid}" BasedOn="{StaticResource {x:Type DataGrid}}" >
         <Setter Property="AutoGenerateColumns" Value="False"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
         <Setter Property="GridLinesVisibility" Value="None"/>

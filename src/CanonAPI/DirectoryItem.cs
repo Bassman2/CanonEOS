@@ -92,12 +92,6 @@ public class DirectoryItem
         get => DirectoryItems.Where(d => !d.IsFolder);
     }
 
-    
-    public IEnumerable<Property> Properties
-    {
-        get => Eds.GetPictureProperties(item);
-    }
-
     public void DownloadThumbnail(string filePath)
     {
         Eds.EdsCreateFileStream(filePath, EdsFileCreateDisposition.CreateNew, EdsFileAccess.Write, out nint fileStream);
@@ -139,8 +133,6 @@ public class DirectoryItem
 
     public EdsImage DownloadImage()
     {
-        
-
         Eds.CheckError(Eds.EdsCreateFileStream(this.Name, EdsFileCreateDisposition.CreateAlways, EdsFileAccess.ReadWrite, out nint stream));
 
         Eds.CheckError(Eds.EdsDownload(this.item, this.Size, stream));
@@ -149,5 +141,17 @@ public class DirectoryItem
 
         Eds.CheckError(Eds.EdsCreateImageRef(stream, out nint image));
         return new EdsImage(image);
+    }
+
+    public EdsImage? DownloadStream()
+    {
+
+        Eds.CheckError(Eds.EdsCreateMemoryStream((long)this.Size, out nint stream));
+
+        Eds.CheckError(Eds.EdsDownload(this.item, this.Size, stream));
+
+        Eds.CheckError(Eds.EdsDownloadComplete(this.item));
+
+        return null;
     }
 }

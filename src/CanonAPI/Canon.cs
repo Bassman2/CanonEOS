@@ -1,4 +1,4 @@
-﻿namespace CanonAPI;
+﻿ namespace CanonAPI;
 
 public delegate void CameraAddedEventHandler(Canon sender);
 

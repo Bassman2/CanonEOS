@@ -17,8 +17,9 @@
         </Grid.ColumnDefinitions>
         <cwc:CameraExplorer x:Name="explorer" Grid.Column="0" Source="{Binding Camera}" SelectedItem="{Binding SelectedDirectoryItem}" />
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
-        <!--<cwc:PropertyGrid Grid.Column="2"/>-->
+        <cwc:PropertyGrid Grid.Column="2" ItemsSource="{Binding Properties}"/>
        
+        <!--
         <DataGrid Grid.Column="2" 
             ItemsSource="{Binding Properties}" 
             AutoGenerateColumns="False"
@@ -38,6 +39,7 @@
                 <DataGridTextColumn Header="Value" Binding="{Binding ValueString}"/>
             </DataGrid.Columns>
         </DataGrid>
+        -->
         
     </Grid>
 </UserControl>

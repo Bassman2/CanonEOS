@@ -1,10 +1,20 @@
-﻿namespace CanonWpf.CanonExt;
+﻿
+
+namespace CanonWpf.CanonExt;
 
 public static class CanonExtentions
 {
 
-    public static ImageSource DownloadImage(this DirectoryItem directoryItem)
+    public static BitmapImage DownloadImage(this DirectoryItem directoryItem)
     {
-        return new BitmapImage();
+        using var stream = new MemoryStream();
+
+        BitmapImage bitmap = new();
+        bitmap.BeginInit();
+        bitmap.StreamSource = stream;
+        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+        bitmap.EndInit();
+        bitmap.Freeze();
+        return bitmap;
     }
 }
