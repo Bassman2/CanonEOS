@@ -39,31 +39,31 @@ internal static partial class Eds
     public extern static EdsError EdsGetParent(nint inRef, out nint outParentRef);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetCameraList(out nint outCameraListRef);
+    public extern static EdsError EdsGetCameraList(out nint cameraList);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetDeviceInfo(nint inCameraRef, out EdsDeviceInfo outDeviceInfo);
+    public extern static EdsError EdsGetDeviceInfo(nint camera, out EdsDeviceInfo deviceInfo);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsGetVolumeInfo(nint inCameraRef, out EdsVolumeInfo outVolumeInfo);
+    public extern static EdsError EdsGetVolumeInfo(nint camera, out EdsVolumeInfo outVolumeInfo);
 
     [DllImport(LibName)]
     public extern static EdsError EdsGetDirectoryItemInfo(nint inDirItemRef, out EdsDirectoryItemInfo outDirItemInfo);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsOpenSession(nint inCameraRef);
+    public extern static EdsError EdsOpenSession(nint camera);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsCloseSession(nint inCameraRef);
+    public extern static EdsError EdsCloseSession(nint camera);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSendCommand(nint inCameraRef, EdsCameraCommand inCommand, int inParam);
+    public extern static EdsError EdsSendCommand(nint camera, EdsCameraCommand inCommand, int inParam);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSendStatusCommand(nint inCameraRef, EdsCameraStatusCommand inCameraState, int inParam);
+    public extern static EdsError EdsSendStatusCommand(nint camera, EdsCameraStatusCommand inCameraState, int inParam);
 
     [DllImport(LibName)]
-    public extern static EdsError EdsSetCapacity(nint inCameraRef, EdsCapacity inCapacity);
+    public extern static EdsError EdsSetCapacity(nint camera, EdsCapacity inCapacity);
 
     [DllImport(LibName)]
     public extern static EdsError EdsGetPropertySize(nint inRef, EdsPropertyID propertyID, int param, out EdsDataType dataType, out int size);

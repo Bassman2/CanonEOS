@@ -400,3 +400,5 @@ FodyWeavers.xsd
 # Canon
 EDSDK.dll
 EdsImage.dll
+libEDSDK.so
+EDSDK
