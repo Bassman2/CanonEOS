@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:eds="clr-namespace:CanonAPI;assembly=CanonAPI"
+                    xmlns:eds="clr-namespace:CanonEos;assembly=CanonEos"
                     xmlns:e="http://schemas.microsoft.com/xaml/behaviors"
                     xmlns:c="clr-namespace:CanonWpf.Controls"                    
                     xmlns:conv="clr-namespace:CanonWpf.Converter">

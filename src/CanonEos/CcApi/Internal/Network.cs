@@ -12,7 +12,7 @@ namespace CanonEos.CcApi.Internal;
 
 internal static class Network
 {
-    private static readonly int timeout = 4000;
+    //private static readonly int timeout = 4000;
 
     private static IEnumerable<IPAddress> NetworkGateways()
     {

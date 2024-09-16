@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:cwc="clr-namespace:CanonWpf.Controls;assembly=CanonWpf"
              xmlns:e="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:eds="clr-namespace:CanonAPI;assembly=CanonAPI"
+             xmlns:eds="clr-namespace:CanonEos;assembly=CanonEos"
              xmlns:local="clr-namespace:CanonUtility.View"
              xmlns:vm="clr-namespace:CanonUtility.ViewModel"
              d:DataContext="{d:DesignInstance Type=vm:PictureViewModel}"

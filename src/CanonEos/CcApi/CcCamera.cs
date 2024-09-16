@@ -6,7 +6,11 @@ internal class CcCamera : Camera
     {
         this.Name = "";
         this.Volumes = [];
+        this.Properties = [];
     }
+
+    public override void Dispose()
+    { }
 
     public override string Name { get; }
     public override string? ProductName { get; }
@@ -21,4 +25,5 @@ internal class CcCamera : Camera
 
     public override IEnumerable<Volume> Volumes { get; }
 
+    public override IEnumerable<Property> Properties { get; }
 }

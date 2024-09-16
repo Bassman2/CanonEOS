@@ -15,5 +15,6 @@ global using System.Windows.Threading;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
 
-global using CanonAPI;
+global using CanonEos;
+global using CanonEos.EdSdk;
 global using CanonUtility.ViewModel;

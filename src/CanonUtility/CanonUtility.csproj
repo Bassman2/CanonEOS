@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CanonAPI\CanonAPI.csproj" />
+    <ProjectReference Include="..\CanonEos\CanonEos.csproj" />
     <ProjectReference Include="..\CanonWpf\CanonWpf.csproj" />
   </ItemGroup>
 
