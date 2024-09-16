@@ -3,18 +3,34 @@
 public partial class MainViewModel : AppViewModel, IDisposable
 {
     private readonly Canon library;
+
+    private Camera? ccCamera;
+
     public MainViewModel() 
     {
+        
+
         this.library = new();
         this.library.CameraAdded += OnCameraAdded;
         //this.Canon = library.IsInitialized ? "Connected" : "Disconnected";
         this.Cameras = this.library.GetCameras().ToList();
+
+        this.ccCamera = this.library.AddCcCamera(new Uri("https://192.168.178.67:443"));
+        if (this.ccCamera != null)
+        {
+            this.Cameras.Add(this.ccCamera);
+        }
         this.SelectedCamera = this.Cameras.FirstOrDefault();
+
     }
 
     private void OnCameraAdded(Canon sender)
     {
         this.Cameras = this.library.GetCameras().ToList();
+        if (this.ccCamera != null)
+        {
+            this.Cameras.Add(this.ccCamera);
+        }
         this.SelectedCamera = this.Cameras.FirstOrDefault();
     }
 

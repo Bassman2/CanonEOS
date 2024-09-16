@@ -1,4 +1,6 @@
-﻿namespace CanonEos;
+﻿using System.Net;
+
+namespace CanonEos;
 
 
 public delegate void CameraAddedEventHandler(Canon sender);
@@ -102,6 +104,11 @@ public sealed class Canon : IDisposable
     private IEnumerable<CcCamera> GetCcCameras()
     {
         return [];
+    }
+
+    public Camera AddCcCamera(Uri url)
+    {
+        return new CcCamera(url);
     }
 
     #endregion

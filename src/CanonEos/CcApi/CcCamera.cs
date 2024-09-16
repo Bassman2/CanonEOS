@@ -1,10 +1,15 @@
-﻿namespace CanonEos.CcApi;
+﻿using System.Net;
+
+namespace CanonEos.CcApi;
 
 internal class CcCamera : Camera
 {
-    internal CcCamera(nint camera)
+    private CcService service;
+
+    internal CcCamera(Uri url)
     {
-        this.Name = "";
+        this.service = new CcService(url);
+        this.Name = url.OriginalString;
         this.Volumes = [];
         this.Properties = [];
     }

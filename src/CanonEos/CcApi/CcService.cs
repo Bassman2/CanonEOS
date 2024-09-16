@@ -1,4 +1,6 @@
-﻿namespace CanonEos.CcApi;
+﻿using System.Net;
+
+namespace CanonEos.CcApi;
 
 internal class CcService : IDisposable
 {
@@ -7,8 +9,10 @@ internal class CcService : IDisposable
     private HttpClient client;
     //private readonly string sessionId;
 
-    public CcService()
+    public CcService(Uri url)
     {
+        ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+
         // connect
         this.handler = new HttpClientHandler
         {
@@ -17,9 +21,11 @@ internal class CcService : IDisposable
         };
         this.client = new HttpClient(this.handler)
         {
-            BaseAddress = this.defaultHost,
+            BaseAddress = url,
             Timeout = new TimeSpan(0, 2, 0)
         };
+
+        string res = this.client.GetStringAsync("ccapi").Result;
     }
 
     public void Dispose()
