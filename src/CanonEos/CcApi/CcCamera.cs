@@ -23,22 +23,21 @@ internal class CcCamera : Camera
     public override void Dispose()
     { }
 
+
+    // Device Information
     public override string Name { get; }
     public override string? ProductName { get; }
-    public override string? OwnerName { get; }
     public override string? FirmwareVersion { get; }
-    public override string? CurrentStorage { get; }
-    public override string? CurrentFolder { get; }
     public override string? BodyIDEx { get; }
-    public override string? LensName 
-    { 
-        get
-        {
-            return this.service.GetDeviceStatusLens()?.Name;
-        }
-    }
-    public override string? Artist { get; }
-    public override string? Copyright { get; }
+
+    // Requests
+    public override string? CurrentStorage => service.GetDeviceStatusCurrentStorage110()?.Name;
+    public override string? CurrentFolder => service.GetDeviceStatusCurrentDirectory()?.Name;
+    
+    public override string? LensName => this.service.GetDeviceStatusLens()?.Name;
+    public override string? OwnerName => service.GetOwnerName();
+    public override string? Artist => service.GetAuthor();
+    public override string? Copyright => service.GetCopyright();
 
     public override IEnumerable<Volume> Volumes
     {

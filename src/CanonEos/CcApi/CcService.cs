@@ -84,6 +84,7 @@ internal class CcService : IDisposable
     private T? GetFromJson<T>(string? requestUri)
     {
         using HttpResponseMessage response = this.client.GetAsync(requestUri).Result;
+        string str = response.Content.ReadAsStringAsync().Result;
         if (!response.IsSuccessStatusCode)
         {
             ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
@@ -124,6 +125,9 @@ internal class CcService : IDisposable
 
     public DeviceStatusCurrentStorage110? GetDeviceStatusCurrentStorage110()
         => GetFromJson<DeviceStatusCurrentStorage110>("/ccapi/ver110/devicestatus/currentstorage");
+
+    public DeviceStatusCurrentDirectory? GetDeviceStatusCurrentDirectory()
+        => GetFromJson<DeviceStatusCurrentDirectory>("/ccapi/ver110/devicestatus/currentdirectory");
 
     public Battery? GetDeviceStatusBattery()
         => GetFromJson<Battery>("/ccapi/ver110/devicestatus/battery");
