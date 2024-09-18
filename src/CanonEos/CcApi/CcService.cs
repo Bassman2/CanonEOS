@@ -114,6 +114,32 @@ internal class CcService : IDisposable
         }
     }
 
+    private Stream GetFromStream(string? requestUri)
+    {
+        using HttpResponseMessage response = this.client.GetAsync(requestUri).Result;
+        string str = response.Content.ReadAsStringAsync().Result;
+        if (!response.IsSuccessStatusCode)
+        {
+            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
+            throw new CCException(msg?.Message, response.StatusCode);
+        }
+        MemoryStream stream = new MemoryStream();
+        response.Content.CopyToAsync(stream).Wait();
+        stream.Seek(0, SeekOrigin.Begin);
+        return stream;
+        //return response.Content.ReadAsStream();
+    }
+
+    private void Delete(string? requestUri)
+    {
+        using HttpResponseMessage response = this.client.DeleteAsync(requestUri).Result;
+        if (!response.IsSuccessStatusCode)
+        {
+            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
+            throw new CCException(msg?.Message, response.StatusCode);
+        }
+    }
+
     public DeviceInformation? GetDeviceInformation() 
         => GetFromJson<DeviceInformation>("/ccapi/ver100/deviceinformation");
 
@@ -165,4 +191,39 @@ internal class CcService : IDisposable
 
     public ValuePut? SetMute(string value)
        => PutAsJson<ValuePut>("/ccapi/ver100/functions/beep", new ValuePut { Value = value });
+
+    #region Image Operations
+
+    public PathList? GetVolumns()
+        => GetFromJson<PathList>("/ccapi/ver130/contents");
+
+    public PathList? GetDirectories(string volumeName)
+        => GetFromJson<PathList>($"/ccapi/ver130/contents/{volumeName}");
+
+    public PathList? GetFiles(string volumeName, string directoryName)
+        => GetFromJson<PathList>($"/ccapi/ver130/contents/{volumeName}/{directoryName}?type=all,kind=list,order=asc,page=");
+
+    public void DeleteDirectory(string volumeName, string directoryName)
+        => Delete($"/ccapi/ver130/contents/{volumeName}/{directoryName}");
+
+    public Stream? DownloadImage(string volumeName, string directoryName, string fileName)
+    => GetFromStream($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=main");
+
+    public Stream? DownloadThumbnail(string volumeName, string directoryName, string fileName)
+    => GetFromStream($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=thumbnail");
+
+    public Stream? DownloadDisplay(string volumeName, string directoryName, string fileName)
+    => GetFromStream($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=display");
+
+    public Stream? DownloadEmbedded(string volumeName, string directoryName, string fileName)
+    => GetFromStream($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=embedded");
+
+    public ImageInfo? GetFileInfo(string volumeName, string directoryName, string fileName)
+        => GetFromJson<ImageInfo>($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=info");
+
+    #endregion
+
+    #region Shooting Control
+
+    #endregion
 }
