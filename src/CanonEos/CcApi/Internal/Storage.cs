@@ -1,10 +1,15 @@
 ﻿namespace CanonEos.CcApi.Internal;
 
-internal class Storage110
+internal class Storage
 {
     [JsonPropertyName("name")]
     public string? Name { get; set; }
 
+    // ver 1.0.0
+    [JsonPropertyName("url")]
+    public string? Url { get; set; }
+
+    // >= ver 1.1.0
     [JsonPropertyName("path")]
     public string? Path { get; set; }
 

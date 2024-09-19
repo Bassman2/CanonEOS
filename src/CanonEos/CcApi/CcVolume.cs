@@ -2,20 +2,13 @@
 
 internal class CcVolume : Volume
 {
-    public CcVolume(CcService service, Storage100 storage)
+    public CcVolume(CcService service, Storage storage)
     {
         this.Name = storage.Name ?? "";
         this.MaxCapacity = storage.Maxize;
         this.FreeSpaceInBytes = storage.SpaceSize;
     }
-
-    public CcVolume(CcService service, Storage110 storage)
-    {
-        this.Name = storage.Name ?? "";
-        this.MaxCapacity = storage.Maxize;
-        this.FreeSpaceInBytes = storage.SpaceSize;
-    }
-
+      
     public override string Name { get; }
 
     public override EdsStorageType StorageType { get; }

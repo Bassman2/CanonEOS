@@ -10,6 +10,8 @@ internal class CcCamera : Camera
     {
         this.service = new CcService(url);
 
+      
+
         DeviceInformation? deviceInformation = this.service.GetDeviceInformation();
 
         this.Name = deviceInformation?.ProductName ?? url.OriginalString;
@@ -31,7 +33,7 @@ internal class CcCamera : Camera
     public override string? BodyIDEx { get; }
 
     // Requests
-    public override string? CurrentStorage => service.GetDeviceStatusCurrentStorage110()?.Name;
+    public override string? CurrentStorage => service.GetDeviceStatusCurrentStorage()?.Name;
     public override string? CurrentFolder => service.GetDeviceStatusCurrentDirectory()?.Name;
     
     public override string? LensName => this.service.GetDeviceStatusLens()?.Name;
@@ -43,7 +45,7 @@ internal class CcCamera : Camera
     {
         get
         {
-            var volumes = this.service.GetDeviceStatusStorage110();
+            var volumes = this.service.GetDeviceStatusStorage();
             return volumes?.Storages?.Select(s => new CcVolume(this.service, s)) ?? [];
         }
     }

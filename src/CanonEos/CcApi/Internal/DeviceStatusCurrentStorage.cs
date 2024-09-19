@@ -1,6 +1,6 @@
 ﻿namespace CanonEos.CcApi.Internal;
 
-internal class DeviceStatusCurrentStorage110
+internal class DeviceStatusCurrentStorage
 {
     [JsonPropertyName("name")]
     public string? Name { get; set; }

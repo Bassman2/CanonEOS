@@ -1,7 +1,4 @@
-﻿
-using System.Xml.Linq;
-
-namespace CanonEos.CcApi;
+﻿namespace CanonEos.CcApi;
 
 internal class CcService : IDisposable
 {
@@ -42,13 +39,25 @@ internal class CcService : IDisposable
             Timeout = new TimeSpan(0, 2, 0)
         };
 
-        string res = this.client.GetStringAsync("ccapi").Result;
+        //string res = this.client.GetStringAsync("ccapi").Result;
+
+        Ccapis? apis = GetApiList();
+
+
+        //Ccapis? apisV100 = GetApiList("ver100");
+        //Ccapis? apisV110 = GetApiList("ver110");
+        //Ccapis? apisV120 = GetApiList("ver120");
+        //Ccapis? apisV130 = GetApiList("ver130");
+        //Ccapis? apisV140 = GetApiList("ver140");
+
+
+
 
         DeviceInformation? deviceInformation = GetDeviceInformation();
 
-        DeviceStatusStorage110? deviceStatusStorage = GetDeviceStatusStorage110();
+        DeviceStatusStorage? deviceStatusStorage = GetDeviceStatusStorage();
 
-        DeviceStatusCurrentStorage110? deviceStatusCurrentStorage = GetDeviceStatusCurrentStorage110();
+        DeviceStatusCurrentStorage? deviceStatusCurrentStorage = GetDeviceStatusCurrentStorage();
 
     }
 
@@ -80,6 +89,8 @@ internal class CcService : IDisposable
     //        throw;
     //    }
     //}
+
+    #region HTTP 
 
     private T? GetFromJson<T>(string? requestUri)
     {
@@ -140,17 +151,32 @@ internal class CcService : IDisposable
         }
     }
 
+    #endregion
+
+    #region List of APIs
+
+    public Ccapis? GetApiList()
+        => GetFromJson<Ccapis>("/ccapi");
+
+    public Ccapis? GetApiList(string version)
+       => GetFromJson<Ccapis>($"/ccapi/{version}/topurlfordev");
+
+    #endregion
+
+    #region Camera Information (Fixed Values)
+
     public DeviceInformation? GetDeviceInformation() 
         => GetFromJson<DeviceInformation>("/ccapi/ver100/deviceinformation");
 
-    public DeviceStatusStorage100? GetDeviceStatusStorage100()
-        => GetFromJson<DeviceStatusStorage100>("/ccapi/ver100/devicestatus/storage");
+    #endregion
 
-    public DeviceStatusStorage110? GetDeviceStatusStorage110()
-        => GetFromJson<DeviceStatusStorage110>("/ccapi/ver110/devicestatus/storage");
+    #region Camera Status (Variable Values)
+        
+    public DeviceStatusStorage? GetDeviceStatusStorage()
+        => GetFromJson<DeviceStatusStorage>("/ccapi/ver110/devicestatus/storage");
 
-    public DeviceStatusCurrentStorage110? GetDeviceStatusCurrentStorage110()
-        => GetFromJson<DeviceStatusCurrentStorage110>("/ccapi/ver110/devicestatus/currentstorage");
+    public DeviceStatusCurrentStorage? GetDeviceStatusCurrentStorage()
+        => GetFromJson<DeviceStatusCurrentStorage>("/ccapi/ver110/devicestatus/currentstorage");
 
     public DeviceStatusCurrentDirectory? GetDeviceStatusCurrentDirectory()
         => GetFromJson<DeviceStatusCurrentDirectory>("/ccapi/ver110/devicestatus/currentdirectory");
@@ -166,6 +192,10 @@ internal class CcService : IDisposable
 
     public Temperature? GetDeviceStatusTemerature()
         => GetFromJson<Temperature>("/ccapi/ver100/devicestatus/temperature");
+
+    #endregion
+
+    #region Camera Settings
 
     public string? GetCopyright()
         => GetFromJson<CameraCopyright>("/ccapi/ver100/functions/registeredname/copyright")?.Copyright;
@@ -191,6 +221,8 @@ internal class CcService : IDisposable
 
     public ValuePut? SetMute(string value)
        => PutAsJson<ValuePut>("/ccapi/ver100/functions/beep", new ValuePut { Value = value });
+
+    #endregion
 
     #region Image Operations
 
