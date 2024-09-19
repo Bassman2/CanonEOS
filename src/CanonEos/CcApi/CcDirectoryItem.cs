@@ -2,10 +2,41 @@
 
 public class CcDirectoryItem : DirectoryItem
 {
-    public CcDirectoryItem()
+    private readonly CcService service;
+    
+    private readonly string? volume;
+    private readonly string? folder;
+    internal CcDirectoryItem(CcService service, string path)
     {
-        this.Name = "";
+        this.service = service;
+        string[] arr = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+        if (arr.Length == 4)
+        {
+            volume = arr[3];
+            Name = arr[3];
+            IsFolder = true;
+        }
+        else if (arr.Length == 5)
+        {
+            volume = arr[3];
+            folder = arr[4];
+            Name = arr[4];
+            IsFolder = true;
+        }
+        else if (arr.Length == 6)
+        {
+            volume = arr[3];
+            folder = arr[4];
+            Name = arr[5];
+            IsFolder = false;
+        }
+        else
+        {
+            throw new Exception();
+        }
     }
+
     public override string Name { get; }
 
     public override ulong Size { get; }
@@ -23,16 +54,17 @@ public class CcDirectoryItem : DirectoryItem
 
     public override EdsFileAttribute Attribute { get; set; }
 
+    private List<DirectoryItem>? directoryItems;
+    public override IEnumerable<DirectoryItem>? DirectoryItems 
+        => directoryItems ??= service.GetFiles(volume!, folder!)?.Select(d => (DirectoryItem)new CcDirectoryItem(this.service, d)).ToList(); 
+    
 
-    public override IEnumerable<CcDirectoryItem> DirectoryItems 
-    { 
-        get => []; 
-    }
+    public override IEnumerable<DirectoryItem>? Directories 
+        => DirectoryItems?.Where(d => d.IsFolder); 
+    
 
-
-    public override IEnumerable<CcDirectoryItem> Directories { get => [];  }
-
-    public override IEnumerable<CcDirectoryItem> Files { get => [];  }
+    public override IEnumerable<DirectoryItem>? Files 
+        => DirectoryItems?.Where(d => !d.IsFolder); 
 
     public override void DownloadThumbnail(string filePath)
     {

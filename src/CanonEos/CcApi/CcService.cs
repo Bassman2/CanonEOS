@@ -53,11 +53,11 @@ internal class CcService : IDisposable
 
 
 
-        DeviceInformation? deviceInformation = GetDeviceInformation();
+        //DeviceInformation? deviceInformation = GetDeviceInformation();
 
-        DeviceStatusStorage? deviceStatusStorage = GetDeviceStatusStorage();
+        //DeviceStatusStorage? deviceStatusStorage = GetDeviceStatusStorage();
 
-        DeviceStatusCurrentStorage? deviceStatusCurrentStorage = GetDeviceStatusCurrentStorage();
+        //DeviceStatusCurrentStorage? deviceStatusCurrentStorage = GetDeviceStatusCurrentStorage();
 
     }
 
@@ -172,8 +172,8 @@ internal class CcService : IDisposable
 
     #region Camera Status (Variable Values)
         
-    public DeviceStatusStorage? GetDeviceStatusStorage()
-        => GetFromJson<DeviceStatusStorage>("/ccapi/ver110/devicestatus/storage");
+    public IEnumerable<Storage>? GetDeviceStatusStorage()
+        => GetFromJson<DeviceStatusStorage>("/ccapi/ver110/devicestatus/storage")?.Storages;
 
     public DeviceStatusCurrentStorage? GetDeviceStatusCurrentStorage()
         => GetFromJson<DeviceStatusCurrentStorage>("/ccapi/ver110/devicestatus/currentstorage");
@@ -226,14 +226,24 @@ internal class CcService : IDisposable
 
     #region Image Operations
 
-    public PathList? GetVolumns()
-        => GetFromJson<PathList>("/ccapi/ver130/contents");
+    public IEnumerable<string>? GetVolumns()
+        => GetFromJson<PathList>("/ccapi/ver120/contents")?.Paths;
 
-    public PathList? GetDirectories(string volumeName)
-        => GetFromJson<PathList>($"/ccapi/ver130/contents/{volumeName}");
+    public IEnumerable<string>? GetDirectories(string volumeName)
+        => GetFromJson<PathList>($"/ccapi/ver120/contents/{volumeName}")?.Paths;
 
-    public PathList? GetFiles(string volumeName, string directoryName)
-        => GetFromJson<PathList>($"/ccapi/ver130/contents/{volumeName}/{directoryName}?type=all,kind=list,order=asc,page=");
+    public IEnumerable<string>? GetFiles(string volumeName, string directoryName)
+    {
+        Number? number = GetFromJson<Number>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=number");
+        for (uint page = 1; page <= number!.PageNumber; page++)
+        {
+            var list = GetFromJson<PathList>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=list&page={page}")?.Paths;
+            foreach (var path in list!)
+            {
+                yield return path;
+            }
+        }
+    }
 
     public void DeleteDirectory(string volumeName, string directoryName)
         => Delete($"/ccapi/ver130/contents/{volumeName}/{directoryName}");

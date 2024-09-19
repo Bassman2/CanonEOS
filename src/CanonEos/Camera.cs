@@ -15,7 +15,7 @@ public abstract class Camera : IDisposable
     public abstract string? Artist { get; }
     public abstract string? Copyright { get; }
 
-    public abstract IEnumerable<Volume> Volumes { get; }
+    public abstract IEnumerable<Volume>? Volumes { get; }
 
     public abstract IEnumerable<Property> Properties { get; }
 

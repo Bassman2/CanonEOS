@@ -2,11 +2,15 @@
 
 internal class CcVolume : Volume
 {
+    private readonly CcService service;
     public CcVolume(CcService service, Storage storage)
     {
+        this.service = service;
         this.Name = storage.Name ?? "";
         this.MaxCapacity = storage.Maxize;
         this.FreeSpaceInBytes = storage.SpaceSize;
+        //var list = this.service.GetDirectories(this.Name);
+
     }
       
     public override string Name { get; }
@@ -19,12 +23,15 @@ internal class CcVolume : Volume
 
     public override ulong FreeSpaceInBytes { get; }
 
+    private List<DirectoryItem>? directoryItems;
+    public override IEnumerable<DirectoryItem>? DirectoryItems 
+        => directoryItems ??= service.GetDirectories(this.Name)?.Select(d => (DirectoryItem)new CcDirectoryItem(this.service, d)).ToList();
 
-    public override IEnumerable<DirectoryItem> DirectoryItems { get => []; }
+    public override IEnumerable<DirectoryItem>? Directories 
+        => DirectoryItems?.Where(d => d.IsFolder); 
 
-    public override IEnumerable<DirectoryItem> Directories { get => []; }
-
-    public override IEnumerable<DirectoryItem> Files { get => []; }
+    public override IEnumerable<DirectoryItem>? Files 
+        => DirectoryItems?.Where(d => !d.IsFolder); 
 
     public override void Format()
     {

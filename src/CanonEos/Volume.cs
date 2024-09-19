@@ -13,11 +13,11 @@ public abstract class Volume
     public abstract ulong FreeSpaceInBytes { get; }
 
 
-    public abstract IEnumerable<DirectoryItem> DirectoryItems { get; }
+    public abstract IEnumerable<DirectoryItem>? DirectoryItems { get; }
 
-    public abstract IEnumerable<DirectoryItem> Directories { get; }
+    public abstract IEnumerable<DirectoryItem>? Directories { get; }
 
-    public abstract IEnumerable<DirectoryItem> Files {  get; }
+    public abstract IEnumerable<DirectoryItem>? Files {  get; }
 
     public abstract void Format();
 }

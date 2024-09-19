@@ -41,13 +41,10 @@ internal class CcCamera : Camera
     public override string? Artist => service.GetAuthor();
     public override string? Copyright => service.GetCopyright();
 
-    public override IEnumerable<Volume> Volumes
-    {
-        get
-        {
-            var volumes = this.service.GetDeviceStatusStorage();
-            return volumes?.Storages?.Select(s => new CcVolume(this.service, s)) ?? [];
-        }
-    }
+    
+    private List<Volume>? volumes;
+    public override IEnumerable<Volume>? Volumes 
+        => volumes ??= service.GetDeviceStatusStorage()?.Select(s => (Volume)new CcVolume(this.service, s)).ToList();
+        
     public override IEnumerable<Property> Properties { get; }
 }

@@ -19,12 +19,12 @@ public abstract class DirectoryItem
     public abstract EdsFileAttribute Attribute { get; set; }
 
 
-    public abstract IEnumerable<DirectoryItem> DirectoryItems { get; }
+    public abstract IEnumerable<DirectoryItem>? DirectoryItems { get; }
     
 
-    public abstract IEnumerable<DirectoryItem> Directories { get; }
+    public abstract IEnumerable<DirectoryItem>? Directories { get; }
    
-    public abstract IEnumerable<DirectoryItem> Files { get; }
+    public abstract IEnumerable<DirectoryItem>? Files { get; }
 
     public abstract void DownloadThumbnail(string filePath);
 

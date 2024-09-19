@@ -6,7 +6,7 @@ public partial class CameraViewModel : ObservableObject, IDisposable
     public CameraViewModel(Camera camera)
     {
         this.camera = camera;
-        this.Volumes = camera.Volumes.ToList() ?? [];
+        this.Volumes = camera.Volumes?.ToList() ?? [];
         this.Properties = camera.Properties.ToList();
     }
 
