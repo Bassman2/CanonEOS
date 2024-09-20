@@ -45,15 +45,7 @@ internal class CcCamera : Camera
     public override string? Copyright => service?.GetCopyright();
 
     public override IEnumerable<BatteryInfo>? Batteries =>
-        service?.GetDeviceStatusBatteries()?.BatteryList?.Select(b => new BatteryInfo()
-        {
-             Position = b.Position,
-             Name = b.Name,
-             Kind = b.Kind,
-             Level = b.Level,
-             Quality = b.Quality
-        });
-
+        service?.GetDeviceStatusBatteries()?.Batteries?.Select(b => new BatteryInfo(b));
 
     private List<Volume>? volumes;
     public override IEnumerable<Volume>? Volumes 

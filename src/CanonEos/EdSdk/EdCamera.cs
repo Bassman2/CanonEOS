@@ -1,4 +1,6 @@
-﻿namespace CanonEos.EdSdk;
+﻿using CanonEos.CcApi.Internal;
+
+namespace CanonEos.EdSdk;
 
 internal class EdCamera : Camera
 {
@@ -58,7 +60,18 @@ internal class EdCamera : Camera
     public override string? Artist { get; }
     public override string? Copyright { get; }
 
-    public override IEnumerable<BatteryInfo>? Batteries { get; }
+    public override IEnumerable<BatteryInfo>? Batteries
+    {
+        get
+        {
+            uint level0 = Eds.GetPropertyUInt(camera, EdsPropertyID.BatteryLevel);
+            uint quali0 = Eds.GetPropertyUInt(camera, EdsPropertyID.BatteryQuality);
+            uint level1 = Eds.GetPropertyUInt(camera, EdsPropertyID.BatteryLevel, 1);
+            uint quali1 = Eds.GetPropertyUInt(camera, EdsPropertyID.BatteryQuality, 1);
+            return new BatteryInfo[] { new BatteryInfo(level0, quali0), new BatteryInfo(level0, quali0) };
+            }
+    }
+        
 
     public override IEnumerable<Volume> Volumes { get => Eds.GetChildren(this.camera).Select(i => new EdVolume(i)); }
     

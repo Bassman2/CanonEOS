@@ -53,7 +53,7 @@
                 <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding Copyright, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Column="1" Header="Batteries">
+        <GroupBox Grid.Column="1" Header="Batteries" DataContext="{Binding Batteries}">
             <Grid Margin="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -73,20 +73,20 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Content="Position"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Batteries[0].Position, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding Batteries[1].Position, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding [0].Position, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding [1].Position, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
                 <Label Grid.Column="0" Grid.Row="1" Content="Name"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Batteries[0].Name, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding Batteries[1].Name, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding [0].Name, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding [1].Name, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
                 <Label Grid.Column="0" Grid.Row="2" Content="Kind"/>
-                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Batteries[0].Kind, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding Batteries[1].Kind, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding [0].Kind, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding [1].Kind, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
                 <Label Grid.Column="0" Grid.Row="3" Content="Level"/>
-                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Batteries[0].Level, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding Batteries[1].Level, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding [0].Level, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding [1].Level, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
                 <Label Grid.Column="0" Grid.Row="4" Content="Quality"/>
-                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Batteries[0].Quality, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <TextBox Grid.Column="2" Grid.Row="4" Text="{Binding Batteries[1].Quality, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding [0].Quality, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="2" Grid.Row="4" Text="{Binding [1].Quality, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
             </Grid>
         </GroupBox>
     </Grid>

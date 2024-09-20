@@ -26,7 +26,7 @@ public partial class CameraViewModel : ObservableObject, IDisposable
     public string? Artist { get => this.camera.Artist; }
     public string? Copyright { get => this.camera.Copyright; }
         
-    public List<BatteryInfo>? Batteries => this.Camera.Batteries?.ToList();
+    public List<BatteryInfo>? Batteries => this.Camera.Batteries?.Reverse().ToList();
 
     [ObservableProperty]
     private List<Volume> volumes = [];

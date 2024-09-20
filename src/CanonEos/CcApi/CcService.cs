@@ -200,11 +200,11 @@ internal class CcService : IDisposable
     public DeviceStatusCurrentDirectory? GetDeviceStatusCurrentDirectory()
         => GetFromJson<DeviceStatusCurrentDirectory>("/ccapi/ver110/devicestatus/currentdirectory");
 
-    public Battery? GetDeviceStatusBattery()
-        => GetFromJson<Battery>("/ccapi/ver110/devicestatus/battery");
+    public DeviceStatusBattery? GetDeviceStatusBattery()
+        => GetFromJson<DeviceStatusBattery>("/ccapi/ver110/devicestatus/battery");
 
-    public Batteries? GetDeviceStatusBatteries()
-        => GetFromJson<Batteries>("/ccapi/ver110/devicestatus/batterylist");
+    public DeviceStatusBatteries? GetDeviceStatusBatteries()
+        => GetFromJson<DeviceStatusBatteries>("/ccapi/ver110/devicestatus/batterylist");
 
     public Lens? GetDeviceStatusLens()
         => GetFromJson<Lens>("/ccapi/ver100/devicestatus/lens");

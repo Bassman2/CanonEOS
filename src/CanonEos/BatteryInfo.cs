@@ -2,13 +2,28 @@
 
 public class BatteryInfo
 {
-    public string? Position { get; init; }
+    internal BatteryInfo(uint level, uint quality)
+    {
+        Level = level == 0xffffffff ? "AC power" : level.ToString();
+        Quality = ((EdsBatteryQuality)quality).ToString();
+    }
 
-    public string? Name { get; init; }
+    internal BatteryInfo(DeviceStatusBattery battery)
+    {
+        Position = battery.Position;
+        Name = battery.Name;
+        Kind = battery.Kind.ToString();
+        Level = battery.Level;
+        Quality = battery.Quality.ToString();
+    }
 
-    public string? Kind { get; init; }
+    public DeviceStatusBatteryPosition? Position { get; }
 
-    public string? Level { get; init; }
+    public string? Name { get; }
 
-    public string? Quality { get; init; }
+    public string? Kind { get; }
+
+    public string? Level { get; }
+
+    public string? Quality { get; }
 }
