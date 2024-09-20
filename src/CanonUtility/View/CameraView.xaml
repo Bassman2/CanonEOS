@@ -10,40 +10,84 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=vm:CameraViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="3">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Label Grid.Column="0" Grid.Row="0" Content="Product Name" />
-        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ProductName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-        <Label Grid.Column="0" Grid.Row="1" Content="Owner Name" />
-        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding OwnerName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-        <Label Grid.Column="0" Grid.Row="2" Content="Firmware Version" />
-        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FirmwareVersion, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-        <Label Grid.Column="0" Grid.Row="3" Content="Current Storage" />
-        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding CurrentStorage, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-        <Label Grid.Column="0" Grid.Row="4" Content="Current Folder" />
-        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding CurrentFolder, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-        <Label Grid.Column="0" Grid.Row="5" Content="Body IDEx" />
-        <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding BodyIDEx, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-        <Label Grid.Column="0" Grid.Row="6" Content="Lens Name" />
-        <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding LensName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-        <Label Grid.Column="0" Grid.Row="7" Content="Artist" />
-        <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding Artist, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-        <Label Grid.Column="0" Grid.Row="8" Content="Copyright" />
-        <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding Copyright, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+        <GroupBox Grid.Column="0" Header="Camera">
+            <Grid Margin="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="160"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="Product Name" />
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ProductName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="Owner Name" />
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding OwnerName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="2" Content="Firmware Version" />
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FirmwareVersion, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="3" Content="Current Storage" />
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding CurrentStorage, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="4" Content="Current Folder" />
+                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding CurrentFolder, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="5" Content="Body IDEx" />
+                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding BodyIDEx, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="6" Content="Lens Name" />
+                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding LensName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="7" Content="Artist" />
+                <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding Artist, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="8" Content="Copyright" />
+                <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding Copyright, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Header="Batteries">
+            <Grid Margin="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="160"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="Position"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Batteries[0].Position, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding Batteries[1].Position, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="Name"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Batteries[0].Name, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding Batteries[1].Name, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="2" Content="Kind"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Batteries[0].Kind, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding Batteries[1].Kind, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="3" Content="Level"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Batteries[0].Level, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding Batteries[1].Level, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="4" Content="Quality"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Batteries[0].Quality, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <TextBox Grid.Column="2" Grid.Row="4" Text="{Binding Batteries[1].Quality, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>

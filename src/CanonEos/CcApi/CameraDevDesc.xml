@@ -1,0 +1,37 @@
+﻿<?xml version="1.0"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+	<specVersion>
+		<major>1</major>
+		<minor>0</minor>
+	</specVersion>
+	<URLBase>http://192.168.178.67:49152/upnp/</URLBase>
+	<device>
+		<deviceType>urn:schemas-canon-com:device:ICPO-CameraControlAPIService:1</deviceType>
+		<friendlyName>Canon EOS R6m2</friendlyName>
+		<manufacturer>Canon</manufacturer>
+		<manufacturerURL>http://www.canon.com/</manufacturerURL>
+		<modelDescription>Canon Digital Camera</modelDescription>
+		<modelName>Canon EOS R6m2</modelName>
+		<serialNumber>193021000208</serialNumber>
+		<UDN>uuid:00000000-0000-0000-0001-A0CDF395B4E2</UDN>
+		<serviceList>
+			<service>
+				<serviceType>urn:schemas-canon-com:service:ICPO-CameraControlAPIService:1</serviceType>
+				<serviceId>urn:schemas-canon-com:serviceId:ICPO-CameraControlAPIService-1</serviceId>
+				<SCPDURL>CameraSvcDesc.xml</SCPDURL>
+				<controlURL>control/CanonCamera/</controlURL>
+				<eventSubURL></eventSubURL>
+				<ns:X_targetId xmlns:ns="urn:schemas-canon-com:schema-upnp">uuid:801E5901-800C-5A01-3863-000022000000</ns:X_targetId>
+				<ns:X_onService xmlns:ns="urn:schemas-canon-com:schema-upnp">0</ns:X_onService>
+				<ns:X_accessURL xmlns:ns="urn:schemas-canon-com:schema-upnp">https://192.168.178.67:443/ccapi</ns:X_accessURL>
+				<ns:X_deviceUsbId xmlns:ns="urn:schemas-canon-com:schema-upnp">330b</ns:X_deviceUsbId>
+				<ns:X_deviceNickname xmlns:ns="urn:schemas-canon-com:schema-upnp">EOS R6 Mark II</ns:X_deviceNickname>
+			</service>
+		</serviceList>
+		<presentationURL>/</presentationURL>
+		<pnpx:X_compatibleId xmlns:pnpx="http://schemas.microsoft.com/windows/pnpx/2005/11">urn:schemas-upnp-org:device:Basic:1</pnpx:X_compatibleId>
+		<pnpx:X_deviceCategory xmlns:pnpx="http://schemas.microsoft.com/windows/pnpx/2005/11">Cameras</pnpx:X_deviceCategory>
+		<df:X_deviceCategory xmlns:df="http://schemas.microsoft.com/windows/2008/09/devicefoundation">Imaging.Camera</df:X_deviceCategory>
+	</device>
+</root>
+

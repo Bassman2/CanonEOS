@@ -106,9 +106,11 @@ public sealed class Canon : IDisposable
         return [];
     }
 
-    public Camera AddCcCamera(Uri url)
+    public Camera AddCcCamera(string host)
     {
-        return new CcCamera(url);
+        CcCamera camera = new CcCamera();
+        camera.Connect(host);
+        return camera;
     }
 
     #endregion

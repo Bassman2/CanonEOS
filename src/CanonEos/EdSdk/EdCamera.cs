@@ -58,6 +58,8 @@ internal class EdCamera : Camera
     public override string? Artist { get; }
     public override string? Copyright { get; }
 
+    public override IEnumerable<BatteryInfo>? Batteries { get; }
+
     public override IEnumerable<Volume> Volumes { get => Eds.GetChildren(this.camera).Select(i => new EdVolume(i)); }
     
 

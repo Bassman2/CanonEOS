@@ -2,24 +2,26 @@
 
 internal class CcService : IDisposable
 {
-    private readonly Uri defaultHost = new Uri("http://fritz.box");
-    private readonly HttpClientHandler? handler;
-    private HttpClient client;
+    private HttpClientHandler? handler;
+    private HttpClient? client;
     //private readonly string sessionId;
-    private JsonSerializerOptions? jsonSerializerOptions = null;
-
-    public CcService(Uri url)
+    private readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
     {
-        this.jsonSerializerOptions = new JsonSerializerOptions
+        Converters =
         {
-            Converters =
-            {
-                new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower)
-            }
-        };
+            new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower)
+        }
+    };
 
-        //ServicePointManager.ServerCertificateValidationCallback += OnServerCertificateValidation;
-        //    //(sender, cert, chain, sslPolicyErrors) => true;
+    public CcService() { }
+
+    public bool Connect(string host)
+    {
+        bool success = PingCamera(host);
+        if (!success) return false;
+
+        CameraDevDesc? cameraDevDesc = GetCameraDevDesc(host);
+        if (cameraDevDesc == null) return false;
 
         // connect
         this.handler = new HttpClientHandler
@@ -29,17 +31,13 @@ internal class CcService : IDisposable
             ClientCertificateOptions = ClientCertificateOption.Manual,
             ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, cetChain, policyErrors) => true
         };
-        
-        //handler.ClientCertificateOptions = ClientCertificateOption.Manual;
-        //handler.ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, cetChain, policyErrors) => true;
-        
+
         this.client = new HttpClient(this.handler)
         {
-            BaseAddress = url,
+            BaseAddress = new Uri(cameraDevDesc!.Device!.ServiceList![0].AccessURL!),
             Timeout = new TimeSpan(0, 2, 0)
         };
 
-        //string res = this.client.GetStringAsync("ccapi").Result;
 
         Ccapis? apis = GetApiList();
 
@@ -49,15 +47,7 @@ internal class CcService : IDisposable
         //Ccapis? apisV120 = GetApiList("ver120");
         //Ccapis? apisV130 = GetApiList("ver130");
         //Ccapis? apisV140 = GetApiList("ver140");
-
-
-
-
-        //DeviceInformation? deviceInformation = GetDeviceInformation();
-
-        //DeviceStatusStorage? deviceStatusStorage = GetDeviceStatusStorage();
-
-        //DeviceStatusCurrentStorage? deviceStatusCurrentStorage = GetDeviceStatusCurrentStorage();
+        return true;
 
     }
 
@@ -69,7 +59,11 @@ internal class CcService : IDisposable
 
     public void Dispose()
     {
-        this.client.Dispose();
+        if (this.client is not null)
+        {
+            this.client.Dispose();
+            this.client = null;
+        }
     }
 
     //private async Task<T?> GetFromJsonAsync<T>(string? requestUri)
@@ -89,6 +83,31 @@ internal class CcService : IDisposable
     //        throw;
     //    }
     //}
+
+
+    public static bool PingCamera(Uri url) => PingCamera(url.Host);
+
+    public static bool PingCamera(string host)
+    {
+        PingReply rep = new Ping().SendPingAsync(host, 1000).Result;
+        return rep.Status == IPStatus.Success;
+    }
+
+
+    public static CameraDevDesc? GetCameraDevDesc(Uri url) => GetCameraDevDesc(url.Host);
+
+    public static CameraDevDesc? GetCameraDevDesc(string host)
+    {
+        Uri upnpUri = new UriBuilder("http", host, 49152, "/upnp/CameraDevDesc.xml").Uri;
+        using HttpClient upnp = new HttpClient();
+
+        string text = upnp.GetStringAsync(upnpUri).Result;
+
+        XmlSerializer serializer = new XmlSerializer(typeof(CameraDevDesc));
+        CameraDevDesc? cameraDevDesc = (CameraDevDesc?)serializer.Deserialize(new StringReader(text));
+        return cameraDevDesc;
+
+    }
 
     #region HTTP 
 
@@ -185,7 +204,7 @@ internal class CcService : IDisposable
         => GetFromJson<Battery>("/ccapi/ver110/devicestatus/battery");
 
     public Batteries? GetDeviceStatusBatteries()
-        => GetFromJson<Batteries>("/ccapi/ver110/devicestatus/currentstorage");
+        => GetFromJson<Batteries>("/ccapi/ver110/devicestatus/batterylist");
 
     public Lens? GetDeviceStatusLens()
         => GetFromJson<Lens>("/ccapi/ver100/devicestatus/lens");

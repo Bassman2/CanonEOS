@@ -15,7 +15,7 @@ public partial class CameraViewModel : ObservableObject, IDisposable
         this.camera.Dispose();
     }
 
-    public string Name { get => this.camera.Name; }
+    public string? Name { get => this.camera.Name; }
     public string? ProductName { get => this.camera.ProductName; }
     public string? OwnerName { get => this.camera.OwnerName; }
     public string? FirmwareVersion { get => this.camera.FirmwareVersion; }
@@ -25,6 +25,8 @@ public partial class CameraViewModel : ObservableObject, IDisposable
     public string? LensName { get => this.camera.LensName; }
     public string? Artist { get => this.camera.Artist; }
     public string? Copyright { get => this.camera.Copyright; }
+        
+    public List<BatteryInfo>? Batteries => this.Camera.Batteries?.ToList();
 
     [ObservableProperty]
     private List<Volume> volumes = [];
