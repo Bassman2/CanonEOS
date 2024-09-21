@@ -16,11 +16,13 @@ public partial class CameraSettingViewModel : ObservableObject
         this.Copyright = orgCopyright = camera.Copyright;
         this.Author = orgAuthor = camera.Artist;
         this.Owner = orgOwner = camera.OwnerName;
+        this.DateTime = orgDateTime = camera.DateTime;
     }
 
     private string? orgCopyright;
     private string? orgAuthor;
     private string? orgOwner;
+    private DateTime? orgDateTime;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(UpdateCommand))]
@@ -33,6 +35,10 @@ public partial class CameraSettingViewModel : ObservableObject
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(UpdateCommand))]
     private string? owner;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(UpdateCommand))]
+    private DateTime? dateTime;
 
     public bool OnCanUpdate() => (Copyright, Author, Owner) != (orgCopyright, orgAuthor, orgOwner);
 

@@ -16,6 +16,7 @@ public abstract class Camera : IDisposable
     public abstract string? Copyright { get; set; }
     public abstract string? Artist { get; set; }
     public abstract string? OwnerName { get; set; }
+    public abstract DateTime? DateTime { get; set; }
 
     public abstract IEnumerable<BatteryInfo>? Batteries { get; }
 

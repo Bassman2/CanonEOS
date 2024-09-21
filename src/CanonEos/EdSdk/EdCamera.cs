@@ -60,6 +60,8 @@ internal class EdCamera : Camera
     public override string? Artist { get; set; }
     public override string? Copyright { get; set; }
 
+    public override DateTime? DateTime { get; set; }
+    
     public override IEnumerable<BatteryInfo>? Batteries
     {
         get

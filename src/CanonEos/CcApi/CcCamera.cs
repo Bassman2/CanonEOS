@@ -60,6 +60,13 @@ internal class CcCamera : Camera
         set => service?.SetOwnerName(value);
     }
 
+    public override DateTime? DateTime 
+    { 
+        get => service?.GetDateTime(); 
+        set => service?.SetDateTime(value);
+    }
+
+
 
     public override IEnumerable<BatteryInfo>? Batteries =>
         service?.GetDeviceStatusBatteries()?.Batteries?.Select(b => new BatteryInfo(b));

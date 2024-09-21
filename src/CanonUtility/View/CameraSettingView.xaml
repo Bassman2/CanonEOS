@@ -31,6 +31,8 @@
         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
         <Label Grid.Column="0" Grid.Row="2" Content="Owner"/>
         <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Owner, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
-        <Button Grid.Column="1" Grid.Row="3" Content="Save" Command="{Binding UpdateCommand}" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Date &amp; Time"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+        <Button Grid.Column="1" Grid.Row="4" Content="Save" Command="{Binding UpdateCommand}" Margin="3"/>
     </Grid> 
 </UserControl>

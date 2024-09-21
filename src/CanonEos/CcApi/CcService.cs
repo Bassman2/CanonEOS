@@ -1,4 +1,6 @@
-﻿namespace CanonEos.CcApi;
+﻿using CanonEos.CcApi.JsonConverters;
+
+namespace CanonEos.CcApi;
 
 internal class CcService : IDisposable
 {
@@ -9,7 +11,8 @@ internal class CcService : IDisposable
     {
         Converters =
         {
-            new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower)
+            new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower),
+            new JsonDateTimeConverter()
         }
     };
 
@@ -246,10 +249,12 @@ internal class CcService : IDisposable
 
     public string? GetNickname()
        => GetFromJson<CameraNickname>("/ccapi/ver100/functions/registeredname/nickname")?.Nickname;
-
-    public CameraDateTime? GetDateTime()
+        
+    public DateTime? GetDateTime()
        => GetFromJson<CameraDateTime>("/ccapi/ver100/functions/datetime");
 
+    public DateTime? SetDateTime(DateTime? value)
+       => PutAsJson("/ccapi/ver100/functions/datetime", (CameraDateTime?)value);
 
     public void Format(string card)
        => PostAsJson("/ccapi/ver100/functions/cardformat", new StorageName() { Name = card });
