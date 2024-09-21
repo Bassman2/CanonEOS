@@ -40,9 +40,26 @@ internal class CcCamera : Camera
     public override string? CurrentFolder => service?.GetDeviceStatusCurrentDirectory()?.Name;
     
     public override string? LensName => service?.GetDeviceStatusLens()?.Name;
-    public override string? OwnerName => service?.GetOwnerName();
-    public override string? Artist => service?.GetAuthor();
-    public override string? Copyright => service?.GetCopyright();
+
+    // settings
+    public override string? Copyright
+    {
+        get => service?.GetCopyright();
+        set => service?.SetCopyright(value);
+    }
+
+    public override string? Artist
+    {
+        get => service?.GetAuthor();
+        set => service?.SetAuthor(value);
+    }
+
+    public override string? OwnerName
+    {
+        get => service?.GetOwnerName();
+        set => service?.SetOwnerName(value);
+    }
+
 
     public override IEnumerable<BatteryInfo>? Batteries =>
         service?.GetDeviceStatusBatteries()?.Batteries?.Select(b => new BatteryInfo(b));

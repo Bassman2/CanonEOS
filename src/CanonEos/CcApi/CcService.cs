@@ -113,6 +113,8 @@ internal class CcService : IDisposable
 
     private T? GetFromJson<T>(string? requestUri)
     {
+        if (this.client is null) throw new Exception("Client not connected!");
+
         using HttpResponseMessage response = this.client.GetAsync(requestUri).Result;
         string str = response.Content.ReadAsStringAsync().Result;
         if (!response.IsSuccessStatusCode)
@@ -125,6 +127,8 @@ internal class CcService : IDisposable
 
     private T? PutAsJson<T>(string? requestUri, T obj)
     {
+        if (this.client is null) throw new Exception("Client not connected!");
+
         using HttpResponseMessage response = this.client.PutAsJsonAsync(requestUri, obj, this.jsonSerializerOptions).Result;
         if (!response.IsSuccessStatusCode)
         {
@@ -136,6 +140,8 @@ internal class CcService : IDisposable
 
     private void PostAsJson(string? requestUri, object obj)
     {
+        if (this.client is null) throw new Exception("Client not connected!");
+
         using HttpResponseMessage response = this.client.PostAsJsonAsync(requestUri, obj, this.jsonSerializerOptions).Result;
         if (!response.IsSuccessStatusCode)
         {
@@ -146,6 +152,8 @@ internal class CcService : IDisposable
 
     private Stream GetFromStream(string? requestUri)
     {
+        if (this.client is null) throw new Exception("Client not connected!");
+
         using HttpResponseMessage response = this.client.GetAsync(requestUri).Result;
         string str = response.Content.ReadAsStringAsync().Result;
         if (!response.IsSuccessStatusCode)
@@ -162,6 +170,8 @@ internal class CcService : IDisposable
 
     private void Delete(string? requestUri)
     {
+        if (this.client is null) throw new Exception("Client not connected!");
+
         using HttpResponseMessage response = this.client.DeleteAsync(requestUri).Result;
         if (!response.IsSuccessStatusCode)
         {
@@ -219,11 +229,20 @@ internal class CcService : IDisposable
     public string? GetCopyright()
         => GetFromJson<CameraCopyright>("/ccapi/ver100/functions/registeredname/copyright")?.Copyright;
 
+    public void SetCopyright(string? value)
+        => PutAsJson("/ccapi/ver100/functions/registeredname/copyright", new CameraCopyright() { Copyright = value });
+
     public string? GetAuthor()
         => GetFromJson<CameraAuthor>("/ccapi/ver100/functions/registeredname/author")?.Author;
+    public void SetAuthor(string? value)
+        => PutAsJson("/ccapi/ver100/functions/registeredname/author", new CameraAuthor() { Author = value });
 
     public string? GetOwnerName()
        => GetFromJson<CameraOwnerName>("/ccapi/ver100/functions/registeredname/ownername")?.OwnerName;
+
+    public void SetOwnerName(string? value)
+        => PutAsJson("/ccapi/ver100/functions/registeredname/ownername", new CameraOwnerName() { OwnerName = value });
+
 
     public string? GetNickname()
        => GetFromJson<CameraNickname>("/ccapi/ver100/functions/registeredname/nickname")?.Nickname;

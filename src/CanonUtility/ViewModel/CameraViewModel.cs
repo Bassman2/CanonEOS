@@ -1,6 +1,6 @@
 ﻿namespace CanonUtility.ViewModel;
 
-public partial class CameraViewModel : ObservableObject, IDisposable
+public partial class CameraViewModel : ObservableObject
 {
     private readonly Camera camera;
     public CameraViewModel(Camera camera)
@@ -8,11 +8,6 @@ public partial class CameraViewModel : ObservableObject, IDisposable
         this.camera = camera;
         this.Volumes = camera.Volumes?.ToList() ?? [];
         this.Properties = camera.Properties.ToList();
-    }
-
-    public void Dispose()
-    {
-        this.camera.Dispose();
     }
 
     public string? Name { get => this.camera.Name; }

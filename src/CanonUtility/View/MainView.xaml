@@ -39,6 +39,9 @@
             <TabItem Header="Camera">
                 <local:CameraView DataContext="{Binding CameraViewModel}"/>
             </TabItem>
+            <TabItem Header="Camera Setting">
+                <local:CameraSettingView DataContext="{Binding CameraSettingViewModel}"/>
+            </TabItem>
             <TabItem Header="Camera Property">
                 <local:CameraPropertyView DataContext="{Binding CameraViewModel}"/>
             </TabItem>

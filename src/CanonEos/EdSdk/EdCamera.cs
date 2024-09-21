@@ -51,14 +51,14 @@ internal class EdCamera : Camera
 
     public override string Name { get; }
     public override string? ProductName { get; }
-    public override string? OwnerName { get; }
+    public override string? OwnerName { get; set; }
     public override string? FirmwareVersion { get; }
     public override string? CurrentStorage { get; }
     public override string? CurrentFolder { get; }
     public override string? BodyIDEx { get; }
     public override string? LensName { get; }
-    public override string? Artist { get; }
-    public override string? Copyright { get; }
+    public override string? Artist { get; set; }
+    public override string? Copyright { get; set; }
 
     public override IEnumerable<BatteryInfo>? Batteries
     {

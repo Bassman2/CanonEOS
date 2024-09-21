@@ -106,7 +106,7 @@ public sealed class Canon : IDisposable
         return [];
     }
 
-    public Camera AddCcCamera(string host)
+    public static Camera AddCcCamera(string host)
     {
         CcCamera camera = new CcCamera();
         camera.Connect(host);

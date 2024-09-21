@@ -4,7 +4,7 @@ public partial class MainViewModel : AppViewModel, IDisposable
 {
     private readonly Canon library;
 
-    private Camera? ccCamera;
+    private readonly Camera? ccCamera;
 
     public MainViewModel() 
     {
@@ -15,7 +15,8 @@ public partial class MainViewModel : AppViewModel, IDisposable
         //this.Canon = library.IsInitialized ? "Connected" : "Disconnected";
         this.Cameras = this.library.GetCameras().ToList();
 
-        this.ccCamera = this.library.AddCcCamera("192.168.178.67");
+        this.ccCamera = Canon.AddCcCamera("192.168.178.67");
+        
         if (this.ccCamera != null)
         {
             this.Cameras.Add(this.ccCamera);
@@ -38,6 +39,7 @@ public partial class MainViewModel : AppViewModel, IDisposable
     {
         this.SelectedCamera?.Dispose();
         this.library.Dispose();
+        GC.SuppressFinalize(this);  
     }
 
     [ObservableProperty]
@@ -69,15 +71,28 @@ public partial class MainViewModel : AppViewModel, IDisposable
 
     partial void OnSelectedCameraChanged(Camera? oldValue, Camera? newValue)
     {
-        CameraViewModel?.Dispose();
-        CameraViewModel = new CameraViewModel(newValue!);  
-        
-        this.PictureViewModel = newValue != null ? new PictureViewModel(newValue) : null;
-        this.PicturePropertyViewModel = newValue != null ? new PicturePropertyViewModel(newValue) : null;
+        if (newValue is not null)
+        {
+            this.CameraViewModel = new CameraViewModel(newValue!);
+            this.CameraSettingViewModel = new CameraSettingViewModel(newValue!);
+            this.PictureViewModel = new PictureViewModel(newValue);
+            this.PicturePropertyViewModel = new PicturePropertyViewModel(newValue);
+        }
+        else
+        {
+            this.CameraViewModel = null;
+            this.CameraSettingViewModel = null;
+            this.PictureViewModel = null;
+            this.PicturePropertyViewModel = null;
+        }
+
     }
 
     [ObservableProperty]
     private CameraViewModel? cameraViewModel;
+
+    [ObservableProperty]
+    private CameraSettingViewModel? cameraSettingViewModel;
 
     [ObservableProperty]
     private PictureViewModel? pictureViewModel;
