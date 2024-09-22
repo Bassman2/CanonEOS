@@ -16,5 +16,6 @@ global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
 
 global using CanonEos;
+global using CanonEos.CcApi;
 global using CanonEos.EdSdk;
 global using CanonUtility.ViewModel;

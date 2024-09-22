@@ -1,4 +1,6 @@
-﻿namespace CanonUtility.ViewModel;
+﻿using CanonEos.CcApi;
+
+namespace CanonUtility.ViewModel;
 
 public partial class MainViewModel : AppViewModel, IDisposable
 {
@@ -8,7 +10,7 @@ public partial class MainViewModel : AppViewModel, IDisposable
 
     public MainViewModel() 
     {
-        
+        var cameras = CcFinder.FindCameras()?.ToList();
 
         this.library = new();
         this.library.CameraAdded += OnCameraAdded;
