@@ -7,41 +7,17 @@ namespace CanonEos.CcApi;
 
 public static class CcFinder
 {
-    public static IEnumerable<string>? FindCameras()
+    public static IEnumerable<CameraDevDesc>? FindCameras()
     {
-        var addr = Dns.GetHostAddresses(string.Empty, AddressFamily.InterNetwork);
+        //var addr = Dns.GetHostAddresses(string.Empty, AddressFamily.InterNetwork);
 
         IPAddress? gateway = GetDefaultGateway();
-
-
-
-
         if (gateway != null)
         {
-            Ping ping = new Ping();
-
             byte[] addrBytes = gateway.GetAddressBytes();
-            //for (int i = 2; i <= 255; i++)
-            //{
-            //    addrBytes[3] = (byte)i;
-            //    IPAddress ad = new IPAddress(addrBytes);
-            //    //Debug.WriteLine(ad);
-
-            //    var res = ping.Send(ad, 100);
-            //    Debug.WriteLine($"{ad} {res.Status} {res.RoundtripTime}");
-            //}
-            ConcurrentBag<IPAddress> values = new ConcurrentBag<IPAddress>();
 
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
-
-            //Parallel.For(2, 256, i =>
-            //{
-            //    addrBytes[3] = (byte)i;
-            //    IPAddress ad = new IPAddress(addrBytes);
-            //    var res = ping.SendPingAsync(ad, 100).Result;
-            //    Debug.WriteLine($"{ad} {res.Status} {res.RoundtripTime}");
-            //});
 
             List<Task<PingReply>> pingTasks = new List<Task<PingReply>>();
             for (int i = 2; i <= 255; i++)
@@ -52,18 +28,10 @@ public static class CcFinder
             }
             Task.WaitAll(pingTasks.ToArray());
 
-            //Now you can iterate over your list of pingTasks
+            //stopWatch.Stop();
+            //Debug.WriteLine(stopWatch.Elapsed);
 
-            stopWatch.Stop();
-            Debug.WriteLine(stopWatch.Elapsed);
-
-            //foreach (var pingTask in pingTasks.Where(t => t.Result.Status == IPStatus.Success).Where(t => IsCanonCamera(t.Result.Address)))
-            //{
-            //    Debug.WriteLine($"{pingTask.Result.Address} {pingTask.Result.RoundtripTime} {Dns.GetHostEntry(pingTask.Result.Address).HostName}");
-            //}
-
-
-            stopWatch.Start();
+            //stopWatch.Start();
 
             List<Task<DevDesc>> devDescTasks = new List<Task<DevDesc>>();
             foreach (var pingTask in pingTasks.Where(t => t.Result.Status == IPStatus.Success))
@@ -73,47 +41,40 @@ public static class CcFinder
             Task.WaitAll(devDescTasks.ToArray());
 
             stopWatch.Stop();
-            Debug.WriteLine(stopWatch.Elapsed);
+            Debug.WriteLine($"FindCameras: {stopWatch.Elapsed}");
 
-
-            foreach (var d in devDescTasks.Where(t => t.Result.IsCanonCamera))
-            {
-                Debug.WriteLine($"{d.Result.Address} {d.Result.CameraDevDesc?.Device?.ServiceList?[0].DeviceNickname} {d.Result.CameraDevDesc?.Device?.ServiceList?[0].AccessURL}");
-            }
-            //Uri upnpUri = new UriBuilder("http", host, 49152, "/upnp/CameraDevDesc.xml").Uri;
-            //using HttpClient upnp = new HttpClient();
-
+            return devDescTasks.Where(t => t.Result.IsCanonCamera).Select(t => t.Result.CameraDevDesc!);
         }
         return null;
     }
 
-    private static bool IsCanonCamera(IPAddress addr)
-    {
-        Uri upnpUri = new UriBuilder("http", addr.ToString(), 49152, "/upnp/CameraDevDesc.xml").Uri;
-        using HttpClient upnp = new HttpClient();
-        try
-        {
-            Socket socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            socket.Connect(addr.ToString(), 49152);
+    //private static bool IsCanonCamera(IPAddress addr)
+    //{
+    //    Uri upnpUri = new UriBuilder("http", addr.ToString(), 49152, "/upnp/CameraDevDesc.xml").Uri;
+    //    using HttpClient upnp = new HttpClient();
+    //    try
+    //    {
+    //        Socket socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+    //        socket.Connect(addr.ToString(), 49152);
 
 
 
-            TcpClient client = new TcpClient();
-            client.Connect(addr.ToString(), 49152);
-            bool b = client.Connected;
+    //        TcpClient client = new TcpClient();
+    //        client.Connect(addr.ToString(), 49152);
+    //        bool b = client.Connected;
             
-            //System.Net.Sockets.Socket.
-            HttpResponseMessage res = upnp.GetAsync(upnpUri).Result;
-            return res.IsSuccessStatusCode;
-        }
-        catch (Exception ex)
-        {
+    //        //System.Net.Sockets.Socket.
+    //        HttpResponseMessage res = upnp.GetAsync(upnpUri).Result;
+    //        return res.IsSuccessStatusCode;
+    //    }
+    //    catch (Exception ex)
+    //    {
 
-            Debug.WriteLine($"Exception {addr}");
-            return false;
-        }
+    //        Debug.WriteLine($"Exception {addr}");
+    //        return false;
+    //    }
        
-    }
+    //}
 
     private class DevDesc(IPAddress addr, CameraDevDesc? devDesc = null)
     {
