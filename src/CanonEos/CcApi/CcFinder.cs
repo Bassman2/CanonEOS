@@ -2,79 +2,76 @@
 using System.Net;
 using System.Collections.Concurrent;
 using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CanonEos.CcApi;
 
 public static class CcFinder
 {
+    private const int timeout = 400;
+
     public static IEnumerable<CameraDevDesc>? FindCameras()
     {
-        //var addr = Dns.GetHostAddresses(string.Empty, AddressFamily.InterNetwork);
-
         IPAddress? gateway = GetDefaultGateway();
         if (gateway != null)
         {
-            byte[] addrBytes = gateway.GetAddressBytes();
-
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            List<Task<PingReply>> pingTasks = new List<Task<PingReply>>();
-            for (int i = 2; i <= 255; i++)
-            {
-                addrBytes[3] = (byte)i;
-                IPAddress ad = new IPAddress(addrBytes);
-                pingTasks.Add(PingAsync(ad));
-            }
-            Task.WaitAll(pingTasks.ToArray());
-
-            //stopWatch.Stop();
-            //Debug.WriteLine(stopWatch.Elapsed);
-
-            //stopWatch.Start();
-
-            List<Task<DevDesc>> devDescTasks = new List<Task<DevDesc>>();
-            foreach (var pingTask in pingTasks.Where(t => t.Result.Status == IPStatus.Success))
-            {
-                devDescTasks.Add(CheckDevDesc(pingTask.Result.Address));
-            }
-            Task.WaitAll(devDescTasks.ToArray());
-
-            stopWatch.Stop();
-            Debug.WriteLine($"FindCameras: {stopWatch.Elapsed}");
-
-            return devDescTasks.Where(t => t.Result.IsCanonCamera).Select(t => t.Result.CameraDevDesc!);
+            var pingList = FindActiveNetworkDevices(gateway);
+            return FindCanonDevices(pingList);
         }
         return null;
     }
 
-    //private static bool IsCanonCamera(IPAddress addr)
-    //{
-    //    Uri upnpUri = new UriBuilder("http", addr.ToString(), 49152, "/upnp/CameraDevDesc.xml").Uri;
-    //    using HttpClient upnp = new HttpClient();
-    //    try
-    //    {
-    //        Socket socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
-    //        socket.Connect(addr.ToString(), 49152);
+    private static IEnumerable<IPAddress> FindActiveNetworkDevices(IPAddress gateway)
+    {
+        Stopwatch stopWatch = new Stopwatch();
+        stopWatch.Start();
 
+        var pingTasks = GetIPAddressRange(gateway).Select(a => PingAsync(a)).ToArray();
+        Task.WaitAll(pingTasks);
 
+        stopWatch.Stop();
+        Debug.WriteLine($"FindActiveNetworkDevices: {stopWatch.Elapsed}");
 
-    //        TcpClient client = new TcpClient();
-    //        client.Connect(addr.ToString(), 49152);
-    //        bool b = client.Connected;
-            
-    //        //System.Net.Sockets.Socket.
-    //        HttpResponseMessage res = upnp.GetAsync(upnpUri).Result;
-    //        return res.IsSuccessStatusCode;
-    //    }
-    //    catch (Exception ex)
-    //    {
+        var list = pingTasks.Where(p => p.Result.Status == IPStatus.Success).Select(p => p.Result.Address).ToList();
 
-    //        Debug.WriteLine($"Exception {addr}");
-    //        return false;
-    //    }
-       
-    //}
+        foreach (var p in list)
+        {
+            Debug.WriteLine($"Active Ping {p}");
+        }
+
+        return list;
+    }
+
+    private static IEnumerable<CameraDevDesc> FindCanonDevices(IEnumerable<IPAddress> addresses)
+    {
+        Stopwatch stopWatch = new Stopwatch();
+        stopWatch.Start();
+
+        var devDescTasks = addresses.Select(a => CheckDevDesc(a)).ToArray();
+        Task.WaitAll(devDescTasks);
+
+        stopWatch.Stop();
+
+        Debug.WriteLine($"FindCanonDevices: {stopWatch.Elapsed}");
+
+        var list = devDescTasks.Where(t => t.Result.IsCanonCamera).Select(t => t.Result.CameraDevDesc!).ToList();
+
+        foreach (var d in list)
+        {
+            Debug.WriteLine($"DevDesc {d.Device!.ServiceList![0].DeviceNickname}");
+        }
+        return list;
+    }
+
+    private static IEnumerable<IPAddress> GetIPAddressRange(IPAddress address)
+    {
+        byte[] addrBytes = address.GetAddressBytes();
+        for (int i = 2; i <= 255; i++)
+        {
+            addrBytes[3] = (byte)i;
+            yield return new IPAddress(addrBytes);
+        }
+    }
 
     private class DevDesc(IPAddress addr, CameraDevDesc? devDesc = null)
     {
@@ -90,41 +87,26 @@ public static class CcFinder
             try
             {
                 Uri upnpUri = new UriBuilder("http", addr.ToString(), 49152, "/upnp/CameraDevDesc.xml").Uri;
-                using HttpClient upnp = new HttpClient() { Timeout = new TimeSpan(0, 0, 0, 0, 200) };
+                using HttpClient upnp = new HttpClient() { Timeout = new TimeSpan(0, 0, 0, 0, timeout) };
 
                 string text = upnp.GetStringAsync(upnpUri).Result;
 
                 XmlSerializer serializer = new XmlSerializer(typeof(CameraDevDesc));
                 CameraDevDesc? cameraDevDesc = (CameraDevDesc?)serializer.Deserialize(new StringReader(text));
+                Debug.WriteLine($"******************************** {addr}");
                 return new DevDesc(addr, cameraDevDesc);
             }
             catch
             {
+                Debug.WriteLine($"Failed {addr}");
                 return new DevDesc(addr);
             }
         });
 
     }
     
-    private static Task<PingReply> PingAsync(IPAddress address)
-    {
-        //Ping ping = new Ping();
-        //Debug.WriteLine($"A {address}");
-
-        return new Ping().SendPingAsync(address, 200);
-        //Debug.WriteLine($"B {address} {res.Result.Address} {res.Result.RoundtripTime}");
-        //return res;
-
-
-        //var tcs = new TaskCompletionSource<PingReply>();
-        //Ping ping = new Ping();
-        //ping.PingCompleted += (obj, sender) =>
-        //{
-        //    tcs.SetResult(sender.Reply);
-        //};
-        //ping.SendAsync(address, new object());
-        //return tcs.Task;
-    }
+    private static Task<PingReply> PingAsync(IPAddress address) => new Ping().SendPingAsync(address, timeout);
+        
 
     private static IPAddress? GetDefaultGateway()
     {
@@ -147,12 +129,4 @@ public static class CcFinder
         var addr = networkInterface.GetIPProperties().GatewayAddresses.Select(a => a.Address).FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork);
         return addr;
     }
-
-    //private static Task<double Ping(IPAddress addr)
-    //{
-    //    var reply = new Ping().SendPingAsync(addr);
-    //    if (reply != null)
-    //        return reply.RoundtripTime;
-    //    throw new Exception("denied");
-    //}
 }
