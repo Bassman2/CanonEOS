@@ -1,6 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Net;
 using System.Collections.Concurrent;
+using System;
 
 namespace CanonEos.CcApi;
 
@@ -56,15 +57,93 @@ public static class CcFinder
             stopWatch.Stop();
             Debug.WriteLine(stopWatch.Elapsed);
 
+            //foreach (var pingTask in pingTasks.Where(t => t.Result.Status == IPStatus.Success).Where(t => IsCanonCamera(t.Result.Address)))
+            //{
+            //    Debug.WriteLine($"{pingTask.Result.Address} {pingTask.Result.RoundtripTime} {Dns.GetHostEntry(pingTask.Result.Address).HostName}");
+            //}
+
+
+            stopWatch.Start();
+
+            List<Task<DevDesc>> devDescTasks = new List<Task<DevDesc>>();
             foreach (var pingTask in pingTasks.Where(t => t.Result.Status == IPStatus.Success))
             {
-                Debug.WriteLine($"{pingTask.Result.Address} {pingTask.Result.RoundtripTime} {Dns.GetHostEntry(pingTask.Result.Address).HostName}");
+                devDescTasks.Add(CheckDevDesc(pingTask.Result.Address));
             }
+            Task.WaitAll(devDescTasks.ToArray());
+
+            stopWatch.Stop();
+            Debug.WriteLine(stopWatch.Elapsed);
+
+
+            foreach (var d in devDescTasks.Where(t => t.Result.IsCanonCamera))
+            {
+                Debug.WriteLine($"{d.Result.Address} {d.Result.CameraDevDesc?.Device?.ServiceList?[0].DeviceNickname} {d.Result.CameraDevDesc?.Device?.ServiceList?[0].AccessURL}");
+            }
+            //Uri upnpUri = new UriBuilder("http", host, 49152, "/upnp/CameraDevDesc.xml").Uri;
+            //using HttpClient upnp = new HttpClient();
 
         }
         return null;
     }
 
+    private static bool IsCanonCamera(IPAddress addr)
+    {
+        Uri upnpUri = new UriBuilder("http", addr.ToString(), 49152, "/upnp/CameraDevDesc.xml").Uri;
+        using HttpClient upnp = new HttpClient();
+        try
+        {
+            Socket socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+            socket.Connect(addr.ToString(), 49152);
+
+
+
+            TcpClient client = new TcpClient();
+            client.Connect(addr.ToString(), 49152);
+            bool b = client.Connected;
+            
+            //System.Net.Sockets.Socket.
+            HttpResponseMessage res = upnp.GetAsync(upnpUri).Result;
+            return res.IsSuccessStatusCode;
+        }
+        catch (Exception ex)
+        {
+
+            Debug.WriteLine($"Exception {addr}");
+            return false;
+        }
+       
+    }
+
+    private class DevDesc(IPAddress addr, CameraDevDesc? devDesc = null)
+    {
+        public IPAddress? Address { get; } = addr;
+        public CameraDevDesc? CameraDevDesc { get; } = devDesc;
+        public bool IsCanonCamera => CameraDevDesc is not null;
+    }
+
+    private static Task<DevDesc> CheckDevDesc(IPAddress addr)
+    {
+        return Task<DevDesc>.Run<DevDesc>(() =>
+        {
+            try
+            {
+                Uri upnpUri = new UriBuilder("http", addr.ToString(), 49152, "/upnp/CameraDevDesc.xml").Uri;
+                using HttpClient upnp = new HttpClient() { Timeout = new TimeSpan(0, 0, 0, 0, 200) };
+
+                string text = upnp.GetStringAsync(upnpUri).Result;
+
+                XmlSerializer serializer = new XmlSerializer(typeof(CameraDevDesc));
+                CameraDevDesc? cameraDevDesc = (CameraDevDesc?)serializer.Deserialize(new StringReader(text));
+                return new DevDesc(addr, cameraDevDesc);
+            }
+            catch
+            {
+                return new DevDesc(addr);
+            }
+        });
+
+    }
     
     private static Task<PingReply> PingAsync(IPAddress address)
     {
