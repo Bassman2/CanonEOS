@@ -1,9 +1,15 @@
 ﻿namespace CanonEos.CcApi;
 
-internal class CcCamera : Camera
+public class CcCamera : Camera
 {
     private CcService? service;
     private DeviceInformation? deviceInformation;
+
+    
+    internal CcCamera(CameraDevDesc devDesc)
+    {
+        Connect(devDesc.Device!.ServiceList![0].AccessURL!);
+    }
 
     public CcCamera()
     { }
@@ -28,6 +34,7 @@ internal class CcCamera : Camera
     public override void Dispose()
     { }
 
+    public override ConnectionType Type => ConnectionType.WiFi;
 
     // Device Information
     public override string? Name => deviceInformation?.ProductName;

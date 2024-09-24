@@ -3,7 +3,8 @@
 public abstract class Camera : IDisposable
 {
     public abstract void Dispose();
-
+    public abstract ConnectionType Type { get; }
+    
     public abstract string? Name { get; }
     public abstract string? ProductName { get; }
     public abstract string? FirmwareVersion { get; }

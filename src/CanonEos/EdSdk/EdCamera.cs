@@ -1,8 +1,6 @@
-﻿using CanonEos.CcApi.Internal;
+﻿namespace CanonEos.EdSdk;
 
-namespace CanonEos.EdSdk;
-
-internal class EdCamera : Camera
+public class EdCamera : Camera
 {
     private readonly nint camera;
 
@@ -43,6 +41,8 @@ internal class EdCamera : Camera
         Debug.WriteLine($"EdsCloseSession {Name}");
         Eds.CheckError(Eds.EdsCloseSession(this.camera));
     }
+
+    public override ConnectionType Type => ConnectionType.USB;
 
     private EdsError OnObjectEvent(EdsObjectEventID inEvent, IntPtr inRef, IntPtr inContext)
     {

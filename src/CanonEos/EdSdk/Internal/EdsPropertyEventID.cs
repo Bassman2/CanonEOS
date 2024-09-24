@@ -17,14 +17,14 @@ internal enum EdsPropertyEventID : int
     /// </summary>
     PropertyChanged = 0x00000101,
     /// <summary>
-    /// Notifies of changes in the list of camera properties with configurable values. 
-    /// The list of configurable values for property IDs indicated in event data 
+    /// Notifies of changes in the colList of camera properties with configurable values. 
+    /// The colList of configurable values for property IDs indicated in event data 
     /// can be retrieved by means of EdsGetPropertyDesc. 
     /// For type 1 protocol standard cameras, the property ID is identified as "Unknown"
     /// during notification. 
-    /// Thus, you must retrieve a list of configurable values for all properties and
+    /// Thus, you must retrieve a colList of configurable values for all properties and
     /// retrieve the property values repeatedly. 
-    /// (For details on properties for which you can retrieve a list of configurable
+    /// (For details on properties for which you can retrieve a colList of configurable
     /// properties, see the description of EdsGetPropertyDesc). 
     /// </summary>
     PropertyDescChanged = 0x00000102,

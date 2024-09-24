@@ -1,50 +1,52 @@
-﻿namespace CanonUtility.ViewModel;
+﻿using System.Collections.ObjectModel;
+
+namespace CanonUtility.ViewModel;
 
 public partial class MainViewModel : AppViewModel, IDisposable
 {
     private readonly Canon library;
 
-    private readonly Camera? ccCamera;
+    //private readonly Camera? ccCamera;
 
     public MainViewModel() 
     {
-        var cameras = CcFinder.FindCameras()?.ToList();
-        if (cameras is not null)
-        {
-            foreach (var camera in cameras)
-            {
-                Debug.WriteLine($"{camera.Device?.ServiceList?[0].DeviceNickname} {camera.Device?.ServiceList?[0].AccessURL}");
-            }
-        }
+        //var cameras = CcFinder.FindCameras()?.ToList();
+        //if (cameras is not null)
+        //{
+        //    foreach (var camera in cameras)
+        //    {
+        //        Debug.WriteLine($"{camera.Device?.ServiceList?[0].DeviceNickname} {camera.Device?.ServiceList?[0].AccessURL}");
+        //    }
+        //}
 
         this.library = new();
-        this.library.CameraAdded += OnCameraAdded;
-        //this.Canon = library.IsInitialized ? "Connected" : "Disconnected";
-        this.Cameras = this.library.GetCameras().ToList();
+        //this.library.CameraAdded += OnCameraAdded;
+        ////this.Canon = library.IsInitialized ? "Connected" : "Disconnected";
+        this.Cameras = this.library.CamerasX;
 
-        this.ccCamera = Canon.AddCcCamera("192.168.178.67");
+        //this.ccCamera = Canon.AddCcCamera("192.168.178.67");
         
-        if (this.ccCamera != null)
-        {
-            this.Cameras.Add(this.ccCamera);
-        }
+        //if (this.ccCamera != null)
+        //{
+        //    this.Cameras.Add(this.ccCamera);
+        //}
         this.SelectedCamera = this.Cameras.FirstOrDefault();
 
     }
 
-    private void OnCameraAdded(Canon sender)
-    {
-        this.Cameras = this.library.GetCameras().ToList();
-        if (this.ccCamera != null)
-        {
-            this.Cameras.Add(this.ccCamera);
-        }
-        this.SelectedCamera = this.Cameras.FirstOrDefault();
-    }
+    //private void OnCameraAdded(Canon sender)
+    //{
+    //    this.Cameras = this.library.Cameras.ToList();
+    //    //if (this.ccCamera != null)
+    //    //{
+    //    //    this.Cameras.Add(this.ccCamera);
+    //    //}
+    //    this.SelectedCamera = this.Cameras.FirstOrDefault();
+    //}
 
     public void Dispose()
     {
-        this.SelectedCamera?.Dispose();
+        //this.SelectedCamera?.Dispose();
         this.library.Dispose();
         GC.SuppressFinalize(this);  
     }
@@ -59,19 +61,19 @@ public partial class MainViewModel : AppViewModel, IDisposable
     private string camera = "Empty";
 
     [ObservableProperty]
-    private Version fileVersion = Canon.EdsdkFileVersion;
+    private Version fileVersion = EdCanon.FileVersion;
 
     [ObservableProperty]
-    private Version productVersion = Canon.EdsdkProductVersion;
+    private Version productVersion = EdCanon.ProductVersion;
 
     [ObservableProperty]
-    private string path = Canon.EdsdkPath;
+    private string path = EdCanon.EdsdkPath;
 
     [ObservableProperty]
     private string process = Environment.Is64BitProcess ? "x64" : "x86";
    
     [ObservableProperty]
-    private List<Camera> cameras = [];
+    private ObservableCollection<Camera> cameras;
 
     [ObservableProperty]
     private Camera? selectedCamera;

@@ -112,6 +112,10 @@ internal class CcService : IDisposable
 
     }
 
+    #region Finder
+
+    #endregion
+
     #region HTTP 
 
     private T? GetFromJson<T>(string? requestUri)
@@ -280,7 +284,7 @@ internal class CcService : IDisposable
         Number? number = GetFromJson<Number>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=number");
         for (uint page = 1; page <= number!.PageNumber; page++)
         {
-            var list = GetFromJson<PathList>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=list&page={page}")?.Paths;
+            var list = GetFromJson<PathList>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=colList&page={page}")?.Paths;
             foreach (var path in list!)
             {
                 yield return path;

@@ -9,7 +9,7 @@ internal class CcVolume : Volume
         this.Name = storage.Name ?? "";
         this.MaxCapacity = storage.Maxize;
         this.FreeSpaceInBytes = storage.SpaceSize;
-        //var list = this.service.GetDirectories(this.Name);
+        //var colList = this.service.GetDirectories(this.Name);
 
     }
       
