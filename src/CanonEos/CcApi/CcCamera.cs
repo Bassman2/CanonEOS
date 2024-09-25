@@ -1,38 +1,28 @@
 ﻿namespace CanonEos.CcApi;
 
-public class CcCamera : Camera
+public sealed class CcCamera : Camera
 {
     private CcService? service;
     private DeviceInformation? deviceInformation;
 
-    
     internal CcCamera(CameraDevDesc devDesc)
     {
-        Connect(devDesc.Device!.ServiceList![0].AccessURL!);
-    }
-
-    public CcCamera()
-    { }
-
-    public bool Connect(string host)
-    {
+        var uri = new Uri(devDesc.Device!.ServiceList![0].AccessURL!);
+        
         this.service = new CcService();
-        if (!this.service.Connect(host))
-        {
-            return false;
-        }
+        this.service.Connect(uri);
+        
         this.deviceInformation = this.service.GetDeviceInformation();
-
-        //this.Name = deviceInformation?.ProductName ?? url.OriginalString;
-        //this.ProductName = deviceInformation?.ProductName ;
-        //this.FirmwareVersion = deviceInformation?.FirmwareVersion;
-        //this.BodyIDEx = deviceInformation?.SerialNumber;
-
-        return true;
     }
 
     public override void Dispose()
-    { }
+    {
+        if (this.service is not null)
+        {
+            this.service.Dispose(); 
+            this.service = null;
+        }
+    }
 
     public override ConnectionType Type => ConnectionType.WiFi;
 

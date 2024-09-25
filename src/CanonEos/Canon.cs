@@ -14,7 +14,7 @@ public sealed class Canon : IDisposable
         edCanon = new EdCanon();
         ccCanon = new CcCanon();
 
-        mergedCollection = new MergedObservableCollection<Camera>(edCanon.CamerasX, ccCanon.CamerasX);
+        mergedCollection = new MergedObservableCollection<Camera>(edCanon.Cameras, ccCanon.Cameras);
     }
 
     public void Dispose()
@@ -22,10 +22,8 @@ public sealed class Canon : IDisposable
         edCanon.Dispose();
         ccCanon.Dispose();
     }
-
-    //public IEnumerable<Camera> Cameras => edCanon.Cameras.Cast<Camera>().Concat(ccCanon.Cameras);
     
-    public ObservableCollection<Camera> CamerasX => mergedCollection;
+    public ObservableCollection<Camera> Cameras => mergedCollection;
 
     public static Camera GetCamera(string host) => CcCanon.GetCamera(host);
 

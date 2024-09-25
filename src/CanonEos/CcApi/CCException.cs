@@ -1,9 +1,7 @@
-﻿using System.Net;
-
-namespace CanonEos.CcApi;
+﻿namespace CanonEos.CcApi;
 
 internal class CCException : Exception
 {
-    public CCException(string? message, HttpStatusCode statusCode) : base($"{statusCode}: {message}")
+    public CCException(string? message, string? requestUri, HttpStatusCode statusCode) : base($"{statusCode}: \"{requestUri}\" {message}")
     { }
 }

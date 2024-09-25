@@ -6,26 +6,28 @@ public class CcCanon : IDisposable
     { 
         foreach (var camera in FindCameras()!)
         {
-            CamerasX.Add(new CcCamera(camera));
+            Cameras.Add(new CcCamera(camera));
         }
     }
 
     public void Dispose()
     {
-      
+     
 
     }
 
-    public ObservableCollection<CcCamera> CamerasX { get; } = [];
+    public ObservableCollection<CcCamera> Cameras { get; } = [];
 
 
-    public IEnumerable<CcCamera> Cameras => GetCameras();
-        
     public static Camera GetCamera(string host)
     {
-        CcCamera camera = new CcCamera();
-        camera.Connect(host);
-        return camera;
+        bool success = CcService.PingCamera(host);
+        if (!success) throw new CanonException(host, "No connected device");
+
+        CameraDevDesc? cameraDevDesc = CcService.GetCameraDevDesc(host);
+        if (cameraDevDesc == null) throw new CanonException(host, "No connected Canon device"); 
+
+        return new CcCamera(cameraDevDesc);
     }
 
 

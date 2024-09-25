@@ -6,7 +6,7 @@ internal class CcService : IDisposable
 {
     private HttpClientHandler? handler;
     private HttpClient? client;
-    //private readonly string sessionId;
+    
     private readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
     {
         Converters =
@@ -18,15 +18,8 @@ internal class CcService : IDisposable
 
     public CcService() { }
 
-    public bool Connect(string host)
+    public bool Connect(Uri uri)
     {
-        bool success = PingCamera(host);
-        if (!success) return false;
-
-        CameraDevDesc? cameraDevDesc = GetCameraDevDesc(host);
-        if (cameraDevDesc == null) return false;
-
-        // connect
         this.handler = new HttpClientHandler
         {
             CookieContainer = new System.Net.CookieContainer(),
@@ -37,10 +30,9 @@ internal class CcService : IDisposable
 
         this.client = new HttpClient(this.handler)
         {
-            BaseAddress = new Uri(cameraDevDesc!.Device!.ServiceList![0].AccessURL!),
+            BaseAddress = uri,
             Timeout = new TimeSpan(0, 2, 0)
         };
-
 
         Ccapis? apis = GetApiList();
 
@@ -54,11 +46,11 @@ internal class CcService : IDisposable
 
     }
 
-    private bool OnServerCertificateValidation(object sender, X509Certificate? certificate, X509Chain? chain, SslPolicyErrors sslPolicyErrors)
-    {
-        return true;
+    //private bool OnServerCertificateValidation(object sender, X509Certificate? certificate, X509Chain? chain, SslPolicyErrors sslPolicyErrors)
+    //{
+    //    return true;
 
-    }
+    //}
 
     public void Dispose()
     {
@@ -127,7 +119,7 @@ internal class CcService : IDisposable
         if (!response.IsSuccessStatusCode)
         {
             ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
-            throw new CCException(msg?.Message, response.StatusCode);
+            throw new CCException(msg?.Message, requestUri, response.StatusCode);
         }
         return response.Content.ReadFromJsonAsync<T>(this.jsonSerializerOptions).Result;
     }
@@ -140,7 +132,7 @@ internal class CcService : IDisposable
         if (!response.IsSuccessStatusCode)
         {
             ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
-            throw new CCException(msg?.Message, response.StatusCode);
+            throw new CCException(msg?.Message, requestUri, response.StatusCode);
         }
         return response.Content.ReadFromJsonAsync<T>(this.jsonSerializerOptions).Result;
     }
@@ -153,7 +145,7 @@ internal class CcService : IDisposable
         if (!response.IsSuccessStatusCode)
         {
             ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
-            throw new CCException(msg?.Message, response.StatusCode);
+            throw new CCException(msg?.Message, requestUri, response.StatusCode);
         }
     }
 
@@ -166,7 +158,7 @@ internal class CcService : IDisposable
         if (!response.IsSuccessStatusCode)
         {
             ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
-            throw new CCException(msg?.Message, response.StatusCode);
+            throw new CCException(msg?.Message, requestUri, response.StatusCode);
         }
         MemoryStream stream = new MemoryStream();
         response.Content.CopyToAsync(stream).Wait();
@@ -183,7 +175,7 @@ internal class CcService : IDisposable
         if (!response.IsSuccessStatusCode)
         {
             ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
-            throw new CCException(msg?.Message, response.StatusCode);
+            throw new CCException(msg?.Message, requestUri, response.StatusCode);
         }
     }
 

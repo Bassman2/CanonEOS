@@ -26,7 +26,7 @@ public class EdCanon : IDisposable
 
         foreach (var camera in GetCameras())
         {
-            CamerasX.Add(camera);
+            Cameras.Add(camera);
         }
     }
 
@@ -44,10 +44,8 @@ public class EdCanon : IDisposable
         return 0;
     }
 
-    public ObservableCollection<EdCamera> CamerasX { get; } = [];
-
-    public IEnumerable<EdCamera> Cameras => GetCameras();
-
+    public ObservableCollection<EdCamera> Cameras { get; } = [];
+    
     public static Version FileVersion { get; } = Eds.FileVersion;
     public static Version ProductVersion { get; } = Eds.ProductVersion;
     public static string EdsdkPath { get; } = Eds.LibraryPath;
