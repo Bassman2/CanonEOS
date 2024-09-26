@@ -33,7 +33,7 @@ public class CcCanon : IDisposable
 
     #region network scan
 
-    private const int timeout = 400;
+    private const int timeout = 500;
 
     private static IEnumerable<CcCamera> GetCameras()
     {

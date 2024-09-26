@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CanonUtility"
              xmlns:conv="clr-namespace:CanonUtility.Converter"
+             xmlns:cwc="clr-namespace:CanonWpf.Converter;assembly=CanonWpf"
              StartupUri="View/MainView.xaml">
     <Application.Resources>
         <conv:DebugConverter x:Key="Debug"/>
@@ -10,5 +11,6 @@
         <conv:EnumToDescriptionConverter x:Key="EnumToDescription"/>
         <conv:EnumToNumberConverter x:Key="EnumToNumber"/>
         <conv:EnumToHexConverter x:Key="EnumToHex"/>
+        <cwc:ConnectionTypeToImageConverter x:Key="ConnectionTypeToImage"/>
     </Application.Resources>
 </Application>

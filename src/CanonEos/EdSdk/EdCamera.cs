@@ -2,67 +2,65 @@
 
 public class EdCamera : Camera
 {
-    private readonly nint camera;
-
+    private nint camera = nint.Zero;
     private static EdsObjectEventHandler? EdsObjectEvent;
+
+    public EdCamera()
+    { }
 
     internal EdCamera(nint camera)
     {
+        _ = Open(camera) ? 0 : throw new CanonException($"Failed to open {camera}");
+    }
+
+    public void Dispose() => Close();
+
+    public bool IsOpen => camera != nint.Zero;
+
+    public bool Open(nint camera)
+    {
         this.camera = camera;
 
-        Eds.CheckError(Eds.EdsGetDeviceInfo(this.camera, out EdsDeviceInfo info));
+        if (Eds.EdsGetDeviceInfo(this.camera, out EdsDeviceInfo info) != EdsError.OK)
+        { 
+            return false; 
+        }
+        
         this.Name = info.DeviceDescription;
-
         Debug.WriteLine($"EdsOpenSession {Name}");
-        Eds.CheckError(Eds.EdsOpenSession(this.camera));
 
-        EdsObjectEvent = new EdsObjectEventHandler(OnObjectEvent);
-        Eds.CheckError(Eds.EdsSetObjectEventHandler(this.camera, EdsObjectEventID.All, EdsObjectEvent, nint.Zero));
-
-
-        //Eds.DebugProperties(this.camera);
-
-        ProductName = Eds.GetPropertyString(this.camera, EdsPropertyID.ProductName);
-        OwnerName = Eds.GetPropertyString(this.camera, EdsPropertyID.OwnerName);
-        FirmwareVersion = Eds.GetPropertyString(this.camera, EdsPropertyID.FirmwareVersion);
-        CurrentStorage = Eds.GetPropertyString(this.camera, EdsPropertyID.CurrentStorage);
-        CurrentFolder = Eds.GetPropertyString(this.camera, EdsPropertyID.CurrentFolder);
-        BodyIDEx = Eds.GetPropertyString(this.camera, EdsPropertyID.BodyIDEx);
-        LensName = Eds.GetPropertyString(this.camera, EdsPropertyID.LensName);
-        Artist = Eds.GetPropertyString(this.camera, EdsPropertyID.Artist);
-        Copyright = Eds.GetPropertyString(this.camera, EdsPropertyID.Copyright);
-        //Artist = CanonSDK.GetPropertyString(camera, PropertyID.Artist);
-        //Artist = CanonSDK.GetPropertyString(camera, PropertyID.Artist);
-        //Artist = CanonSDK.GetPropertyString(camera, PropertyID.Artist);
+        return Eds.EdsOpenSession(this.camera) == EdsError.OK;
     }
 
-    public override void Dispose()
+    public void Close()
     {
-        Debug.WriteLine($"EdsCloseSession {Name}");
-        Eds.CheckError(Eds.EdsCloseSession(this.camera));
+        if (this.camera != nint.Zero)
+        {
+            Eds.EdsCloseSession(this.camera);
+            this.camera = nint.Zero;
+        }
     }
 
-    public override ConnectionType Type => ConnectionType.USB;
 
     private EdsError OnObjectEvent(EdsObjectEventID inEvent, IntPtr inRef, IntPtr inContext)
     {
         return 0;
     }
 
-    public override string Name { get; }
-    public override string? ProductName { get; }
-    public override string? OwnerName { get; set; }
-    public override string? FirmwareVersion { get; }
-    public override string? CurrentStorage { get; }
-    public override string? CurrentFolder { get; }
-    public override string? BodyIDEx { get; }
-    public override string? LensName { get; }
-    public override string? Artist { get; set; }
-    public override string? Copyright { get; set; }
+    #region information
 
-    public override DateTime? DateTime { get; set; }
-    
-    public override IEnumerable<BatteryInfo>? Batteries
+    public ConnectionType ConnectionType => ConnectionType.USB;
+    public string? Name { get; private set; }
+    public string? ProductName => Eds.GetPropertyString(this.camera, EdsPropertyID.ProductName);
+    public string? FirmwareVersion => Eds.GetPropertyString(this.camera, EdsPropertyID.FirmwareVersion);
+    public string? BodyIDEx => Eds.GetPropertyString(this.camera, EdsPropertyID.BodyIDEx);
+    public string? LensName => Eds.GetPropertyString(this.camera, EdsPropertyID.LensName);
+    public string? CurrentStorage => Eds.GetPropertyString(this.camera, EdsPropertyID.CurrentStorage);
+    public string? CurrentFolder => Eds.GetPropertyString(this.camera, EdsPropertyID.CurrentFolder);
+
+    public TemperatureStatus? TemperatureStatus => (TemperatureStatus)Eds.GetPropertyInt(this.camera, EdsPropertyID.TempStatus);
+
+    public IEnumerable<BatteryInfo>? Batteries
     {
         get
         {
@@ -71,12 +69,65 @@ public class EdCamera : Camera
             uint level1 = Eds.GetPropertyUInt(camera, EdsPropertyID.BatteryLevel, 1);
             uint quali1 = Eds.GetPropertyUInt(camera, EdsPropertyID.BatteryQuality, 1);
             return new BatteryInfo[] { new BatteryInfo(level0, quali0), new BatteryInfo(level0, quali0) };
-            }
+        }
     }
-        
 
-    public override IEnumerable<Volume> Volumes { get => Eds.GetChildren(this.camera).Select(i => new EdVolume(i)); }
-    
+    public IEnumerable<Volume> Volumes { get => Eds.GetChildren(this.camera).Select(i => new EdVolume(i)); }
 
-    public override IEnumerable<Property> Properties { get => Eds.GetCameraProperties(this.camera); }
+    public IEnumerable<Property> Properties { get => Eds.GetCameraProperties(this.camera); }
+
+    #endregion
+
+    #region settings
+
+    public string? Copyright
+    {
+        get => Eds.GetPropertyString(this.camera, EdsPropertyID.Copyright);
+        set => Eds.SetProperty(this.camera, EdsPropertyID.Copyright, value);
+    }
+    public string? Author
+    {
+        get => Eds.GetPropertyString(this.camera, EdsPropertyID.Artist);
+        set => Eds.SetProperty(this.camera, EdsPropertyID.Artist, value);
+    }
+
+    public string? OwnerName
+    {
+        get => Eds.GetPropertyString(this.camera, EdsPropertyID.OwnerName);
+        set => Eds.SetProperty(this.camera, EdsPropertyID.OwnerName, value);
+    }
+
+    public string? Nickname 
+    {
+        get => Eds.GetPropertyString(this.camera, EdsPropertyID.Unknown);
+        set => Eds.SetProperty(this.camera, EdsPropertyID.Unknown, value);
+    }
+
+    public DateTime? DateTime
+    {
+        get => (DateTime)Eds.GetPropertyStruct<EdsTime>(this.camera, EdsPropertyID.DateTime);
+        set => Eds.SetProperty(this.camera, EdsPropertyID.DateTime, value);
+    }
+
+    public Beep? Beep
+    {
+        get => (Beep)Eds.GetPropertyInt(this.camera, EdsPropertyID.Unknown);
+        set => Eds.SetProperty(this.camera, EdsPropertyID.Unknown, value);
+    }
+
+    public DisplayOff? DisplayOff
+    {
+        get => (DisplayOff)Eds.GetPropertyInt(this.camera, EdsPropertyID.Unknown);
+        set => Eds.SetProperty(this.camera, EdsPropertyID.Unknown, value);
+    }
+
+    public AutoPowerOff? AutoPowerOff
+    {
+        get => (AutoPowerOff)Eds.GetPropertyUInt(this.camera, EdsPropertyID.AutoPowerOffSetting);
+        set => Eds.SetProperty(this.camera, EdsPropertyID.AutoPowerOffSetting, value);
+    }
+
+
+    #endregion
+
 }

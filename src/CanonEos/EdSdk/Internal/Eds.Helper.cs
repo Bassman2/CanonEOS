@@ -413,8 +413,6 @@ internal static partial class Eds
         */
     }
 
-   
-
     public unsafe static int GetPropertyInt(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
     {
         int value = 0;
@@ -423,6 +421,8 @@ internal static partial class Eds
         return value;
     }
 
+    public unsafe static bool GetPropertyBool(IntPtr inRef, EdsPropertyID propertyID, int param = 0) => GetPropertyInt(inRef, propertyID, param) != 0;
+    
     public unsafe static uint GetPropertyUInt(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
     {
         uint value = 0;
@@ -506,6 +506,13 @@ internal static partial class Eds
         }
     }
 
+    public unsafe static void SetProperty(IntPtr inRef, EdsPropertyID propertyID, string? value, int param = 0)
+    {
+    }
+
+    public unsafe static void SetProperty<T>(IntPtr inRef, EdsPropertyID propertyID, T value, int param = 0)
+    {
+    }
 
     public static IEnumerable<nint> GetChildren(nint item)
     {
@@ -522,7 +529,7 @@ internal static partial class Eds
         if (error != EdsError.OK)
         {
             Debug.WriteLine($"Error: {error}!");
-            Debugger.Break();
+            //Debugger.Break();
         }
         return error;
     }

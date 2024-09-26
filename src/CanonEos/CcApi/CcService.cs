@@ -218,8 +218,8 @@ internal class CcService : IDisposable
     public Lens? GetDeviceStatusLens()
         => GetFromJson<Lens>("/ccapi/ver100/devicestatus/lens");
 
-    public Temperature? GetDeviceStatusTemerature()
-        => GetFromJson<Temperature>("/ccapi/ver100/devicestatus/temperature");
+    public TemperatureStatus? GetDeviceStatusTemperature()
+        => GetFromJson<TempStatus>("/ccapi/ver100/devicestatus/temperature")?.Status;
 
     #endregion
 
@@ -245,21 +245,37 @@ internal class CcService : IDisposable
 
     public string? GetNickname()
        => GetFromJson<CameraNickname>("/ccapi/ver100/functions/registeredname/nickname")?.Nickname;
-        
+
+    public void SetNickname(string? value)
+        => PutAsJson("/ccapi/ver100/functions/registeredname/nickname", new CameraNickname() { Nickname = value });
+
     public DateTime? GetDateTime()
        => GetFromJson<CameraDateTime>("/ccapi/ver100/functions/datetime");
 
-    public DateTime? SetDateTime(DateTime? value)
+    public void SetDateTime(DateTime? value)
        => PutAsJson("/ccapi/ver100/functions/datetime", (CameraDateTime?)value);
+
+
+    public Beep? GetBeep() => GetFromJson<CcBeep>("/ccapi/ver100/functions/datbeepetime")?.Value;
+
+    public void SetBeep(Beep? value) => PutAsJson("/ccapi/ver100/functions/beep", new CcBeep() { Value = value });
+
+    public DisplayOff? GetDisplayOff() => GetFromJson<CcDisplayOff>("/ccapi/ver100/functions/displayoff")?.Value;
+
+    public void SetDisplayOff(DisplayOff? value) => PutAsJson("/ccapi/ver100/functions/displayoff", new CcDisplayOff() { Value = value });
+
+    public AutoPowerOff? GetAutoPowerOff() => GetFromJson<CcAutoPowerOff>("/ccapi/ver100/functions/autopoweroff")?.Value;
+
+    public void SetAutoPowerOff(AutoPowerOff? value) => PutAsJson("/ccapi/ver100/functions/autopoweroff", new CcAutoPowerOff() { Value = value });
 
     public void Format(string card)
        => PostAsJson("/ccapi/ver100/functions/cardformat", new StorageName() { Name = card });
 
-    public ValueGet? GetMute()
-       => GetFromJson<ValueGet>("/ccapi/ver100/functions/beep");
+    //public ValueGet? GetMute()
+    //   => GetFromJson<ValueGet>("/ccapi/ver100/functions/beep");
 
-    public ValuePut? SetMute(string value)
-       => PutAsJson<ValuePut>("/ccapi/ver100/functions/beep", new ValuePut { Value = value });
+    //public ValuePut? SetMute(string value)
+    //   => PutAsJson<ValuePut>("/ccapi/ver100/functions/beep", new ValuePut { Value = value });
 
     #endregion
 

@@ -14,7 +14,7 @@ public partial class CameraSettingViewModel : ObservableObject
     {
         this.camera = camera;
         this.Copyright = orgCopyright = camera.Copyright;
-        this.Author = orgAuthor = camera.Artist;
+        this.Author = orgAuthor = camera.Author;
         this.Owner = orgOwner = camera.OwnerName;
         this.DateTime = orgDateTime = camera.DateTime;
     }
@@ -51,7 +51,7 @@ public partial class CameraSettingViewModel : ObservableObject
         }
         if (this.Author != orgAuthor)
         {
-            camera!.Artist = this.Author;
+            camera!.Author = this.Author;
         }
         if (this.Owner != orgOwner)
         {

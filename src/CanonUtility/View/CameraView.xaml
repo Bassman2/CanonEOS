@@ -14,6 +14,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <GroupBox Grid.Column="0" Header="Camera">
             <Grid Margin="3">
@@ -33,32 +34,58 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Content="Product Name" />
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding ProductName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <Label Grid.Column="0" Grid.Row="1" Content="Owner Name" />
-                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding OwnerName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="0" Content="Name" />
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="Product Name" />
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding ProductName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
                 <Label Grid.Column="0" Grid.Row="2" Content="Firmware Version" />
                 <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FirmwareVersion, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <Label Grid.Column="0" Grid.Row="3" Content="Current Storage" />
-                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding CurrentStorage, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <Label Grid.Column="0" Grid.Row="4" Content="Current Folder" />
-                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding CurrentFolder, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <Label Grid.Column="0" Grid.Row="5" Content="Body IDEx" />
-                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding BodyIDEx, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <Label Grid.Column="0" Grid.Row="6" Content="Lens Name" />
-                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding LensName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <Label Grid.Column="0" Grid.Row="7" Content="Artist" />
-                <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding Artist, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
-                <Label Grid.Column="0" Grid.Row="8" Content="Copyright" />
-                <TextBox Grid.Column="1" Grid.Row="8" Text="{Binding Copyright, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="3" Content="Body IDEx" />
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding BodyIDEx, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="4" Content="Lens Name" />
+                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding LensName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="5" Content="Current Storage" />
+                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding CurrentStorage, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="6" Content="Current Folder" />
+                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding CurrentFolder, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="7" Content="Temperature Status" />
+                <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding TemperatureStatus, Converter={StaticResource EnumToDescription}, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Column="1" Header="Batteries" DataContext="{Binding Batteries}">
+        <GroupBox Grid.Column="1" Header="Settings">
             <Grid Margin="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="160"/>
-                    <ColumnDefinition Width="160"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="Copyright" />
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Copyright, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="Author / Artist" />
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Author, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="2" Content="Owner Name" />
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding OwnerName, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+                <Label Grid.Column="0" Grid.Row="3" Content="Date &amp; Time" />
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding DateTime, Mode=OneWay}" Margin="3" IsReadOnly="True"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="2" Header="Batteries" DataContext="{Binding Batteries}">
+            <Grid Margin="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

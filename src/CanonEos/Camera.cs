@@ -1,28 +1,44 @@
 ﻿namespace CanonEos;
 
-public abstract class Camera : IDisposable
+public interface Camera : IDisposable
 {
-    public abstract void Dispose();
-    public abstract ConnectionType Type { get; }
+
+    bool IsOpen { get; }
+
+    // public bool Open(string host);
+    // public bool Open(nint camera);
+    void Close();
+
+
+
+    #region information
+
+    ConnectionType ConnectionType { get; }
+    string? Name { get; }
+    string? ProductName { get; }
+    string? FirmwareVersion { get; }
+    string? BodyIDEx { get; }
+    string? LensName { get; }
+    string? CurrentStorage { get; }
+    string? CurrentFolder { get; }
+    TemperatureStatus? TemperatureStatus { get; }
+
+    IEnumerable<BatteryInfo>? Batteries { get; }
+    IEnumerable<Volume>? Volumes { get; }
+    IEnumerable<Property> Properties { get; }
     
-    public abstract string? Name { get; }
-    public abstract string? ProductName { get; }
-    public abstract string? FirmwareVersion { get; }
-    public abstract string? CurrentStorage { get; }
-    public abstract string? CurrentFolder { get; }
-    public abstract string? BodyIDEx { get; }
-    public abstract string? LensName { get; }
-    
-    // settings 
-    public abstract string? Copyright { get; set; }
-    public abstract string? Artist { get; set; }
-    public abstract string? OwnerName { get; set; }
-    public abstract DateTime? DateTime { get; set; }
+    #endregion
 
-    public abstract IEnumerable<BatteryInfo>? Batteries { get; }
+    #region settings
 
-    public abstract IEnumerable<Volume>? Volumes { get; }
+    string? Copyright { get; set; }
+    string? Author { get; set; }
+    string? OwnerName { get; set; }
+    string? Nickname { get; set; }
+    DateTime? DateTime { get; set; }
+    Beep? Beep { get; set; }
+    DisplayOff? DisplayOff { get; set; }
+    AutoPowerOff? AutoPowerOff { get; set; }
 
-    public abstract IEnumerable<Property> Properties { get; }
-
+    #endregion
 }
