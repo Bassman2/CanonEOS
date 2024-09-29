@@ -1,12 +1,13 @@
 ﻿using CanonEos.CcApi.JsonConverters;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace CanonEos.CcApi;
+namespace CanonEos.CcApi.Internal;
 
 internal class CcService : IDisposable
 {
     private HttpClientHandler? handler;
     private HttpClient? client;
-    
+
     private readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions
     {
         Converters =
@@ -20,15 +21,15 @@ internal class CcService : IDisposable
 
     public bool Connect(Uri uri)
     {
-        this.handler = new HttpClientHandler
+        handler = new HttpClientHandler
         {
-            CookieContainer = new System.Net.CookieContainer(),
+            CookieContainer = new CookieContainer(),
             UseCookies = true,
             ClientCertificateOptions = ClientCertificateOption.Manual,
             ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, cetChain, policyErrors) => true
         };
 
-        this.client = new HttpClient(this.handler)
+        client = new HttpClient(handler)
         {
             BaseAddress = uri,
             Timeout = new TimeSpan(0, 2, 0)
@@ -54,10 +55,10 @@ internal class CcService : IDisposable
 
     public void Dispose()
     {
-        if (this.client is not null)
+        if (client is not null)
         {
-            this.client.Dispose();
-            this.client = null;
+            client.Dispose();
+            client = null;
         }
     }
 
@@ -112,52 +113,52 @@ internal class CcService : IDisposable
 
     private T? GetFromJson<T>(string? requestUri)
     {
-        if (this.client is null) throw new Exception("Client not connected!");
+        if (client is null) throw new Exception("Client not connected!");
 
-        using HttpResponseMessage response = this.client.GetAsync(requestUri).Result;
+        using HttpResponseMessage response = client.GetAsync(requestUri).Result;
         string str = response.Content.ReadAsStringAsync().Result;
         if (!response.IsSuccessStatusCode)
         {
-            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
+            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(jsonSerializerOptions).Result;
             throw new CCException(msg?.Message, requestUri, response.StatusCode);
         }
-        return response.Content.ReadFromJsonAsync<T>(this.jsonSerializerOptions).Result;
+        return response.Content.ReadFromJsonAsync<T>(jsonSerializerOptions).Result;
     }
 
     private T? PutAsJson<T>(string? requestUri, T obj)
     {
-        if (this.client is null) throw new Exception("Client not connected!");
+        if (client is null) throw new Exception("Client not connected!");
 
-        using HttpResponseMessage response = this.client.PutAsJsonAsync(requestUri, obj, this.jsonSerializerOptions).Result;
+        using HttpResponseMessage response = client.PutAsJsonAsync(requestUri, obj, jsonSerializerOptions).Result;
         if (!response.IsSuccessStatusCode)
         {
-            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
+            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(jsonSerializerOptions).Result;
             throw new CCException(msg?.Message, requestUri, response.StatusCode);
         }
-        return response.Content.ReadFromJsonAsync<T>(this.jsonSerializerOptions).Result;
+        return response.Content.ReadFromJsonAsync<T>(jsonSerializerOptions).Result;
     }
 
     private void PostAsJson(string? requestUri, object obj)
     {
-        if (this.client is null) throw new Exception("Client not connected!");
+        if (client is null) throw new Exception("Client not connected!");
 
-        using HttpResponseMessage response = this.client.PostAsJsonAsync(requestUri, obj, this.jsonSerializerOptions).Result;
+        using HttpResponseMessage response = client.PostAsJsonAsync(requestUri, obj, jsonSerializerOptions).Result;
         if (!response.IsSuccessStatusCode)
         {
-            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
+            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(jsonSerializerOptions).Result;
             throw new CCException(msg?.Message, requestUri, response.StatusCode);
         }
     }
 
     private Stream GetFromStream(string? requestUri)
     {
-        if (this.client is null) throw new Exception("Client not connected!");
+        if (client is null) throw new Exception("Client not connected!");
 
-        using HttpResponseMessage response = this.client.GetAsync(requestUri).Result;
+        using HttpResponseMessage response = client.GetAsync(requestUri).Result;
         string str = response.Content.ReadAsStringAsync().Result;
         if (!response.IsSuccessStatusCode)
         {
-            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
+            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(jsonSerializerOptions).Result;
             throw new CCException(msg?.Message, requestUri, response.StatusCode);
         }
         MemoryStream stream = new MemoryStream();
@@ -169,12 +170,12 @@ internal class CcService : IDisposable
 
     private void Delete(string? requestUri)
     {
-        if (this.client is null) throw new Exception("Client not connected!");
+        if (client is null) throw new Exception("Client not connected!");
 
-        using HttpResponseMessage response = this.client.DeleteAsync(requestUri).Result;
+        using HttpResponseMessage response = client.DeleteAsync(requestUri).Result;
         if (!response.IsSuccessStatusCode)
         {
-            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions).Result;
+            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(jsonSerializerOptions).Result;
             throw new CCException(msg?.Message, requestUri, response.StatusCode);
         }
     }
@@ -193,13 +194,13 @@ internal class CcService : IDisposable
 
     #region Camera Information (Fixed Values)
 
-    public DeviceInformation? GetDeviceInformation() 
+    public DeviceInformation? GetDeviceInformation()
         => GetFromJson<DeviceInformation>("/ccapi/ver100/deviceinformation");
 
     #endregion
 
     #region Camera Status (Variable Values)
-        
+
     public IEnumerable<Storage>? GetDeviceStatusStorage()
         => GetFromJson<DeviceStatusStorage>("/ccapi/ver110/devicestatus/storage")?.Storages;
 
@@ -236,10 +237,10 @@ internal class CcService : IDisposable
     public void SetAuthor(string? value)
         => PutAsJson("/ccapi/ver100/functions/registeredname/author", new CameraAuthor() { Author = value });
 
-    public string? GetOwnerName()
+    public string? GetOwner()
        => GetFromJson<CameraOwnerName>("/ccapi/ver100/functions/registeredname/ownername")?.OwnerName;
 
-    public void SetOwnerName(string? value)
+    public void SetOwner(string? value)
         => PutAsJson("/ccapi/ver100/functions/registeredname/ownername", new CameraOwnerName() { OwnerName = value });
 
 
@@ -256,17 +257,17 @@ internal class CcService : IDisposable
        => PutAsJson("/ccapi/ver100/functions/datetime", (CameraDateTime?)value);
 
 
-    public Beep? GetBeep() => GetFromJson<CcBeep>("/ccapi/ver100/functions/datbeepetime")?.Value;
+    public ValueAbility? GetBeep() => GetFromJson<ValueAbility>("/ccapi/ver100/functions/beep");
 
-    public void SetBeep(Beep? value) => PutAsJson("/ccapi/ver100/functions/beep", new CcBeep() { Value = value });
+    public void SetBeep(string value) => PutAsJson("/ccapi/ver100/functions/beep", new ValueAbility() { Value = value });
 
-    public DisplayOff? GetDisplayOff() => GetFromJson<CcDisplayOff>("/ccapi/ver100/functions/displayoff")?.Value;
+    public ValueAbility? GetDisplayOff() => GetFromJson<ValueAbility>("/ccapi/ver100/functions/displayoff");
 
-    public void SetDisplayOff(DisplayOff? value) => PutAsJson("/ccapi/ver100/functions/displayoff", new CcDisplayOff() { Value = value });
+    public void SetDisplayOff(string value) => PutAsJson("/ccapi/ver100/functions/displayoff", new ValueAbility() { Value = value });
 
-    public AutoPowerOff? GetAutoPowerOff() => GetFromJson<CcAutoPowerOff>("/ccapi/ver100/functions/autopoweroff")?.Value;
+    public ValueAbility? GetAutoPowerOff() => GetFromJson<ValueAbility>("/ccapi/ver100/functions/autopoweroff");
 
-    public void SetAutoPowerOff(AutoPowerOff? value) => PutAsJson("/ccapi/ver100/functions/autopoweroff", new CcAutoPowerOff() { Value = value });
+    public void SetAutoPowerOff(string? value) => PutAsJson("/ccapi/ver100/functions/autopoweroff", new ValueAbility() { Value = value });
 
     public void Format(string card)
        => PostAsJson("/ccapi/ver100/functions/cardformat", new StorageName() { Name = card });
@@ -287,12 +288,17 @@ internal class CcService : IDisposable
     public IEnumerable<string>? GetDirectories(string volumeName)
         => GetFromJson<PathList>($"/ccapi/ver120/contents/{volumeName}")?.Paths;
 
+    public bool HasFiles(string volumeName, string directoryName)
+    {
+        return GetFromJson<Number>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=number")?.ContentsNumber > 0;
+    }
+    
     public IEnumerable<string>? GetFiles(string volumeName, string directoryName)
     {
         Number? number = GetFromJson<Number>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=number");
         for (uint page = 1; page <= number!.PageNumber; page++)
         {
-            var list = GetFromJson<PathList>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=colList&page={page}")?.Paths;
+            var list = GetFromJson<PathList>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=list&page={page}")?.Paths;
             foreach (var path in list!)
             {
                 yield return path;

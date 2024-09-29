@@ -91,7 +91,7 @@ public class EdCamera : Camera
         set => Eds.SetProperty(this.camera, EdsPropertyID.Artist, value);
     }
 
-    public string? OwnerName
+    public string? Owner
     {
         get => Eds.GetPropertyString(this.camera, EdsPropertyID.OwnerName);
         set => Eds.SetProperty(this.camera, EdsPropertyID.OwnerName, value);
@@ -109,24 +109,29 @@ public class EdCamera : Camera
         set => Eds.SetProperty(this.camera, EdsPropertyID.DateTime, value);
     }
 
-    public Beep? Beep
+    public string? Beep
     {
-        get => (Beep)Eds.GetPropertyInt(this.camera, EdsPropertyID.Unknown);
+        get => Eds.GetPropertyString(this.camera, EdsPropertyID.Unknown);
         set => Eds.SetProperty(this.camera, EdsPropertyID.Unknown, value);
     }
 
-    public DisplayOff? DisplayOff
+    public string[]? BeepValues => [];
+
+    public string? DisplayOff
     {
-        get => (DisplayOff)Eds.GetPropertyInt(this.camera, EdsPropertyID.Unknown);
+        get => Eds.GetPropertyString(this.camera, EdsPropertyID.Unknown);
         set => Eds.SetProperty(this.camera, EdsPropertyID.Unknown, value);
     }
 
-    public AutoPowerOff? AutoPowerOff
+    public string[]? DisplayOffValues => [];
+
+    public string? AutoPowerOff
     {
-        get => (AutoPowerOff)Eds.GetPropertyUInt(this.camera, EdsPropertyID.AutoPowerOffSetting);
+        get => Eds.GetPropertyString(this.camera, EdsPropertyID.AutoPowerOffSetting);
         set => Eds.SetProperty(this.camera, EdsPropertyID.AutoPowerOffSetting, value);
     }
 
+    public string[]? AutoPowerOffValues => [];
 
     #endregion
 

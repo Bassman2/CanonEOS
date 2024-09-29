@@ -1,12 +1,12 @@
 ﻿namespace CanonUtility.ViewModel;
 
-public partial class CameraViewModel : ObservableObject
+public partial class CameraInfoViewModel : ObservableObject
 {
     private readonly Camera camera;
-    public CameraViewModel(Camera camera)
+    public CameraInfoViewModel(Camera camera)
     {
         this.camera = camera;
-        this.Volumes = camera.Volumes?.ToList() ?? [];
+        this.Volumes = camera.Volumes?.Select(v => new VolumeViewModel(camera, v)).ToList() ?? [];
         this.Properties = camera.Properties.ToList();
     }
 
@@ -25,7 +25,7 @@ public partial class CameraViewModel : ObservableObject
     public List<BatteryInfo>? Batteries => this.Camera.Batteries?.Reverse().ToList();
 
     [ObservableProperty]
-    private List<Volume> volumes = [];
+    private List<VolumeViewModel> volumes = [];
 
     #endregion
 
@@ -37,9 +37,17 @@ public partial class CameraViewModel : ObservableObject
 
     public string? Author { get => this.camera.Author; }
 
-    public string? OwnerName { get => this.camera.OwnerName; }
+    public string? Owner { get => this.camera.Owner; }
+
+    public string? Nickname { get => this.camera.Nickname; }
 
     public DateTime? DateTime { get => this.camera.DateTime; }
+
+    public string? Beep { get => this.camera.Beep; }
+
+    public string? DisplayOff { get => this.camera.DisplayOff; }
+
+    public string? AutoPowerOff { get => this.camera.AutoPowerOff; }
 
     #endregion
 

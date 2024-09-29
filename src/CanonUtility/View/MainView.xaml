@@ -45,8 +45,8 @@
             <StatusBarItem Grid.Column="1" Content="{Binding Camera}"/>
         </StatusBar>
         <TabControl>
-            <TabItem Header="Camera">
-                <local:CameraView DataContext="{Binding CameraViewModel}"/>
+            <TabItem Header="Camera Information">
+                <local:CameraInfoView DataContext="{Binding CameraInfoViewModel}"/>
             </TabItem>
             <TabItem Header="Camera Setting">
                 <local:CameraSettingView DataContext="{Binding CameraSettingViewModel}"/>

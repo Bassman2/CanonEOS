@@ -1,6 +1,4 @@
-﻿using CanonEos.CcApi.Internal;
-
-namespace CanonEos.CcApi;
+﻿namespace CanonEos.CcApi;
 
 public sealed class CcCamera : Camera
 {
@@ -90,10 +88,10 @@ public sealed class CcCamera : Camera
         set => service?.SetAuthor(value);
     }
 
-    public string? OwnerName
+    public string? Owner
     {
-        get => service?.GetOwnerName();
-        set => service?.SetOwnerName(value);
+        get => service?.GetOwner();
+        set => service?.SetOwner(value);
     }
 
     public string? Nickname
@@ -108,23 +106,32 @@ public sealed class CcCamera : Camera
         set => service?.SetDateTime(value);
     }
 
-    public Beep? Beep
+    public string? Beep
     {
-        get => service?.GetBeep();
-        set => service?.SetBeep(value);
+        get => service?.GetBeep().Ability(out beepValues);
+        set => service?.SetBeep(value!);
     }
 
-    public DisplayOff? DisplayOff
+    private string[]? beepValues;
+    public string[]? BeepValues => beepValues ??= service?.GetBeep()?.Ability?.ToArray();
+    
+    public string? DisplayOff
     {
-        get => service?.GetDisplayOff();
-        set => service?.SetDisplayOff(value);
+        get => service?.GetDisplayOff().Ability(out displayOffValues);
+        set => service?.SetDisplayOff(value!);
     }
 
-    public AutoPowerOff? AutoPowerOff
+    private string[]? displayOffValues;
+    public string[]? DisplayOffValues => displayOffValues ??= service?.GetDisplayOff()?.Ability?.ToArray();
+
+    public string? AutoPowerOff
     {
-        get => service?.GetAutoPowerOff();
+        get => service?.GetAutoPowerOff().Ability(out autoPowerOffValues);
         set => service?.SetAutoPowerOff(value);
     }
+
+    private string[]? autoPowerOffValues;
+    public string[]? AutoPowerOffValues => autoPowerOffValues ??= service?.GetAutoPowerOff()?.Ability?.ToArray();
 
     #endregion
 }

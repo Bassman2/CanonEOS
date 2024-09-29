@@ -1,5 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CanonWpf;component/Themes/Explorer.xaml"/>
         <ResourceDictionary Source="/CanonWpf;component/Themes/CameraExplorer.xaml"/>
         <ResourceDictionary Source="/CanonWpf;component/Themes/PropertyGrid.xaml" />
     </ResourceDictionary.MergedDictionaries>   

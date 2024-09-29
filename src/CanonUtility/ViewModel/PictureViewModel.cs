@@ -2,14 +2,26 @@
 
 public partial class PictureViewModel : ObservableObject
 {
+    private readonly Camera camera;
+    
+    // for Designer
+    public PictureViewModel()
+    { 
+        // dummy camera
+        this.camera = new CcCamera();
+    }
 
     public PictureViewModel(Camera camera)
     {
-        this.Camera = camera;
+        this.camera = camera;
+        this.Volumes = camera.Volumes?.Select(v => new VolumeViewModel(camera, v)).ToArray();
     }
 
-    public Camera Camera { get; }
-    
+    //public Camera Camera { get; }
+
+    [ObservableProperty]
+    private IEnumerable<VolumeViewModel>? volumes;
+
     [ObservableProperty]
     private DirectoryItem? selectedDirectoryItem;
 

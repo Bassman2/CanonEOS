@@ -31,8 +31,16 @@
         <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Author, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
         <Label Grid.Column="0" Grid.Row="2" Content="Owner"/>
         <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Owner, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
-        <Label Grid.Column="0" Grid.Row="3" Content="Date &amp; Time"/>
-        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
-        <Button Grid.Column="1" Grid.Row="4" Content="Save" Command="{Binding UpdateCommand}" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Nickname"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Date &amp; Time"/>
+        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="Beep"/>
+        <ComboBox Grid.Column="1" Grid.Row="5" ItemsSource="{Binding BeepValues}" SelectedItem="{Binding Beep}" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="6" Content="Display Off"/>
+        <ComboBox Grid.Column="1" Grid.Row="6" ItemsSource="{Binding DisplayOffValues}" SelectedItem="{Binding DisplayOff}" Margin="3"/>
+        <Label Grid.Column="0" Grid.Row="7" Content="Auto Power Off"/>
+        <ComboBox Grid.Column="1" Grid.Row="7" ItemsSource="{Binding AutoPowerOffValues}" SelectedItem="{Binding AutoPowerOff}" Margin="3"/>
+        <Button Grid.Column="1" Grid.Row="8" Content="Save" Command="{Binding UpdateCommand}" Margin="3"/>
     </Grid> 
 </UserControl>

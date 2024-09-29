@@ -22,7 +22,7 @@ public class SourceConverter : IValueConverter
             return new[] { volume };
         }
 #pragma warning disable CS8603 // Possible null reference return.
-        return null;
+        return value;
 #pragma warning restore CS8603 // Possible null reference return.
     }
 

@@ -33,12 +33,15 @@ public interface Camera : IDisposable
 
     string? Copyright { get; set; }
     string? Author { get; set; }
-    string? OwnerName { get; set; }
+    string? Owner { get; set; }
     string? Nickname { get; set; }
     DateTime? DateTime { get; set; }
-    Beep? Beep { get; set; }
-    DisplayOff? DisplayOff { get; set; }
-    AutoPowerOff? AutoPowerOff { get; set; }
+    string? Beep { get; set; }
+    string[]? BeepValues { get; }
+    string? DisplayOff { get; set; }
+    string[]? DisplayOffValues { get; }
+    string? AutoPowerOff { get; set; }
+    string[]? AutoPowerOffValues { get; }
 
     #endregion
 }

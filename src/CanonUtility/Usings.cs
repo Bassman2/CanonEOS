@@ -20,4 +20,7 @@ global using CommunityToolkit.Mvvm.Input;
 global using CanonEos;
 global using CanonEos.CcApi;
 global using CanonEos.EdSdk;
+
+global using CanonWpf.ViewModel;
+
 global using CanonUtility.ViewModel;

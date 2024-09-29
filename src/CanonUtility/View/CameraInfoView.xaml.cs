@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace CanonUtility.View
 {
     /// <summary>
-    /// Interaction logic for CameraView.xaml
+    /// Interaction logic for CameraInfoView.xaml
     /// </summary>
-    public partial class CameraView : UserControl
+    public partial class CameraInfoView : UserControl
     {
-        public CameraView()
+        public CameraInfoView()
         {
             InitializeComponent();
         }

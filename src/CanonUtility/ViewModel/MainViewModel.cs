@@ -49,14 +49,14 @@ public partial class MainViewModel : AppViewModel, IDisposable
     {
         if (newValue is not null)
         {
-            this.CameraViewModel = new CameraViewModel(newValue!);
+            this.CameraInfoViewModel = new CameraInfoViewModel(newValue!);
             this.CameraSettingViewModel = new CameraSettingViewModel(newValue!);
             this.PictureViewModel = new PictureViewModel(newValue);
             this.PicturePropertyViewModel = new PicturePropertyViewModel(newValue);
         }
         else
         {
-            this.CameraViewModel = null;
+            this.CameraInfoViewModel = null;
             this.CameraSettingViewModel = null;
             this.PictureViewModel = null;
             this.PicturePropertyViewModel = null;
@@ -65,7 +65,7 @@ public partial class MainViewModel : AppViewModel, IDisposable
     }
 
     [ObservableProperty]
-    private CameraViewModel? cameraViewModel;
+    private CameraInfoViewModel? cameraInfoViewModel;
 
     [ObservableProperty]
     private CameraSettingViewModel? cameraSettingViewModel;
