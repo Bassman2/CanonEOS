@@ -1,4 +1,5 @@
-﻿global using System.ComponentModel;
+﻿global using System.Collections;
+global using System.ComponentModel;
 global using System.Globalization;
 global using System.IO;
 global using System.Reflection;

@@ -16,7 +16,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <cwc:CameraExplorer Grid.Column="0" Source="{Binding Volumes}" SelectedItem="{Binding SelectedDirectoryItem}" />
+        <cwc:Explorer Grid.Column="0" ItemsSource="{Binding Volumes}" SelectedItem="{Binding SelectedDirectoryItem}" />
         
         
     </Grid>

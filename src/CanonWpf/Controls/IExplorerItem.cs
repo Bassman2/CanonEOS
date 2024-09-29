@@ -8,7 +8,7 @@ public interface IExplorerItem
 
     string Name { get; }
 
-    ImageSource? Icon { get; }
+    ImageSource?  Icon { get; }
 
     bool HasFolders { get; }
 

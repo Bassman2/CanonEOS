@@ -1,6 +1,9 @@
-﻿namespace CanonUtility.ViewModel;
+﻿using CanonWpf.Controls;
+using System.Windows.Media;
 
-public partial class VolumeViewModel : TreeItemViewModel
+namespace CanonUtility.ViewModel;
+
+public partial class VolumeViewModel : ObservableObject, IExplorerItem
 {
     private Volume volume;
     public VolumeViewModel(Camera camera, Volume volume)
@@ -8,11 +11,23 @@ public partial class VolumeViewModel : TreeItemViewModel
         this.volume = volume;
         this.Name = volume.Name;
 
-        SetHasChilden(true);
+        this.Folders = volume.DirectoryItems.Select(f => new DirectoryItem(f)).ToList();
+        //SetHasChilden(true);
     }
 
-    protected override void Update() 
-    { 
-        this.Children = volume.Directories?.Select(d => new DirectoryViewModel(d)).ToList() ?? [];
-    }
+    public bool IsFolder => true;
+
+    public bool IsInitialExpanded => true;
+
+    public string Name { get; }
+
+    public ImageSource? Icon => null;
+
+    public bool HasFolders => this.Folders.Any();
+
+    public IEnumerable<IExplorerItem> Folders { get; }
+
+    public bool HasItems => false;
+
+    public IEnumerable<IExplorerItem> Items => [];
 }

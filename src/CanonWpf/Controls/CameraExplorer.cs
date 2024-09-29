@@ -24,6 +24,4 @@ public class CameraExplorer : Control
         get => (DirectoryItem?)GetValue(SelectedItemProperty);
         set => SetValue(SelectedItemProperty, value);
     }
-
-    
 }

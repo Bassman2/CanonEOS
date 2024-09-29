@@ -14,13 +14,13 @@ public partial class PictureViewModel : ObservableObject
     public PictureViewModel(Camera camera)
     {
         this.camera = camera;
-        this.Volumes = camera.Volumes?.Select(v => new VolumeViewModel(camera, v)).ToArray();
+        this.Items = camera.Volumes?.Select(v => new VolumeViewModel(camera, v)).ToArray();
     }
 
     //public Camera Camera { get; }
 
     [ObservableProperty]
-    private IEnumerable<VolumeViewModel>? volumes;
+    private IEnumerable<VolumeViewModel>? items;
 
     [ObservableProperty]
     private DirectoryItem? selectedDirectoryItem;
