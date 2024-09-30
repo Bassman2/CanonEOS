@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\file16.png" />
+    <None Remove="Images\folder16.png" />
     <None Remove="Images\usb16.png" />
     <None Remove="Images\wifi16.png" />
   </ItemGroup>
@@ -21,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\file16.png" />
+    <Resource Include="Images\folder16.png" />
     <Resource Include="Images\usb16.png" />
     <Resource Include="Images\wifi16.png" />
   </ItemGroup>

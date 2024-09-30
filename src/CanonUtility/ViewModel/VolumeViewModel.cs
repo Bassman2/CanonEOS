@@ -1,7 +1,4 @@
-﻿using CanonWpf.Controls;
-using System.Windows.Media;
-
-namespace CanonUtility.ViewModel;
+﻿namespace CanonUtility.ViewModel;
 
 public partial class VolumeViewModel : ObservableObject, IExplorerItem
 {
@@ -11,7 +8,7 @@ public partial class VolumeViewModel : ObservableObject, IExplorerItem
         this.volume = volume;
         this.Name = volume.Name;
 
-        this.Folders = volume.DirectoryItems.Select(f => new DirectoryItem(f)).ToList();
+        this.Folders = volume.Directories?.Select(f => new DirectoryViewModel(f)).ToList() ?? [];
         //SetHasChilden(true);
     }
 

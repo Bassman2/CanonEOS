@@ -15,9 +15,9 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <cwc:CameraExplorer x:Name="explorer" Grid.Column="0" Source="{Binding Camera}" SelectedItem="{Binding SelectedDirectoryItem}" />
+        <!--<cwc:CameraExplorer x:Name="explorer" Grid.Column="0" Source="{Binding Camera}" SelectedItem="{Binding SelectedDirectoryItem}" />
         <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
-        <cwc:PropertyGrid Grid.Column="2" ItemsSource="{Binding Properties}"/>
+        <cwc:PropertyGrid Grid.Column="2" ItemsSource="{Binding Properties}"/>-->
        
         <!--
         <DataGrid Grid.Column="2" 

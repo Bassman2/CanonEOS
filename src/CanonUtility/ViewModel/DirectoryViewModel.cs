@@ -1,5 +1,4 @@
-﻿
-namespace CanonUtility.ViewModel;
+﻿namespace CanonUtility.ViewModel;
 
 public partial class DirectoryViewModel : ObservableObject, IExplorerItem
 {
@@ -10,27 +9,28 @@ public partial class DirectoryViewModel : ObservableObject, IExplorerItem
         this.directoryItem = directoryItem;
         this.Name = directoryItem.Name;
 
-        SetHasChilden(true);
+        this.Folders = directoryItem.Directories?.Select(f => new DirectoryViewModel(f)).ToList() ?? [];
+        //SetHasChilden(true);
     }
 
-    public bool IsFolder => throw new NotImplementedException();
+    public bool IsFolder => true;
 
-    public bool IsInitialExpanded => throw new NotImplementedException();
+    public bool IsInitialExpanded => true;
 
-    public string Name => throw new NotImplementedException();
+    public string Name { get; }
 
-    public ImageSource? Icon => throw new NotImplementedException();
+    public ImageSource? Icon => null;
 
     public bool HasFolders => throw new NotImplementedException();
 
-    public IEnumerable<IExplorerItem> Folders => throw new NotImplementedException();
+    public IEnumerable<IExplorerItem> Folders { get; }
 
-    public bool HasItems => throw new NotImplementedException();
+    public bool HasItems => this.Folders.Any();
 
-    public IEnumerable<IExplorerItem> Items => throw new NotImplementedException();
+    public IEnumerable<IExplorerItem> Items => directoryItem.Files?.Select(f => new FileViewModel(f)).ToList() ?? [];
 
-    protected override void Update()
-    {
-        this.Children = directoryItem.Directories?.Select(d => new DirectoryViewModel(d)).ToList() ?? [];
-    }
+    //protected override void Update()
+    //{
+    //    this.Children = directoryItem.Directories?.Select(d => new DirectoryViewModel(d)).ToList() ?? [];
+    //}
 }

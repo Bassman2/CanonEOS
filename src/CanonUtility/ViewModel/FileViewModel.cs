@@ -1,22 +1,27 @@
-﻿
-
-namespace CanonUtility.ViewModel;
+﻿namespace CanonUtility.ViewModel;
 
 public partial class FileViewModel : ObservableObject, IExplorerItem
 {
-    public bool IsFolder => throw new NotImplementedException();
+    DirectoryItem item;
 
-    public bool IsInitialExpanded => throw new NotImplementedException();
+    public FileViewModel(DirectoryItem item)
+    {
+        this.item = item;
+    }
 
-    public string Name => throw new NotImplementedException();
+    public bool IsFolder => false;
 
-    public ImageSource? Icon => throw new NotImplementedException();
+    public bool IsInitialExpanded => false;
 
-    public bool HasFolders => throw new NotImplementedException();
+    public string Name => item.Name;
 
-    public IEnumerable<IExplorerItem> Folders => throw new NotImplementedException();
+    public ImageSource? Icon => null;
 
-    public bool HasItems => throw new NotImplementedException();
+    public bool HasFolders => false;
 
-    public IEnumerable<IExplorerItem> Items => throw new NotImplementedException();
+    public IEnumerable<IExplorerItem> Folders => [];
+
+    public bool HasItems => false;
+
+    public IEnumerable<IExplorerItem> Items => [];
 }

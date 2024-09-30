@@ -2,6 +2,16 @@
 
 public class ExplorerItem
 {
+    static BitmapImage? folderImage = new BitmapImage(new Uri("pack://application:,,,/CanonWpf;component/Images/folder16.png"));
+    static BitmapImage? fileImage = new BitmapImage(new Uri("pack://application:,,,/CanonWpf;component/Images/file16.png"));
+
+
+    //static ExplorerItem()
+    //{
+    //    folderImage = new BitmapImage(new Uri("pack://application:,,,/CanonWpf;component/Images/folder16.png"));
+    //    folderImage.Freeze();
+    //}
+
     private static readonly ExplorerItem dummy = new ExplorerItem(new Dummy());
     private readonly IExplorerItem item;
 
@@ -23,7 +33,7 @@ public class ExplorerItem
     }
 
     public string Name => item.Name;
-    public ImageSource? Icon => item.Icon;
+    public ImageSource? Icon => item.Icon ?? (item.IsFolder ? folderImage : fileImage);
 
     public IEnumerable<ExplorerItem>? Folders { get; private set; }
 
