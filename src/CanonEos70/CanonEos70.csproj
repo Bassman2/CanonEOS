@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>CanonEos</AssemblyName>
+    <RootNamespace>CanonEos</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\CanonEosShare\CanonEosShare.projitems" Label="Shared" />
+
+  <Import Project="..\..\..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems" Label="Shared" />
+
+</Project>

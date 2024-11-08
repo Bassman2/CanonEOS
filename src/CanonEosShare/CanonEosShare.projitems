@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>5ac709c7-f52f-434a-8896-1ad95caae2a9</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>CanonEos</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AutoPowerOff.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BatteryInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Beep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Camera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Canon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CanonException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\CcCamera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\CcCanon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\CcDirectory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\CcException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\CcFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\CcVolume.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraAuthor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraCopyright.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraDateTime.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraDevDesc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraNickname.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraOwnerName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\Ccapi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcAutoPowerOff.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcBeep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcDisplayOff.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceInformation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusBatteries.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusBattery.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusCurrentDirectory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusCurrentStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\ErrorMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\ImageInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\Lens.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\Network.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\Number.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\PathList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\Storage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\StorageName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\TempStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\UrlList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\ValueAbility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\ValueGet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\ValuePut.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\JsonConverters\DateTimeJsonConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectionType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisplayOff.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdCamera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdCanon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdDirectory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdsAccess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdsDataType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdsFileAccess.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdsFileAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdsImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdsImageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdsPictureStyleDesc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdsPropertyID.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdsStorageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdsStream.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\EdVolume.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\Eds.DllImport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\Eds.Helper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\Eds.LibraryImport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\Eds.NativeLibrary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsBatteryQuality.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsCameraCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsCameraStatusCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsCapacity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsConst.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsDelegates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsDeviceInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsDirectoryItemInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsError.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsFileCreateDisposition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsFocusInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsFocusPoint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsFramePoint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsImageInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsImageSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsMetaData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsMetaType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsObjectEventID.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsPoint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsProgressOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsPropertyDesc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsPropertyEventID.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsRational.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsRect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsRectangle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsSeekOrigin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsSize.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsStateEventID.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsTargetImageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsTime.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\EdsVolumeInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EdSdk\Internal\MultiParamAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EosDirectory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EosFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EosFileSystemItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EosVolume.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\CastObservableCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Internal\MergedObserveableCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Property.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyDesc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TemperatureStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Usings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)CcApi\CameraDevDesc.xml" />
+    <None Include="$(MSBuildThisFileDirectory)CcApi\ccapi.json" />
+    <None Include="$(MSBuildThisFileDirectory)libs.7z" />
+    <None Include="$(MSBuildThisFileDirectory)libs\Linux64\libEDSDK.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)libs\LinuxARM32\libEDSDK.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)libs\LinuxARM64\libEDSDK.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)libs\Macintosh\Macintosh.dmg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)libs\Macintosh\Macintosh.dmg.zip" />
+    <None Include="$(MSBuildThisFileDirectory)libs\Win32\EDSDK.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)libs\Win32\EdsImage.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)libs\Win64\EDSDK.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)libs\Win64\EdsImage.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
