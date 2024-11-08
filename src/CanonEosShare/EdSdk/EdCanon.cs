@@ -44,7 +44,7 @@ public class EdCanon : IDisposable
         return 0;
     }
 
-    public ObservableCollection<EdCamera> Cameras { get; } = [];
+    public ObservableCollection<EdCamera> Cameras { get; } = new ObservableCollection<EdCamera>();
     
     public static Version FileVersion { get; } = Eds.FileVersion;
     public static Version ProductVersion { get; } = Eds.ProductVersion;

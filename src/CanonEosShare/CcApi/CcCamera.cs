@@ -34,11 +34,11 @@ public sealed class CcCamera : Camera
 
         var uri = new Uri(devDesc.Device!.ServiceList![0].AccessURL!);
 
-        this.service = new CcService();
-        if (this.service.Connect(uri) ==  false)
-        {
-            return false;
-        }
+        this.service = new CcService(uri);
+        //if (this.service.Connect(uri) ==  false)
+        //{
+        //    return false;
+        //}
 
         this.deviceInformation = this.service.GetDeviceInformation();
         return true;
@@ -70,7 +70,7 @@ public sealed class CcCamera : Camera
     private List<EosVolume>? volumes;
     public IEnumerable<EosVolume>? Volumes => volumes ??= service?.GetDeviceStatusStorage()?.Select(s => (EosVolume)new CcVolume(this.service, s)).ToList();
 
-    public IEnumerable<Property> Properties { get; } = [];
+    public IEnumerable<Property> Properties { get; } = new Property[0];
 
     #endregion
 

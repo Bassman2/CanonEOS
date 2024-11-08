@@ -4,9 +4,13 @@ namespace CanonEos.CcApi.Internal;
 
 internal class CcService : JsonService 
 {
-
+#if NET8_0_OR_GREATER
+    public CcService(Uri host) : base(host, SourceGenerationContext.Default)
+    { }
+#else
     public CcService(Uri host) : base(host)
     { }
+#endif
 
     //private async Task<T?> GetFromJsonAsync<T>(string? requestUri)
     //{

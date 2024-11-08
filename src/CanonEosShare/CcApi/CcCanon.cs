@@ -16,7 +16,7 @@ public class CcCanon : IDisposable
 
     }
 
-    public ObservableCollection<CcCamera> Cameras { get; } = [];
+    public ObservableCollection<CcCamera> Cameras { get; } = new ObservableCollection<CcCamera>();
 
 
     public static Camera GetCamera(string host)
@@ -37,7 +37,7 @@ public class CcCanon : IDisposable
 
     private static IEnumerable<CcCamera> GetCameras()
     {
-        return FindCameras()?.Select(d => new CcCamera(d)) ?? [];
+        return FindCameras()?.Select(d => new CcCamera(d)) ?? new CcCamera[0];
     }
 
     private static IEnumerable<CameraDevDesc>? FindCameras()
@@ -103,12 +103,27 @@ public class CcCanon : IDisposable
         }
     }
 
+#if NET8_0_OR_GREATER
     private class DevDesc(IPAddress addr, CameraDevDesc? devDesc = null)
     {
         public IPAddress? Address { get; } = addr;
         public CameraDevDesc? CameraDevDesc { get; } = devDesc;
+
+#else
+    private class DevDesc
+    {
+        public DevDesc(IPAddress addr, CameraDevDesc? devDesc = null)
+        {
+            this.Address = addr;
+            this.CameraDevDesc = devDesc;
+        }
+
+        public IPAddress? Address { get; }
+        public CameraDevDesc? CameraDevDesc { get; }
+#endif
         public bool IsCanonCamera => CameraDevDesc is not null;
     }
+    
 
     private static Task<DevDesc> CheckDevDesc(IPAddress addr)
     {
@@ -160,5 +175,5 @@ public class CcCanon : IDisposable
         return addr;
     }
 
-    #endregion
+#endregion
 }

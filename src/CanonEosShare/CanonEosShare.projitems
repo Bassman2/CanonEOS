@@ -32,6 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcBeep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcDisplayOff.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\SourceGenerationContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceInformation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusBatteries.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusBattery.cs" />

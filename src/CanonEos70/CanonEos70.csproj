@@ -9,6 +9,14 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);DLLIMPORT</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);DLLIMPORT</DefineConstants>
+  </PropertyGroup>
+
   <Import Project="..\CanonEosShare\CanonEosShare.projitems" Label="Shared" />
 
   <Import Project="..\..\..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems" Label="Shared" />

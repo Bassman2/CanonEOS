@@ -437,7 +437,7 @@ internal static partial class Eds
 
         if (size == 0)
         {
-            return [];
+            return new int[0];
         }
 
         int[] array = new int[size / sizeof(int)];
@@ -454,7 +454,7 @@ internal static partial class Eds
 
         if (size == 0)
         {
-            return [];
+            return new uint[0]; 
         }
 
         uint[] array = new uint[size / sizeof(uint)];

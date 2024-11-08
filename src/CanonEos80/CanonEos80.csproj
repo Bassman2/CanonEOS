@@ -6,16 +6,19 @@
     <Nullable>enable</Nullable>
     <AssemblyName>CanonEos</AssemblyName>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <RootNamespace>CanonEos</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <IsTrimmable>True</IsTrimmable>
     <IsAotCompatible>True</IsAotCompatible>
+    <DefineConstants>$(DefineConstants);DLLIMPORT</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <IsTrimmable>True</IsTrimmable>
     <IsAotCompatible>True</IsAotCompatible>
+    <DefineConstants>$(DefineConstants);DLLIMPORT</DefineConstants>
   </PropertyGroup>
 
   <Import Project="..\CanonEosShare\CanonEosShare.projitems" Label="Shared" />
