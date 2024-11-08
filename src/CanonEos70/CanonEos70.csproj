@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>CanonEos</AssemblyName>
     <RootNamespace>CanonEos</RootNamespace>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <Import Project="..\CanonEosShare\CanonEosShare.projitems" Label="Shared" />

@@ -1,4 +1,4 @@
-﻿using RestService;
+﻿using WebServiceClient;
 
 namespace CanonEos.CcApi.Internal;
 
