@@ -6,6 +6,6 @@ internal class CcDisplayOff
     public DisplayOff? Value { get; set; }
 
     [JsonPropertyName("ability")]
-    public List<DisplayOff> Ability { get; set; } = [];
+    public List<DisplayOff>? Ability { get; set; }
 }
 

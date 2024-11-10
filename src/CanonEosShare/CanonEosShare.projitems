@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\Ccapi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcAutoPowerOff.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcBeep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcCanonService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcDisplayOff.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\SourceGenerationContext.cs" />
@@ -146,5 +147,8 @@
     <None Include="$(MSBuildThisFileDirectory)libs\Win64\EdsImage.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)CcApi\Internal\Model\" />
   </ItemGroup>
 </Project>

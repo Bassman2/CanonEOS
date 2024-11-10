@@ -115,7 +115,7 @@ public class EdCamera : Camera
         set => Eds.SetProperty(this.camera, EdsPropertyID.Unknown, value);
     }
 
-    public string[]? BeepValues => [];
+    public string[]? BeepValues => null;
 
     public string? DisplayOff
     {
@@ -123,7 +123,7 @@ public class EdCamera : Camera
         set => Eds.SetProperty(this.camera, EdsPropertyID.Unknown, value);
     }
 
-    public string[]? DisplayOffValues => [];
+    public string[]? DisplayOffValues => null;
 
     public string? AutoPowerOff
     {
@@ -131,7 +131,7 @@ public class EdCamera : Camera
         set => Eds.SetProperty(this.camera, EdsPropertyID.AutoPowerOffSetting, value);
     }
 
-    public string[]? AutoPowerOffValues => [];
+    public string[]? AutoPowerOffValues => null;
 
     #endregion
 
