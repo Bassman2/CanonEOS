@@ -1,36 +1,11 @@
-﻿using WebServiceClient;
+﻿
+
+
 
 namespace CanonEos.CcApi.Internal;
 
-internal class CcService : JsonService 
+internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.Default)
 {
-#if NET8_0_OR_GREATER
-    public CcService(Uri host) : base(host, SourceGenerationContext.Default)
-    { }
-#else
-    public CcService(Uri host) : base(host)
-    { }
-#endif
-
-    //private async Task<T?> GetFromJsonAsync<T>(string? requestUri)
-    //{
-    //    try
-    //    {
-    //        HttpResponseMessage response = await this.client.GetAsync(requestUri);
-    //        if (!response.IsSuccessStatusCode)
-    //        {
-    //            ErrorMessage? msg = await response.Content.ReadFromJsonAsync<ErrorMessage>(this.jsonSerializerOptions);
-    //            throw new CcException(msg?.Message, response.StatusCode);
-    //        }
-    //        return await response.Content.ReadFromJsonAsync<T>(this.jsonSerializerOptions);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        throw;
-    //    }
-    //}
-
-
     public static bool PingCamera(Uri url) => PingCamera(url.Host);
 
     public static bool PingCamera(string host)
@@ -39,9 +14,10 @@ internal class CcService : JsonService
         return rep.Status == IPStatus.Success;
     }
 
-
+    [RequiresUnreferencedCode("Calls CanonEos.CcApi.Internal.CcService.GetCameraDevDesc(String)")]
     public static CameraDevDesc? GetCameraDevDesc(Uri url) => GetCameraDevDesc(url.Host);
 
+    [RequiresUnreferencedCode("Calls System.Xml.Serialization.XmlSerializer.XmlSerializer(Type)")]
     public static CameraDevDesc? GetCameraDevDesc(string host)
     {
         Uri upnpUri = new UriBuilder("http", host, 49152, "/upnp/CameraDevDesc.xml").Uri;
@@ -49,7 +25,7 @@ internal class CcService : JsonService
 
         string text = upnp.GetStringAsync(upnpUri).Result;
 
-        XmlSerializer serializer = new XmlSerializer(typeof(CameraDevDesc));
+        var serializer = new XmlSerializer(typeof(CameraDevDesc));
         CameraDevDesc? cameraDevDesc = (CameraDevDesc?)serializer.Deserialize(new StringReader(text));
         return cameraDevDesc;
 

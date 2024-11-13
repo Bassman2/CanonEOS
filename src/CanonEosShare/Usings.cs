@@ -22,6 +22,8 @@ global using System.Text.Json.Serialization;
 global using System.Threading.Tasks;
 global using System.Xml.Serialization;
 
+global using WebServiceClient;
+
 global using CanonEos.CcApi;
 global using CanonEos.CcApi.Internal;
 global using CanonEos.EdSdk;

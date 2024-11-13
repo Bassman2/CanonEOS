@@ -21,38 +21,37 @@
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\CcException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\CcFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\CcVolume.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraAuthor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraCopyright.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraDateTime.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraDevDesc.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraNickname.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CameraOwnerName.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\Ccapi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcAutoPowerOff.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcBeep.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcCanonService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcDisplayOff.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\CcService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\SourceGenerationContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceInformation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusBatteries.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusBattery.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusCurrentDirectory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusCurrentStorage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\DeviceStatusStorage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\ErrorMessage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\ImageInfo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\Lens.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\Network.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\Number.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\PathList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\Storage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\StorageName.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\TempStatus.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\UrlList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\ValueAbility.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\ValueGet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Internal\ValuePut.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\CameraAuthor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\CameraCopyright.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\CameraDateTime.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\CameraDevDesc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\CameraNickname.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\CameraOwnerName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\Ccapi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\CcAutoPowerOff.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\CcBeep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\CcDisplayOff.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\CcCanonService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\SourceGenerationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\DeviceInformation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\DeviceStatusBatteries.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\DeviceStatusBattery.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\DeviceStatusCurrentDirectory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\DeviceStatusCurrentStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\DeviceStatusStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\ErrorMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\ImageInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\Lens.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\Network.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\Number.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\PathList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\Storage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\StorageName.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\TempStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\UrlList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\ValueAbility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\ValueGet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\ValuePut.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CcApi\JsonConverters\DateTimeJsonConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectionType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisplayOff.cs" />
@@ -149,6 +148,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)CcApi\Internal\Model\" />
+    <Folder Include="$(MSBuildThisFileDirectory)CcApi\Service\Model\" />
   </ItemGroup>
 </Project>
