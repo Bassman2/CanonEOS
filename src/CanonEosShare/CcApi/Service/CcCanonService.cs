@@ -14,6 +14,11 @@ internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.D
         return rep.Status == IPStatus.Success;
     }
 
+    protected override void TestAutentication()
+    {
+        //TODO
+    }
+
     [RequiresUnreferencedCode("Calls CanonEos.CcApi.Internal.CcService.GetCameraDevDesc(String)")]
     public static CameraDevDesc? GetCameraDevDesc(Uri url) => GetCameraDevDesc(url.Host);
 
@@ -37,6 +42,7 @@ internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.D
 
     #region HTTP 
 
+    /*
     private T? GetFromJson<T>(string? requestUri)
     {
         if (client is null) throw new Exception("Client not connected!");
@@ -105,6 +111,7 @@ internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.D
             throw new CcException(msg?.Message, requestUri, response.StatusCode);
         }
     }
+    */
 
     #endregion
 
