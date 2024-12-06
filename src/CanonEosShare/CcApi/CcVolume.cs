@@ -30,7 +30,7 @@ public class CcVolume : EosVolume
         => Directories;
 
     public override IEnumerable<CcDirectory>? Directories 
-        => directories ??= service.GetDirectories(this.Name)?.Select(d => new CcDirectory(this.service, d)).ToList();
+        => directories ??= service.GetDirectoriesAsync(this.Name, default).Result?.Select(d => new CcDirectory(this.service, d)).ToList();
 
     public override IEnumerable<EosFileSystemItem>? Files 
         => null; 

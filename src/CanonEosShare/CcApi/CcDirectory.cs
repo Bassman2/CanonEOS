@@ -57,7 +57,8 @@ public class CcDirectory : EosDirectory
 
 
     public override IEnumerable<CcFile>? Files
-        => files ??= service.GetFiles(volume!, folder!)?.Select(d => new CcFile(this.service, d)).ToList();
+    
+        => files ??= service.GetFilesAsync(volume!, folder!, default).ToList().Select(d => new CcFile(this.service, d)).ToList();
 
 
     public override void Delete()

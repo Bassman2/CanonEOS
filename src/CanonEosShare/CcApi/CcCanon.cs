@@ -24,7 +24,7 @@ public class CcCanon : IDisposable
         bool success = CcService.PingCamera(host);
         if (!success) throw new CanonException(host, "No connected device");
 
-        CameraDevDesc? cameraDevDesc = CcService.GetCameraDevDesc(host);
+        CameraDevDesc? cameraDevDesc = CcService.GetCameraDevDescAsync(host, default).Result;
         if (cameraDevDesc == null) throw new CanonException(host, "No connected Canon device"); 
 
         return new CcCamera(cameraDevDesc);

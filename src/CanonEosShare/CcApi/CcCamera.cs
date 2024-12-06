@@ -1,4 +1,5 @@
-﻿namespace CanonEos.CcApi;
+﻿
+namespace CanonEos.CcApi;
 
 public sealed class CcCamera : Camera
 {
@@ -22,7 +23,7 @@ public sealed class CcCamera : Camera
     {
         _ = CcService.PingCamera(host) ? 0 : throw new CanonException(host, "No connected device");
 
-        CameraDevDesc? cameraDevDesc = CcService.GetCameraDevDesc(host);
+        CameraDevDesc? cameraDevDesc = CcService.GetCameraDevDescAsync(host, default).Result;
         if (cameraDevDesc == null) throw new CanonException(host, "No connected Canon device");
 
         return Open(cameraDevDesc);
@@ -40,7 +41,7 @@ public sealed class CcCamera : Camera
         //    return false;
         //}
 
-        this.deviceInformation = this.service.GetDeviceInformation();
+        this.deviceInformation = this.service.GetDeviceInformationAsync(default).Result;
         return true;
     }
 
@@ -61,14 +62,14 @@ public sealed class CcCamera : Camera
     public string? ProductName => deviceInformation?.ProductName; 
     public string? FirmwareVersion => deviceInformation?.FirmwareVersion;
     public string? BodyIDEx => deviceInformation?.SerialNumber;
-    public string? LensName => service?.GetDeviceStatusLens()?.Name;
-    public string? CurrentStorage => service?.GetDeviceStatusCurrentStorage()?.Name;
-    public string? CurrentFolder => service?.GetDeviceStatusCurrentDirectory()?.Name;
-    public TemperatureStatus? TemperatureStatus => service?.GetDeviceStatusTemperature();
-    public IEnumerable<BatteryInfo>? Batteries => service?.GetDeviceStatusBatteries()?.Batteries?.Select(b => new BatteryInfo(b));
+    public string? LensName => service?.GetDeviceStatusLensAsync(default).Result?.Name;
+    public string? CurrentStorage => service?.GetDeviceStatusCurrentStorageAsync(default).Result?.Name;
+    public string? CurrentFolder => service?.GetDeviceStatusCurrentDirectoryAsync(default).Result?.Name;
+    public TemperatureStatus? TemperatureStatus => service?.GetDeviceStatusTemperatureAsync(default).Result;
+    public IEnumerable<BatteryInfo>? Batteries => service?.GetDeviceStatusBatteriesAsync(default).Result?.Batteries?.Select(b => new BatteryInfo(b));
 
     private List<EosVolume>? volumes;
-    public IEnumerable<EosVolume>? Volumes => volumes ??= service?.GetDeviceStatusStorage()?.Select(s => (EosVolume)new CcVolume(this.service, s)).ToList();
+    public IEnumerable<EosVolume>? Volumes => volumes ??= service?.GetDeviceStatusStorageAsync(default).Result?.Select(s => (EosVolume)new CcVolume(this.service, s)).ToList();
 
     public IEnumerable<Property> Properties { get; } = new Property[0];
 
@@ -78,60 +79,60 @@ public sealed class CcCamera : Camera
 
     public string? Copyright
     {
-        get => service?.GetCopyright();
-        set => service?.SetCopyright(value);
+        get => service?.GetCopyrightAsync(default).Result;
+        set => service?.SetCopyrightAsync(value, default).Wait();
     }
 
     public string? Author
     {
-        get => service?.GetAuthor();
-        set => service?.SetAuthor(value);
+        get => service?.GetAuthorAsync(default).Result;
+        set => service?.SetAuthorAsync(value, default).Wait();
     }
 
     public string? Owner
     {
-        get => service?.GetOwner();
-        set => service?.SetOwner(value);
+        get => service?.GetOwnerAsync(default).Result;
+        set => service?.SetOwnerAsync(value, default).Wait();
     }
 
     public string? Nickname
     {
-        get => service?.GetNickname();
-        set => service?.SetNickname(value);
+        get => service?.GetNicknameAsync(default).Result;
+        set => service?.SetNicknameAsync(value, default).Wait();
     }
 
     public DateTime? DateTime 
     { 
-        get => service?.GetDateTime(); 
-        set => service?.SetDateTime(value);
+        get => service?.GetDateTimeAsync(default).Result; 
+        set => service?.SetDateTimeAsync(value, default).Wait();
     }
 
     public string? Beep
     {
-        get => service?.GetBeep().Ability(out beepValues);
-        set => service?.SetBeep(value!);
+        get => service?.GetBeepAsync(default).Result.Ability(out beepValues);
+        set => service?.SetBeepAsync(value!, default).Wait();
     }
 
     private string[]? beepValues;
-    public string[]? BeepValues => beepValues ??= service?.GetBeep()?.Ability?.ToArray();
+    public string[]? BeepValues => beepValues ??= service?.GetBeepAsync(default).Result?.Ability?.ToArray();
     
     public string? DisplayOff
     {
-        get => service?.GetDisplayOff().Ability(out displayOffValues);
-        set => service?.SetDisplayOff(value!);
+        get => service?.GetDisplayOffAsync(default).Result.Ability(out displayOffValues);
+        set => service?.SetDisplayOffAsync(value!, default).Wait();
     }
 
     private string[]? displayOffValues;
-    public string[]? DisplayOffValues => displayOffValues ??= service?.GetDisplayOff()?.Ability?.ToArray();
+    public string[]? DisplayOffValues => displayOffValues ??= service?.GetDisplayOffAsync(default).Result?.Ability?.ToArray();
 
     public string? AutoPowerOff
     {
-        get => service?.GetAutoPowerOff().Ability(out autoPowerOffValues);
-        set => service?.SetAutoPowerOff(value);
+        get => service?.GetAutoPowerOffAsync(default).Result.Ability(out autoPowerOffValues);
+        set => service?.SetAutoPowerOffAsync(value, default).Wait();
     }
 
     private string[]? autoPowerOffValues;
-    public string[]? AutoPowerOffValues => autoPowerOffValues ??= service?.GetAutoPowerOff()?.Ability?.ToArray();
+    public string[]? AutoPowerOffValues => autoPowerOffValues ??= service?.GetAutoPowerOffAsync(default).Result?.Ability?.ToArray();
 
     #endregion
 }

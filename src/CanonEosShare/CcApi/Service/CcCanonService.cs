@@ -1,8 +1,4 @@
-﻿
-
-
-
-namespace CanonEos.CcApi.Internal;
+﻿namespace CanonEos.CcApi.Internal;
 
 internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.Default)
 {
@@ -19,16 +15,16 @@ internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.D
         //TODO
     }
 
-    [RequiresUnreferencedCode("Calls CanonEos.CcApi.Internal.CcService.GetCameraDevDesc(String)")]
-    public static CameraDevDesc? GetCameraDevDesc(Uri url) => GetCameraDevDesc(url.Host);
+    [RequiresUnreferencedCode("Calls CanonEos.CcApi.Internal.CcService.GetCameraDevDescAsync(String)")]
+    public static async Task<CameraDevDesc?> GetCameraDevDescAsync(Uri url, CancellationToken cancellationToken) => await GetCameraDevDescAsync(url.Host, cancellationToken);
 
     [RequiresUnreferencedCode("Calls System.Xml.Serialization.XmlSerializer.XmlSerializer(Type)")]
-    public static CameraDevDesc? GetCameraDevDesc(string host)
+    public static async Task<CameraDevDesc?> GetCameraDevDescAsync(string host, CancellationToken cancellationToken)
     {
         Uri upnpUri = new UriBuilder("http", host, 49152, "/upnp/CameraDevDesc.xml").Uri;
         using HttpClient upnp = new HttpClient();
 
-        string text = upnp.GetStringAsync(upnpUri).Result;
+        string text = await upnp.GetStringAsync(upnpUri);
 
         var serializer = new XmlSerializer(typeof(CameraDevDesc));
         CameraDevDesc? cameraDevDesc = (CameraDevDesc?)serializer.Deserialize(new StringReader(text));
@@ -40,170 +36,102 @@ internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.D
 
     #endregion
 
-    #region HTTP 
-
-    /*
-    private T? GetFromJson<T>(string? requestUri)
-    {
-        if (client is null) throw new Exception("Client not connected!");
-
-        using HttpResponseMessage response = client.GetAsync(requestUri).Result;
-        string str = response.Content.ReadAsStringAsync().Result;
-        if (!response.IsSuccessStatusCode)
-        {
-            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(jsonSerializerOptions).Result;
-            throw new CcException(msg?.Message, requestUri, response.StatusCode);
-        }
-        return response.Content.ReadFromJsonAsync<T>(jsonSerializerOptions).Result;
-    }
-
-    private T? PutAsJson<T>(string? requestUri, T obj)
-    {
-        if (client is null) throw new Exception("Client not connected!");
-
-        using HttpResponseMessage response = client.PutAsJsonAsync(requestUri, obj, jsonSerializerOptions).Result;
-        if (!response.IsSuccessStatusCode)
-        {
-            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(jsonSerializerOptions).Result;
-            throw new CcException(msg?.Message, requestUri, response.StatusCode);
-        }
-        return response.Content.ReadFromJsonAsync<T>(jsonSerializerOptions).Result;
-    }
-
-    private void PostAsJson(string? requestUri, object obj)
-    {
-        if (client is null) throw new Exception("Client not connected!");
-
-        using HttpResponseMessage response = client.PostAsJsonAsync(requestUri, obj, jsonSerializerOptions).Result;
-        if (!response.IsSuccessStatusCode)
-        {
-            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(jsonSerializerOptions).Result;
-            throw new CcException(msg?.Message, requestUri, response.StatusCode);
-        }
-    }
-
-    private Stream GetFromStream(string? requestUri)
-    {
-        if (client is null) throw new Exception("Client not connected!");
-
-        using HttpResponseMessage response = client.GetAsync(requestUri).Result;
-        string str = response.Content.ReadAsStringAsync().Result;
-        if (!response.IsSuccessStatusCode)
-        {
-            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(jsonSerializerOptions).Result;
-            throw new CcException(msg?.Message, requestUri, response.StatusCode);
-        }
-        MemoryStream stream = new MemoryStream();
-        response.Content.CopyToAsync(stream).Wait();
-        stream.Seek(0, SeekOrigin.Begin);
-        return stream;
-        //return response.Content.ReadAsStream();
-    }
-
-    private void Delete(string? requestUri)
-    {
-        if (client is null) throw new Exception("Client not connected!");
-
-        using HttpResponseMessage response = client.DeleteAsync(requestUri).Result;
-        if (!response.IsSuccessStatusCode)
-        {
-            ErrorMessage? msg = response.Content.ReadFromJsonAsync<ErrorMessage>(jsonSerializerOptions).Result;
-            throw new CcException(msg?.Message, requestUri, response.StatusCode);
-        }
-    }
-    */
-
-    #endregion
-
     #region List of APIs
 
-    public Ccapis? GetApiList()
-        => GetFromJson<Ccapis>("/ccapi");
+    public async Task<Ccapis?> GetApiListAsync(CancellationToken cancellationToken)
+        => await GetFromJsonAsync<Ccapis>("/ccapi", cancellationToken);
 
-    public Ccapis? GetApiList(string version)
-       => GetFromJson<Ccapis>($"/ccapi/{version}/topurlfordev");
+    public async Task<Ccapis?> GetApiListAsync(string version, CancellationToken cancellationToken)
+       => await GetFromJsonAsync<Ccapis>($"/ccapi/{version}/topurlfordev", cancellationToken);
 
     #endregion
 
     #region Camera Information (Fixed Values)
 
-    public DeviceInformation? GetDeviceInformation()
-        => GetFromJson<DeviceInformation>("/ccapi/ver100/deviceinformation");
+    public async Task<DeviceInformation?> GetDeviceInformationAsync(CancellationToken cancellationToken)
+        => await GetFromJsonAsync<DeviceInformation>("/ccapi/ver100/deviceinformation", cancellationToken);
 
     #endregion
 
     #region Camera Status (Variable Values)
 
-    public IEnumerable<Storage>? GetDeviceStatusStorage()
-        => GetFromJson<DeviceStatusStorage>("/ccapi/ver110/devicestatus/storage")?.Storages;
+    public async Task<IEnumerable<Storage>?> GetDeviceStatusStorageAsync(CancellationToken cancellationToken)
+        => (await GetFromJsonAsync<DeviceStatusStorage>("/ccapi/ver110/devicestatus/storage", cancellationToken))?.Storages;
 
-    public DeviceStatusCurrentStorage? GetDeviceStatusCurrentStorage()
-        => GetFromJson<DeviceStatusCurrentStorage>("/ccapi/ver110/devicestatus/currentstorage");
+    public async Task<DeviceStatusCurrentStorage?> GetDeviceStatusCurrentStorageAsync(CancellationToken cancellationToken)
+        => await GetFromJsonAsync<DeviceStatusCurrentStorage>("/ccapi/ver110/devicestatus/currentstorage", cancellationToken);
 
-    public DeviceStatusCurrentDirectory? GetDeviceStatusCurrentDirectory()
-        => GetFromJson<DeviceStatusCurrentDirectory>("/ccapi/ver110/devicestatus/currentdirectory");
+    public async Task<DeviceStatusCurrentDirectory?> GetDeviceStatusCurrentDirectoryAsync(CancellationToken cancellationToken)
+        => await GetFromJsonAsync<DeviceStatusCurrentDirectory>("/ccapi/ver110/devicestatus/currentdirectory", cancellationToken);
 
-    public DeviceStatusBattery? GetDeviceStatusBattery()
-        => GetFromJson<DeviceStatusBattery>("/ccapi/ver110/devicestatus/battery");
+    public async Task<DeviceStatusBattery?> GetDeviceStatusBatteryAsync(CancellationToken cancellationToken)
+        => await GetFromJsonAsync<DeviceStatusBattery>("/ccapi/ver110/devicestatus/battery", cancellationToken);
 
-    public DeviceStatusBatteries? GetDeviceStatusBatteries()
-        => GetFromJson<DeviceStatusBatteries>("/ccapi/ver110/devicestatus/batterylist");
+    public async Task<DeviceStatusBatteries?> GetDeviceStatusBatteriesAsync(CancellationToken cancellationToken)
+        => await GetFromJsonAsync<DeviceStatusBatteries>("/ccapi/ver110/devicestatus/batterylist", cancellationToken);
 
-    public Lens? GetDeviceStatusLens()
-        => GetFromJson<Lens>("/ccapi/ver100/devicestatus/lens");
+    public async Task<Lens?> GetDeviceStatusLensAsync(CancellationToken cancellationToken)
+        => await GetFromJsonAsync<Lens>("/ccapi/ver100/devicestatus/lens", cancellationToken);
 
-    public TemperatureStatus? GetDeviceStatusTemperature()
-        => GetFromJson<TempStatus>("/ccapi/ver100/devicestatus/temperature")?.Status;
+    public async Task<TemperatureStatus?> GetDeviceStatusTemperatureAsync(CancellationToken cancellationToken)
+        => (await GetFromJsonAsync<TempStatus>("/ccapi/ver100/devicestatus/temperature", cancellationToken))?.Status;
 
     #endregion
 
     #region Camera Settings
 
-    public string? GetCopyright()
-        => GetFromJson<CameraCopyright>("/ccapi/ver100/functions/registeredname/copyright")?.Copyright;
+    public async Task<string?> GetCopyrightAsync(CancellationToken cancellationToken)
+        => (await GetFromJsonAsync<CameraCopyright>("/ccapi/ver100/functions/registeredname/copyright", cancellationToken))?.Copyright;
 
-    public void SetCopyright(string? value)
-        => PutAsJson("/ccapi/ver100/functions/registeredname/copyright", new CameraCopyright() { Copyright = value });
+    public async Task SetCopyrightAsync(string? value, CancellationToken cancellationToken)
+        => await PutAsJsonAsync("/ccapi/ver100/functions/registeredname/copyright", new CameraCopyright() { Copyright = value }, cancellationToken);
 
-    public string? GetAuthor()
-        => GetFromJson<CameraAuthor>("/ccapi/ver100/functions/registeredname/author")?.Author;
-    public void SetAuthor(string? value)
-        => PutAsJson("/ccapi/ver100/functions/registeredname/author", new CameraAuthor() { Author = value });
+    public async Task<string?> GetAuthorAsync(CancellationToken cancellationToken)
+        => (await GetFromJsonAsync<CameraAuthor>("/ccapi/ver100/functions/registeredname/author", cancellationToken))?.Author;
 
-    public string? GetOwner()
-       => GetFromJson<CameraOwnerName>("/ccapi/ver100/functions/registeredname/ownername")?.OwnerName;
+    public async Task SetAuthorAsync(string? value, CancellationToken cancellationToken)
+        => await PutAsJsonAsync("/ccapi/ver100/functions/registeredname/author", new CameraAuthor() { Author = value }, cancellationToken);
 
-    public void SetOwner(string? value)
-        => PutAsJson("/ccapi/ver100/functions/registeredname/ownername", new CameraOwnerName() { OwnerName = value });
+    public async Task<string?> GetOwnerAsync(CancellationToken cancellationToken)
+       => (await GetFromJsonAsync<CameraOwnerName>("/ccapi/ver100/functions/registeredname/ownername", cancellationToken))?.OwnerName;
 
-
-    public string? GetNickname()
-       => GetFromJson<CameraNickname>("/ccapi/ver100/functions/registeredname/nickname")?.Nickname;
-
-    public void SetNickname(string? value)
-        => PutAsJson("/ccapi/ver100/functions/registeredname/nickname", new CameraNickname() { Nickname = value });
-
-    public DateTime? GetDateTime()
-       => GetFromJson<CameraDateTime>("/ccapi/ver100/functions/datetime");
-
-    public void SetDateTime(DateTime? value)
-       => PutAsJson("/ccapi/ver100/functions/datetime", (CameraDateTime?)value);
+    public async Task SetOwnerAsync(string? value, CancellationToken cancellationToken)
+        => await PutAsJsonAsync("/ccapi/ver100/functions/registeredname/ownername", new CameraOwnerName() { OwnerName = value }, cancellationToken);
 
 
-    public ValueAbility? GetBeep() => GetFromJson<ValueAbility>("/ccapi/ver100/functions/beep");
+    public async Task<string?> GetNicknameAsync(CancellationToken cancellationToken)
+       => (await GetFromJsonAsync<CameraNickname>("/ccapi/ver100/functions/registeredname/nickname", cancellationToken))?.Nickname;
 
-    public void SetBeep(string value) => PutAsJson("/ccapi/ver100/functions/beep", new ValueAbility() { Value = value });
+    public async Task SetNicknameAsync(string? value, CancellationToken cancellationToken)
+        => await PutAsJsonAsync("/ccapi/ver100/functions/registeredname/nickname", new CameraNickname() { Nickname = value }, cancellationToken);
 
-    public ValueAbility? GetDisplayOff() => GetFromJson<ValueAbility>("/ccapi/ver100/functions/displayoff");
+    public async Task<DateTime?> GetDateTimeAsync(CancellationToken cancellationToken)
+       => (await GetFromJsonAsync<CameraDateTime>("/ccapi/ver100/functions/datetime", cancellationToken))?.DateTime;
 
-    public void SetDisplayOff(string value) => PutAsJson("/ccapi/ver100/functions/displayoff", new ValueAbility() { Value = value });
+    public async Task SetDateTimeAsync(DateTime? value, CancellationToken cancellationToken)
+       => await PutAsJsonAsync("/ccapi/ver100/functions/datetime", (CameraDateTime?)value, cancellationToken);
 
-    public ValueAbility? GetAutoPowerOff() => GetFromJson<ValueAbility>("/ccapi/ver100/functions/autopoweroff");
 
-    public void SetAutoPowerOff(string? value) => PutAsJson("/ccapi/ver100/functions/autopoweroff", new ValueAbility() { Value = value });
+    public async Task<ValueAbility?> GetBeepAsync(CancellationToken cancellationToken)
+        => await GetFromJsonAsync<ValueAbility>("/ccapi/ver100/functions/beep", cancellationToken);
 
-    public void Format(string card)
-       => PostAsJson("/ccapi/ver100/functions/cardformat", new StorageName() { Name = card });
+    public async Task SetBeepAsync(string value, CancellationToken cancellationToken) 
+        => await PutAsJsonAsync("/ccapi/ver100/functions/beep", new ValueAbility() { Value = value }, cancellationToken);
+
+    public async Task<ValueAbility?> GetDisplayOffAsync(CancellationToken cancellationToken)
+        => await GetFromJsonAsync<ValueAbility>("/ccapi/ver100/functions/displayoff", cancellationToken);
+
+    public async Task SetDisplayOffAsync(string value, CancellationToken cancellationToken)
+        => await PutAsJsonAsync("/ccapi/ver100/functions/displayoff", new ValueAbility() { Value = value }, cancellationToken);
+
+    public async Task<ValueAbility?> GetAutoPowerOffAsync(CancellationToken cancellationToken) 
+        => await GetFromJsonAsync<ValueAbility>("/ccapi/ver100/functions/autopoweroff", cancellationToken);
+
+    public async Task SetAutoPowerOffAsync(string? value, CancellationToken cancellationToken) 
+        => await PutAsJsonAsync("/ccapi/ver100/functions/autopoweroff", new ValueAbility() { Value = value }, cancellationToken);
+
+    public async Task FormatAsync(string card, CancellationToken cancellationToken)
+       => await PostAsJsonAsync("/ccapi/ver100/functions/cardformat", new StorageName() { Name = card }, cancellationToken);
 
     //public ValueGet? GetMute()
     //   => GetFromJson<ValueGet>("/ccapi/ver100/functions/beep");
@@ -215,23 +143,23 @@ internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.D
 
     #region Image Operations
 
-    public IEnumerable<string>? GetVolumns()
-        => GetFromJson<PathList>("/ccapi/ver120/contents")?.Paths;
+    public async Task<IEnumerable<string>?> GetVolumnsAsync(CancellationToken cancellationToken)
+        => (await GetFromJsonAsync<PathList>("/ccapi/ver120/contents", cancellationToken))?.Paths;
 
-    public IEnumerable<string>? GetDirectories(string volumeName)
-        => GetFromJson<PathList>($"/ccapi/ver120/contents/{volumeName}")?.Paths;
+    public async Task<IEnumerable<string>?> GetDirectoriesAsync(string volumeName, CancellationToken cancellationToken)
+        => (await GetFromJsonAsync<PathList>($"/ccapi/ver120/contents/{volumeName}", cancellationToken))?.Paths;
 
-    public bool HasFiles(string volumeName, string directoryName)
+    public async Task<bool> HasFiles(string volumeName, string directoryName, CancellationToken cancellationToken)
     {
-        return GetFromJson<Number>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=number")?.ContentsNumber > 0;
+        return (await GetFromJsonAsync<Number>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=number", cancellationToken))?.ContentsNumber > 0;
     }
     
-    public IEnumerable<string>? GetFiles(string volumeName, string directoryName)
+    public async IAsyncEnumerable<string> GetFilesAsync(string volumeName, string directoryName, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
-        Number? number = GetFromJson<Number>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=number");
+        Number? number = await GetFromJsonAsync<Number>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=number", cancellationToken);
         for (uint page = 1; page <= number!.PageNumber; page++)
         {
-            var list = GetFromJson<PathList>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=list&page={page}")?.Paths;
+            var list = (await GetFromJsonAsync<PathList>($"/ccapi/ver120/contents/{volumeName}/{directoryName}?type=all&kind=list&page={page}", cancellationToken))?.Paths;
             foreach (var path in list!)
             {
                 yield return path;
@@ -239,23 +167,23 @@ internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.D
         }
     }
 
-    public void DeleteDirectory(string volumeName, string directoryName)
-        => Delete($"/ccapi/ver130/contents/{volumeName}/{directoryName}");
+    public async Task DeleteDirectory(string volumeName, string directoryName, CancellationToken cancellationToken)
+        => await DeleteAsync($"/ccapi/ver130/contents/{volumeName}/{directoryName}", cancellationToken);
 
-    public Stream? DownloadImage(string volumeName, string directoryName, string fileName)
-    => GetFromStream($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=main");
+    public async Task<Stream?> DownloadImageAsync(string volumeName, string directoryName, string fileName, CancellationToken cancellationToken)
+       => await GetFromStreamAsync($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=main", cancellationToken);
 
-    public Stream? DownloadThumbnail(string volumeName, string directoryName, string fileName)
-    => GetFromStream($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=thumbnail");
+    public async Task<Stream?> DownloadThumbnailAsync(string volumeName, string directoryName, string fileName, CancellationToken cancellationToken)
+        => await GetFromStreamAsync($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=thumbnail", cancellationToken);
 
-    public Stream? DownloadDisplay(string volumeName, string directoryName, string fileName)
-    => GetFromStream($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=display");
+    public async Task<Stream?> DownloadDisplayAsync(string volumeName, string directoryName, string fileName, CancellationToken cancellationToken)
+        => await GetFromStreamAsync($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=display", cancellationToken);
 
-    public Stream? DownloadEmbedded(string volumeName, string directoryName, string fileName)
-    => GetFromStream($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=embedded");
+    public async Task<Stream?> DownloadEmbeddedAsync(string volumeName, string directoryName, string fileName, CancellationToken cancellationToken)
+        => await GetFromStreamAsync($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=embedded", cancellationToken);
 
-    public ImageInfo? GetFileInfo(string volumeName, string directoryName, string fileName)
-        => GetFromJson<ImageInfo>($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=info");
+    public async Task<ImageInfo?> GetFileInfoAsync(string volumeName, string directoryName, string fileName, CancellationToken cancellationToken)
+        => await GetFromJsonAsync<ImageInfo>($"/ccapi/ver130/contents/{volumeName}/{directoryName}/{fileName}?kind=info", cancellationToken);
 
     #endregion
 
