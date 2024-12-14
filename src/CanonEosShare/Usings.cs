@@ -23,6 +23,7 @@ global using System.Threading.Tasks;
 global using System.Xml.Serialization;
 
 global using WebServiceClient;
+global using WebServiceClient.XSerializer;
 
 global using CanonEos.CcApi;
 global using CanonEos.CcApi.Internal;

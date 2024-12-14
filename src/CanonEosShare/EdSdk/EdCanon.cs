@@ -4,7 +4,7 @@ public delegate void CameraAddedEventHandler(Canon sender);
 
 public class EdCanon : IDisposable
 {
-    public event CameraAddedEventHandler? CameraAdded;
+    //public event CameraAddedEventHandler? CameraAdded;
 
     public EdCanon()
     {

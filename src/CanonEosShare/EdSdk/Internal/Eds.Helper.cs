@@ -17,7 +17,8 @@ internal static partial class Eds
 
     private static string GetAssemblyFolder()
     {
-        return Path.GetDirectoryName(GetAssembly().Location)!;
+        return System.AppDomain.CurrentDomain.BaseDirectory;
+        //return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
     }
 
     private static IntPtr DllImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
@@ -486,12 +487,13 @@ internal static partial class Eds
         }
     }
 
-    public unsafe static T? GetPropertyStruct<T>(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
+    public unsafe static T? GetPropertyStruct<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)]T>(IntPtr inRef, EdsPropertyID propertyID, int param = 0)
     {
         nint ptr = nint.Zero;
         try
         {
-            int size = Marshal.SizeOf(typeof(T));
+            int size = Marshal.SizeOf<T>();
+            //int size = Marshal.SizeOf(typeof(T));
             ptr = Marshal.AllocHGlobal(size);
             EdsGetPropertyData(inRef, propertyID, param, size, ptr);
             T? value = Marshal.PtrToStructure<T>(ptr);

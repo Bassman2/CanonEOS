@@ -3,7 +3,7 @@
 public class EdCamera : Camera
 {
     private nint camera = nint.Zero;
-    private static EdsObjectEventHandler? EdsObjectEvent;
+    //private static EdsObjectEventHandler? EdsObjectEvent;
 
     public EdCamera()
     { }

@@ -1,7 +1,9 @@
-﻿namespace CanonEos.CcApi.Internal;
+﻿using System.Runtime.Intrinsics.Arm;
+
+namespace CanonEos.CcApi.Internal;
 
 [XmlRoot("root", Namespace="urn:schemas-upnp-org:device-1-0")]
-public class CameraDevDesc
+public class CameraDevDesc : IXSerializable
 {
     [XmlElement("specVersion")]
     public SpecVersion? SpecVersion { get; set; }
@@ -11,18 +13,31 @@ public class CameraDevDesc
 
     [XmlElement("device")]
     public Device? Device { get; set; }
+
+    public void ReadX(XElement elm)
+    {
+        SpecVersion = elm.ReadElementItem<SpecVersion>("specVersion");
+        URLBase = elm.ReadElementString("URLBase");
+        Device = elm.ReadElementItem<Device>("device"); 
+    }
 }
 
-public class SpecVersion
+public class SpecVersion : IXSerializable
 {
     [XmlElement("major")]
     public int Major { get; set; }
 
     [XmlElement("minor")]
     public int Minor { get; set; }
+
+    public void ReadX(XElement elm)
+    {
+        Major = elm.ReadElementInt("major") ?? 0;
+        Minor = elm.ReadElementInt("minor") ?? 0;
+    }
 }
 
-public class Device
+public class Device : IXSerializable
 {
     [XmlElement("deviceType")]
     public string? DeviceType { get; set; }
@@ -55,6 +70,20 @@ public class Device
     [XmlElement("presentationURL")]
     public string? PresentationURL { get; set; }
 
+    public void ReadX(XElement elm)
+    {
+        DeviceType = elm.ReadElementString("deviceType");
+        FriendlyName = elm.ReadElementString("friendlyName");
+        Manufacturer = elm.ReadElementString("manufacturer");
+        ManufacturerURL = elm.ReadElementString("manufacturerURL");
+        ModelDescription = elm.ReadElementString("modelDescription");
+        ModelName = elm.ReadElementString("modelName");
+        SerialNumber = elm.ReadElementString("serialNumber");
+        UDN = elm.ReadElementString("UDN");
+        ServiceList = elm.ReadElementList<Service>("serviceList", "service");
+        PresentationURL = elm.ReadElementString("presentationURL");
+    }
+
     //[XmlElement("X_compatibleId", Namespace = "http://schemas.microsoft.com/windows/pnpx/2005/11")]
     //public string? X_compatibleId { get; set; }
 
@@ -65,7 +94,7 @@ public class Device
     //public string? X_deviceCategory { get; set; }
 }
 
-public class Service
+public class Service : IXSerializable
 {
     [XmlElement("serviceType")]
     public string? ServiceType { get; set; }
@@ -96,4 +125,18 @@ public class Service
 
     [XmlElement("X_deviceNickname", Namespace = "urn:schemas-canon-com:schema-upnp")]
     public string? DeviceNickname { get; set; }
+
+    public void ReadX(XElement elm)
+    {
+        ServiceType = elm.ReadElementString("serviceType");
+        ServiceId = elm.ReadElementString("serviceId");
+        SCPDURL = elm.ReadElementString("SCPDURL");
+        ControlURL = elm.ReadElementString("controlURL");
+        EventSubURL = elm.ReadElementString("eventSubURL");
+        TargetId = elm.ReadElementString("X_targetId");
+        OnService = elm.ReadElementString("X_onService");
+        AccessURL = elm.ReadElementString("X_accessURL");
+        DeviceUsbId = elm.ReadElementString("X_deviceUsbId");
+        DeviceNickname = elm.ReadElementString("X_deviceNickname");
+    }
 }

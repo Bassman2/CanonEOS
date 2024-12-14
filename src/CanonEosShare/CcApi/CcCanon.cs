@@ -136,8 +136,10 @@ public class CcCanon : IDisposable
 
                 string text = upnp.GetStringAsync(upnpUri).Result;
 
-                XmlSerializer serializer = new XmlSerializer(typeof(CameraDevDesc));
-                CameraDevDesc? cameraDevDesc = (CameraDevDesc?)serializer.Deserialize(new StringReader(text));
+                var cameraDevDesc = text.XDeserialize<CameraDevDesc>("root");   // Namespace="urn:schemas-upnp-org:device-1-0"
+
+                //XmlSerializer serializer = new XmlSerializer(typeof(CameraDevDesc));
+                //CameraDevDesc? cameraDevDesc = (CameraDevDesc?)serializer.Deserialize(new StringReader(text));
                 Debug.WriteLine($"******************************** {addr}");
                 return new DevDesc(addr, cameraDevDesc);
             }

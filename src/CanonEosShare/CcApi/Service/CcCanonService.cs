@@ -15,10 +15,8 @@ internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.D
         //TODO
     }
 
-    [RequiresUnreferencedCode("Calls CanonEos.CcApi.Internal.CcService.GetCameraDevDescAsync(String)")]
     public static async Task<CameraDevDesc?> GetCameraDevDescAsync(Uri url, CancellationToken cancellationToken) => await GetCameraDevDescAsync(url.Host, cancellationToken);
 
-    [RequiresUnreferencedCode("Calls System.Xml.Serialization.XmlSerializer.XmlSerializer(Type)")]
     public static async Task<CameraDevDesc?> GetCameraDevDescAsync(string host, CancellationToken cancellationToken)
     {
         Uri upnpUri = new UriBuilder("http", host, 49152, "/upnp/CameraDevDesc.xml").Uri;
@@ -26,8 +24,10 @@ internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.D
 
         string text = await upnp.GetStringAsync(upnpUri);
 
-        var serializer = new XmlSerializer(typeof(CameraDevDesc));
-        CameraDevDesc? cameraDevDesc = (CameraDevDesc?)serializer.Deserialize(new StringReader(text));
+        //var serializer = new XmlSerializer(typeof(CameraDevDesc));
+        //CameraDevDesc? cameraDevDesc = (CameraDevDesc?)serializer.Deserialize(new StringReader(text));
+
+        var cameraDevDesc = text.XDeserialize<CameraDevDesc>("root");   // Namespace="urn:schemas-upnp-org:device-1-0"
         return cameraDevDesc;
 
     }
