@@ -10,10 +10,8 @@ internal class CcService(Uri host) : JsonService(host, SourceGenerationContext.D
         return rep.Status == IPStatus.Success;
     }
 
-    protected override void TestAutentication()
-    {
-        //TODO
-    }
+    protected override string? AuthenticationTestUrl => null;
+
 
     public static async Task<CameraDevDesc?> GetCameraDevDescAsync(Uri url, CancellationToken cancellationToken) => await GetCameraDevDescAsync(url.Host, cancellationToken);
 
