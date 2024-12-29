@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <Import Project="..\CanonUtilityShare\CanonUtilityShare.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Src\CanonEos90\CanonEos90.csproj" />
+  </ItemGroup>
+
+</Project>

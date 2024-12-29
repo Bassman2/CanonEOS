@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>bc0a07cb-54af-493f-aa69-acea45efe81f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>CanonUtilityShare</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\DebugConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\EnumToDescriptionConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\EnumToHexConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\EnumToNameConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\EnumToNumberConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Usings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\AppViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\CameraInfoViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\CameraSettingViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\DirectoryViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\FileViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\MainViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\PicturePropertyViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\PictureViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\VolumeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View\AppWindowView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)View\CameraInfoView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CameraInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)View\CameraPropertyView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CameraPropertyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)View\CameraSettingView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CameraSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)View\LibraryView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>LibraryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)View\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)View\PicturePropertyView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>PicturePropertyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)View\PictureView.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>PictureView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)View\CameraInfoView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)View\CameraPropertyView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)View\CameraSettingView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)View\LibraryView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)View\MainView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)View\PicturePropertyView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)View\PictureView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Images\usb16.png" />
+    <None Include="$(MSBuildThisFileDirectory)Images\wifi16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+</Project>
