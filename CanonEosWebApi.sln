@@ -9,12 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{53911983-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{3506F9E1-28EE-4872-AC0F-95F29FB4193C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonEos80", "Src\CanonEos80\CanonEos80.csproj", "{E5634C23-0A82-4587-8DF1-D77EDA4C1463}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonEos90", "Src\CanonEos90\CanonEos90.csproj", "{75EBFAE3-BAEA-423B-8BBE-6746143328FC}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CanonEosShare", "Src\CanonEosShare\CanonEosShare.shproj", "{5AC709C7-F52F-434A-8896-1AD95CAAE2A9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{3878C73C-FB53-4457-9DFC-25B39B495D10}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CanonUtilityShare", "Demo\CanonUtilityShare\CanonUtilityShare.shproj", "{BC0A07CB-54AF-493F-AA69-ACEA45EFE81F}"
@@ -22,6 +16,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonUtility90", "Demo\CanonUtility90\CanonUtility90.csproj", "{BC1F3B48-6DE9-411E-8A2C-4C8E60ED7CB8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonUtility80", "Demo\CanonUtility80\CanonUtility80.csproj", "{4FEC5D46-F4D0-446C-869A-B571EEBA1DFB}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CanonEosWebApiShare", "Src\CanonEosWebApiShare\CanonEosWebApiShare.shproj", "{B59FB87D-6BC4-420C-A1DF-2E486D856AD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonEosWebApi80", "Src\CanonEosWebApi80\CanonEosWebApi80.csproj", "{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonEosWebApi90", "Src\CanonEosWebApi90\CanonEosWebApi90.csproj", "{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WebServiceClientShare", "..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.shproj", "{8CAACB04-9656-4B7C-A692-422FCA51474B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonWpf", "Demo\CanonWpf\CanonWpf.csproj", "{D99DD0FE-2208-481E-9ED9-AADEE765816C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,30 +49,6 @@ Global
 		{4443A18F-0452-4E2B-BD5E-590C41D8D819}.Release|x64.Build.0 = Release|Any CPU
 		{4443A18F-0452-4E2B-BD5E-590C41D8D819}.Release|x86.ActiveCfg = Release|Any CPU
 		{4443A18F-0452-4E2B-BD5E-590C41D8D819}.Release|x86.Build.0 = Release|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Debug|x64.Build.0 = Debug|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Debug|x86.Build.0 = Debug|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Release|x64.ActiveCfg = Release|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Release|x64.Build.0 = Release|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Release|x86.ActiveCfg = Release|Any CPU
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463}.Release|x86.Build.0 = Release|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Debug|x64.Build.0 = Debug|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Debug|x86.Build.0 = Debug|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Release|x64.ActiveCfg = Release|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Release|x64.Build.0 = Release|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Release|x86.ActiveCfg = Release|Any CPU
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC}.Release|x86.Build.0 = Release|Any CPU
 		{BC1F3B48-6DE9-411E-8A2C-4C8E60ED7CB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BC1F3B48-6DE9-411E-8A2C-4C8E60ED7CB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC1F3B48-6DE9-411E-8A2C-4C8E60ED7CB8}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -93,30 +73,69 @@ Global
 		{4FEC5D46-F4D0-446C-869A-B571EEBA1DFB}.Release|x64.Build.0 = Release|Any CPU
 		{4FEC5D46-F4D0-446C-869A-B571EEBA1DFB}.Release|x86.ActiveCfg = Release|Any CPU
 		{4FEC5D46-F4D0-446C-869A-B571EEBA1DFB}.Release|x86.Build.0 = Release|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Debug|x64.Build.0 = Debug|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Debug|x86.Build.0 = Debug|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Release|x64.ActiveCfg = Release|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Release|x64.Build.0 = Release|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Release|x86.ActiveCfg = Release|Any CPU
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B}.Release|x86.Build.0 = Release|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Debug|x64.Build.0 = Debug|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Debug|x86.Build.0 = Debug|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Release|x64.ActiveCfg = Release|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Release|x64.Build.0 = Release|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Release|x86.ActiveCfg = Release|Any CPU
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A}.Release|x86.Build.0 = Release|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Debug|x64.Build.0 = Debug|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Debug|x86.Build.0 = Debug|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Release|x64.ActiveCfg = Release|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Release|x64.Build.0 = Release|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Release|x86.ActiveCfg = Release|Any CPU
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4443A18F-0452-4E2B-BD5E-590C41D8D819} = {53911983-A084-4E8F-AE57-D6347E4FBC87}
-		{E5634C23-0A82-4587-8DF1-D77EDA4C1463} = {3506F9E1-28EE-4872-AC0F-95F29FB4193C}
-		{75EBFAE3-BAEA-423B-8BBE-6746143328FC} = {3506F9E1-28EE-4872-AC0F-95F29FB4193C}
-		{5AC709C7-F52F-434A-8896-1AD95CAAE2A9} = {3506F9E1-28EE-4872-AC0F-95F29FB4193C}
 		{BC0A07CB-54AF-493F-AA69-ACEA45EFE81F} = {3878C73C-FB53-4457-9DFC-25B39B495D10}
 		{BC1F3B48-6DE9-411E-8A2C-4C8E60ED7CB8} = {3878C73C-FB53-4457-9DFC-25B39B495D10}
 		{4FEC5D46-F4D0-446C-869A-B571EEBA1DFB} = {3878C73C-FB53-4457-9DFC-25B39B495D10}
+		{B59FB87D-6BC4-420C-A1DF-2E486D856AD2} = {3506F9E1-28EE-4872-AC0F-95F29FB4193C}
+		{69F99C30-DAFA-4F7C-A10F-D184FF40A78B} = {3506F9E1-28EE-4872-AC0F-95F29FB4193C}
+		{3E2AE43E-D1D4-4BED-8F95-F82027D5435A} = {3506F9E1-28EE-4872-AC0F-95F29FB4193C}
+		{8CAACB04-9656-4B7C-A692-422FCA51474B} = {3506F9E1-28EE-4872-AC0F-95F29FB4193C}
+		{D99DD0FE-2208-481E-9ED9-AADEE765816C} = {3878C73C-FB53-4457-9DFC-25B39B495D10}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C28ADC97-4035-46C2-AF27-D4B886D9A312}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Src\CanonEosWebApiShare\CanonEosWebApiShare.projitems*{3e2ae43e-d1d4-4bed-8f95-f82027d5435a}*SharedItemsImports = 5
+		..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems*{3e2ae43e-d1d4-4bed-8f95-f82027d5435a}*SharedItemsImports = 5
 		Demo\CanonUtilityShare\CanonUtilityShare.projitems*{4fec5d46-f4d0-446c-869a-b571eeba1dfb}*SharedItemsImports = 5
-		Src\CanonEosShare\CanonEosShare.projitems*{5ac709c7-f52f-434a-8896-1ad95caae2a9}*SharedItemsImports = 13
-		Src\CanonEosShare\CanonEosShare.projitems*{75ebfae3-baea-423b-8bbe-6746143328fc}*SharedItemsImports = 5
-		..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems*{75ebfae3-baea-423b-8bbe-6746143328fc}*SharedItemsImports = 5
+		Src\CanonEosWebApiShare\CanonEosWebApiShare.projitems*{69f99c30-dafa-4f7c-a10f-d184ff40a78b}*SharedItemsImports = 5
+		..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems*{69f99c30-dafa-4f7c-a10f-d184ff40a78b}*SharedItemsImports = 5
+		..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems*{8caacb04-9656-4b7c-a692-422fca51474b}*SharedItemsImports = 13
+		Src\CanonEosWebApiShare\CanonEosWebApiShare.projitems*{b59fb87d-6bc4-420c-a1df-2e486d856ad2}*SharedItemsImports = 13
 		Demo\CanonUtilityShare\CanonUtilityShare.projitems*{bc0a07cb-54af-493f-aa69-acea45efe81f}*SharedItemsImports = 13
 		Demo\CanonUtilityShare\CanonUtilityShare.projitems*{bc1f3b48-6de9-411e-8a2c-4c8e60ed7cb8}*SharedItemsImports = 5
-		Src\CanonEosShare\CanonEosShare.projitems*{e5634c23-0a82-4587-8df1-d77eda4c1463}*SharedItemsImports = 5
-		..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems*{e5634c23-0a82-4587-8df1-d77eda4c1463}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

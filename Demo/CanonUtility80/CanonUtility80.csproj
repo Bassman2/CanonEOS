@@ -11,7 +11,8 @@
   <Import Project="..\CanonUtilityShare\CanonUtilityShare.projitems" Label="Shared" />
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Src\CanonEos80\CanonEos80.csproj" />
+    <ProjectReference Include="..\..\Src\CanonEosWebApi80\CanonEosWebApi80.csproj" />
+    <ProjectReference Include="..\CanonWpf\CanonWpf.csproj" />
   </ItemGroup>
 
 </Project>
